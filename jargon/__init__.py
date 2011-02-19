@@ -26,6 +26,13 @@ import optparse
 from jargon        import tokenizer
 from jargon.pyspec import _MethodWrap
 
+BLUE   = '\033[94m'
+GREEN  = '\033[92m'
+YELLOW = '\033[93m'
+RED    = '\033[91m'
+ENDS   = '\033[0m'
+
+
 def globals_from_execed_file(filename):
     globals_ = {}
     execfile(filename, globals_)
@@ -50,6 +57,11 @@ class FileCollector(list):
                         self.append(absolute_path)
     
 
+def name_convertion(name):
+    name = name.replace('_', ' ')
+    name = name.capitalize() + '.'
+    return name
+    
 
 def main():
     """Parse the options"""
@@ -70,8 +82,20 @@ def main():
         path = os.path.abspath(options.path)
 
     locate = FileCollector(path, match)
-    modules = map(globals_from_execed_file, locate)
-    print modules
+    for f in locate:
+        global_modules = map(globals_from_execed_file, [f])
+        test_modules = [  i for i in global_modules[0].values() if callable(i) and 'test' in i.__name__ ]
+        for case in test_modules:
+            suite = case()
+            print "\n%s%s%s" %(GREEN, name_convertion(suite.__class__.__name__), ENDS)
+            methods = [i for i in dir(suite) if not i.startswith('_')]
+            for test in methods:
+                try:
+                    t = getattr(suite, test)
+                    t()
+                    print "%s  - %s%s"% (GREEN, name_convertion(test), ENDS)
+                except Exception, e:
+                    print "%s  - %s %s%s" % (RED, name_convertion(test), e.__repr__(), ENDS)
 
 
 #from spec import * 

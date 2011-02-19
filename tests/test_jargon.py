@@ -8,5 +8,5 @@ describe "tests my class":
         
 
     it "Tests my other Class":
-        assert True
+        assert False
 
