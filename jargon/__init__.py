@@ -23,6 +23,7 @@
 
 import os
 import optparse
+import sys
 from jargon        import tokenizer
 from jargon.pyspec import _MethodWrap
 
@@ -82,20 +83,32 @@ def main():
         path = os.path.abspath(options.path)
 
     locate = FileCollector(path, match)
+    total_methods = 0
+    total_method_fails = 0
     for f in locate:
         global_modules = map(globals_from_execed_file, [f])
         test_modules = [  i for i in global_modules[0].values() if callable(i) and 'test' in i.__name__ ]
         for case in test_modules:
+            suite_methods = 0
             suite = case()
-            print "\n%s%s%s" %(GREEN, name_convertion(suite.__class__.__name__), ENDS)
+            print "\n%s" % name_convertion(suite.__class__.__name__)
             methods = [i for i in dir(suite) if not i.startswith('_')]
             for test in methods:
                 try:
                     t = getattr(suite, test)
                     t()
                     print "%s  - %s%s"% (GREEN, name_convertion(test), ENDS)
-                except Exception, e:
-                    print "%s  - %s %s%s" % (RED, name_convertion(test), e.__repr__(), ENDS)
+                    total_methods += 1
+                except BaseException, e:
+                    failure = sys.exc_info()
+                    tb = failure[2]
+                    exc_name = e.__class__.__name__
+                    total_method_fails += 1
+                    print "%s  - %s%s" % (RED, name_convertion(test), ENDS)
+    if total_method_fails:
+        print "\n%s%s out of %s failed%s" % (RED,total_method_fails, total_methods, ENDS)
+    else:
+        print "\n%sall %s test(s) passed%s" % (GREEN, total_methods, ENDS)
 
 
 #from spec import * 
