@@ -18,7 +18,6 @@ class FileCollector(list):
             for item in files:
                 absolute_path = os.path.join(root, item)
                 if not self.valid_module_name.match(item):
-                    # valid Python identifiers only
                     continue
                 if item.lower().endswith("py"):
                     if "test" in item.lower():
