@@ -25,7 +25,7 @@ import os
 import optparse
 import sys
 from jargon        import tokenizer
-from jargon.pyspec import _MethodWrap
+#from jargon.pyspec import _MethodWrap
 
 BLUE   = '\033[94m'
 GREEN  = '\033[92m'
