@@ -23,8 +23,8 @@ def JargonCommands():
     if options.path:
         path = os.path.abspath(options.path)
 
-    locate = FileCollector(path, match)
-    test_runner = Runner(locate)
+    test_files  = FileCollector(path, match)
+    test_runner = Runner(test_files)
     test_runner.run()
 
 

@@ -5,22 +5,25 @@ import encodings
 import tokenize
 
 
+
 def class_for_describe(token):
     return token.strip().replace(" ", "_").replace("\"","" ).strip(':') + "(object)"
     
+
 
 def method_for_it(token):
     return token.strip().replace(" ", "_").replace("\"","" ) + "(self)"
 
 
+
 def translate(readline):
     previous_name = ""
     for type, name,_,_,_ in tokenize.generate_tokens(readline):
-        if type ==tokenize.NAME and name =='describe':
+        if type == tokenize.NAME and name =='describe':
             yield tokenize.NAME, 'class'
         elif type == 3 and previous_name == 'describe':
             yield 3, class_for_describe(name)
-        elif type ==tokenize.NAME and name =='it':
+        elif type == tokenize.NAME and name =='it':
             yield tokenize.NAME, 'def'
         elif type == 3 and previous_name == 'it': 
             yield 3, method_for_it(name)
@@ -49,6 +52,7 @@ def search_function(s):
         incrementaldecoder=utf8.incrementaldecoder,
         streamreader=StreamReader,
         streamwriter=utf8.streamwriter)
+
 
 codecs.register(search_function)
 
