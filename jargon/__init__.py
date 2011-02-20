@@ -100,29 +100,18 @@ def main():
                     print "%s  - %s%s"% (GREEN, name_convertion(test), ENDS)
                     total_methods += 1
                 except BaseException, e:
-                    failure = sys.exc_info()
-                    tb = failure[2]
-                    exc_name = e.__class__.__name__
-                    total_method_fails += 1
+                    failure              = sys.exc_info()
+                    tb                   = failure[2]
+                    exc_name             = e.__class__.__name__
+                    total_method_fails   += 1
                     print "%s  - %s%s" % (RED, name_convertion(test), ENDS)
-    if total_method_fails:
+    if not total_methods:
+        print "No collected tests to run."
+
+    elif total_method_fails:
         print "\n%s%s out of %s failed%s" % (RED,total_method_fails, total_methods, ENDS)
     else:
         print "\n%sall %s test(s) passed%s" % (GREEN, total_methods, ENDS)
-
-
-#from spec import * 
-#
-#
-##pyspec module should find all classes and apply this shitty bootstrap
-#
-#klass = [Bow]
-#klass[0].score = _MethodWrap(klass[0], klass[0].score)
-### unit test 
-#
-#bowling = Bowling_around_with_friends()
-#bowling.should_score_0_for_gutter_game()
-
 
 
 if __name__ == "__main__":
