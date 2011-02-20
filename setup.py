@@ -1,15 +1,15 @@
-from setuptools import setup, find_packages
+from distutils.core import setup
+
 setup(
     name         = "jargon",
     version      = "0.0.1",
-    packages     = find_packages(),
-#    scripts      = ['jargon.py'],
-    entry_points = {'console_scripts':['jargon   = jargon:main']},
+    packages     = ['jargon'],
+    scripts      = ['bin/jargon'],
     author       = "Alfredo Deza",
     author_email = "alfredodeza [at] gmail.com",
-    description  = "Nicer tests",
+    description  = "Nicer, readable BDD tests",
     license      = "MIT",
-    keywords     = "test, readable, testrunner"
+    keywords     = "test, readable, testrunner, bdd"
 
 )
 
