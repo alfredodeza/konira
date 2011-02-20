@@ -9,10 +9,12 @@ class Runner(object):
         self.paths = paths
 
 
+
     def run(self):
         total_methods = 0
         total_method_fails = 0
         for f in self.paths:
+            classes = [i for i in self._collect_classes(f)]
             for case in self._collect_classes(f):
                 suite_methods = 0
                 suite = case()
@@ -23,7 +25,6 @@ class Runner(object):
                         t = getattr(suite, test)
                         t()
                         print green(name_convertion(test))
-                        #print "%s  - %s%s"% (GREEN, name_convertion(test), ENDS)
                         total_methods += 1
                     except BaseException, e:
                         failure              = sys.exc_info()
@@ -31,7 +32,6 @@ class Runner(object):
                         exc_name             = e.__class__.__name__
                         total_method_fails   += 1
                         print red(name_convertion(test))
-                        #print "%s  - %s%s" % (RED, name_convertion(test), ENDS)
         if not total_methods:
             print "No collected tests to run."
 
@@ -39,11 +39,23 @@ class Runner(object):
             string = "\n%s out of %s failed" % (total_method_fails, total_methods)
             print red(string)
             
-            #print "\n%s%s out of %s failed%s" % (RED,total_method_fails, total_methods, ENDS)
         else:
             string = "\nall %s test(s) passed" % (total_methods)
             print green(string)
-            #print "\n%sall %s test(s) passed%s" % (GREEN, total_methods, ENDS)
+
+
+    def run_suite(self, suite):
+        methods = self._collect_methods(suite)
+        for test in methods:
+            try:
+                t = getattr(suite, test)
+                t()
+                print green(name_convertion(test))
+            except BaseException, e:
+                failure              = sys.exc_info()
+                tb                   = failure[2]
+                exc_name             = e.__class__.__name__
+                print red(name_convertion(test))
 
 
     def _collect_classes(self, path):
