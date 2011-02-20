@@ -11,40 +11,37 @@ class Runner(object):
 
 
     def run(self):
-        total_methods = 0
-        total_method_fails = 0
         for f in self.paths:
             classes = [i for i in self._collect_classes(f)]
             for case in self._collect_classes(f):
-                suite_methods = 0
                 suite = case()
-                print "\n%s" % name_convertion(suite.__class__.__name__)
-                methods = [i for i in dir(suite) if not i.startswith('_')]
-                for test in methods:
-                    try:
-                        t = getattr(suite, test)
-                        t()
-                        print green(name_convertion(test))
-                        total_methods += 1
-                    except BaseException, e:
-                        failure              = sys.exc_info()
-                        tb                   = failure[2]
-                        exc_name             = e.__class__.__name__
-                        total_method_fails   += 1
-                        print red(name_convertion(test))
-        if not total_methods:
-            print "No collected tests to run."
-
-        elif total_method_fails:
-            string = "\n%s out of %s failed" % (total_method_fails, total_methods)
-            print red(string)
-            
-        else:
-            string = "\nall %s test(s) passed" % (total_methods)
-            print green(string)
+                self.run_suite(suite)
+#                print "\n%s" % name_convertion(suite.__class__.__name__)
+#                methods = [i for i in dir(suite) if not i.startswith('_')]
+#                for test in methods:
+#                    try:
+#                        t = getattr(suite, test)
+#                        t()
+#                        print green(name_convertion(test))
+#                    except BaseException, e:
+#                        failure              = sys.exc_info()
+#                        tb                   = failure[2]
+#                        exc_name             = e.__class__.__name__
+#                        print red(name_convertion(test))
+#        if not total_methods:
+#            print "No collected tests to run."
+#
+#        elif total_method_fails:
+#            string = "\n%s out of %s failed" % (total_method_fails, total_methods)
+#            print red(string)
+#            
+#        else:
+#            string = "\nall %s test(s) passed" % (total_methods)
+#            print green(string)
 
 
     def run_suite(self, suite):
+        print "\n%s" % name_convertion(suite.__class__.__name__)
         methods = self._collect_methods(suite)
         for test in methods:
             try:
