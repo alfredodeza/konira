@@ -4,9 +4,9 @@
 describe "tests my class":
 
     it "raises an assertion Error":
-        assert 1 == 1
+        assert c2 == 1
         
 
     it "Tests my other Class":
-        assert True
+        assert "this is a long string" == "This is a long string"
 

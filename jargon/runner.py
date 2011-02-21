@@ -34,12 +34,13 @@ class Runner(object):
                         exc_name  = e.__class__.__name__
                        ) 
                     )
-        ExcFormatter(self.failures)
+        if self.failures:
+            ExcFormatter(self.failures)
                 
 
     def _collect_classes(self, path):
             global_modules = map(globals_from_execed_file, [path])
-            return [i for i in global_modules[0].values() if callable(i) and i.__name__.startswith('test_')]
+            return [i for i in global_modules[0].values() if callable(i)]
 
 
     def _collect_methods(self, module):

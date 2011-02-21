@@ -22,6 +22,7 @@ def red(string):
     Makes incoming string output as red on the terminal
     """
     color_it = "%s%s%s" % (RED, string, ENDS)
+    return color_it
 
 
 def name_convertion(name):
