@@ -24,6 +24,9 @@ def JargonCommands():
         path = os.path.abspath(options.path)
 
     test_files  = FileCollector(path, match)
+    if not test_files:
+        print "No cases found to test."
+        return
     test_runner = Runner(test_files)
     test_runner.run()
 

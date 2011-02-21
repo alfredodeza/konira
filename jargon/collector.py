@@ -20,7 +20,7 @@ class FileCollector(list):
                 if not self.valid_module_name.match(item):
                     continue
                 if item.lower().endswith("py"):
-                    if "test" in item.lower():
+                    if "case" in item.lower():
                         self.append(absolute_path)
 
 

@@ -27,6 +27,6 @@ def red(string):
 
 def name_convertion(name):
     name = name.replace('_', ' ')
-    name = name.capitalize() + '.'
+    name = name.capitalize() 
     return name
 

@@ -18,7 +18,15 @@ def out_red(title):
 
 
 def out_spec(title):
-    stdout.write("\n\n%s" % name_convertion(title))
+    stdout.write("\n%s" % name_convertion(title))
+
+
+def out_footer(cases, failures):
+    if not failures:
+        string = green("\nAll %s cases passed.\n" % cases)
+    elif failures:
+        string = red("\n%s cases failed, %s total.\n" % (failures, cases))
+    stdout.write(string)
 
 
 
