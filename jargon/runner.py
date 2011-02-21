@@ -1,25 +1,42 @@
 import sys
 from jargon.collector       import globals_from_execed_file
-from jargon.output          import out_red, out_green, out_spec, ExcFormatter, out_footer
+from jargon.output          import (out_red, out_green, out_spec, 
+                                    ExcFormatter, out_footer, jargon_errors)
 
 
 class Runner(object):
 
     def __init__(self, paths):
-        self.paths    = paths
-        self.failures = []
-        self.total_cases = 0
+        self.paths          = paths
+        self.failures       = []
+        self.errors         = []
+        self.total_cases    = 0
         self.total_failures = 0
+        self.total_errors   = 0
 
 
     def run(self):
         for f in self.paths:
-            classes = [i for i in self._collect_classes(f)]
+            try:
+                classes = [i for i in self._collect_classes(f)]
+            except Exception, e:
+                self.total_errors += 1
+                self.errors.append(
+                    dict(
+                        file_name = f,
+                        exc = sys.exc_info(),
+                        exc_name  = e.__class__.__name__
+                       ) 
+                    )
+                continue
+
             for case in self._collect_classes(f):
                 suite = case()
                 self.run_suite(suite)
         if self.failures:
             ExcFormatter(self.failures)
+        if self.errors:
+            jargon_errors(self.errors)
         out_footer(self.total_cases, self.total_failures)
 
 

@@ -26,8 +26,26 @@ def out_footer(cases, failures):
         string = green("\nAll %s cases passed.\n" % cases)
     elif failures:
         string = red("\n%s cases failed, %s total.\n" % (failures, cases))
+    if not cases:
+        string = "\nNo cases were collected.\n"
     stdout.write(string)
 
+
+def jargon_errors(errors):
+    stdout.write(red("\nErrors:"))
+    error_number = 1
+    for error in errors:
+        name = error.get('exc_name')
+        exc = error.get('exc')
+        file_name = error.get('file_name')
+        line_number = exc[2].tb_lineno
+        header = "\n%s ==> %s\n" % (error_number, name)
+        stdout.write(red(header))
+        stdout.write(red("File: ")) 
+        stdout.write(file_name)
+        stdout.write(red("\nLine: "))
+        stdout.write(str(line_number))
+    stdout.write('\n')
 
 
 class ExcFormatter(object):
@@ -81,6 +99,7 @@ class PrettyExc(object):
 
     def _remove_jargon_from_traceback(self, traceback):
         jargon_dir = dirname(abspath(__file__))
+
         while True:
             frame    = traceback.tb_frame
             code     = frame.f_code
