@@ -15,15 +15,6 @@ def method_for_it(token):
     return token.strip().replace(" ", "_").replace("\"","" ) + "(self)"
 
 
-def to_verify(line):
-    clean_line = line.strip()
-    code = clean_line.split('verify')[1].strip()
-    left    = code.split()[0]
-    operand = code.split()[1]
-    right   = code.split()[2]
-    return 'verify(%s, %s, %s)' % (left, operand, right)
-
-
 
 def translate(readline):
     previous_name = ""
