@@ -36,15 +36,6 @@ def translate(readline):
             yield tokenize.NAME, 'def'
         elif type == 3 and previous_name == 'it': 
             yield 3, method_for_it(name)
-#        elif type == tokenize.NAME and name == 'verify':
-#            import ipdb; ipdb.set_trace()
-            #yield tokenize.NAME, 'verify'
-            
-#            yield 3, to_verify(name)
-#        elif type == 3 and previous_name == 'verify':
-#            pass
-#            import ipdb; ipdb.set_trace()
-#            yield 3, to_verify(name)
         else:
             yield type,name
         previous_name = name
