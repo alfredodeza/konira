@@ -22,11 +22,11 @@ def out_spec(title):
 
 
 
-def out_footer(cases, failures):
+def out_footer(cases, failures, elapsed):
     if not failures:
-        string = green("\nAll %s cases passed.\n" % cases)
+        string = green("\nAll %s cases passed in %s secs.\n" % (cases, elapsed))
     elif failures:
-        string = red("\n%s cases failed, %s total.\n" % (failures, cases))
+        string = red("\n%s cases failed, %s total in %s secs.\n" % (failures, cases, elapsed))
     if not cases:
         string = "\nNo cases were collected.\n"
     stdout.write(string)
@@ -85,9 +85,10 @@ class PrettyExc(object):
     def __init__(self, exc_info):
         self.exc_type, self.exc_value, exc_traceback = exc_info
         self.exc_traceback = self._remove_jargon_from_traceback(exc_traceback)
-        self.exception_line = self.exc_traceback.tb_lineno
+        self.exception_line = self.exc_traceback.tb_lineno + 1
         self.exception_file = self.exc_traceback.tb_frame.f_code.co_filename
         self.exc_info = exc_info
+
 
     @property
     def formatted_exception(self):

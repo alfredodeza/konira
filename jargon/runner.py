@@ -1,4 +1,5 @@
 import sys
+from jargon.util            import StopWatch
 from jargon.collector       import globals_from_execed_file
 from jargon.output          import (out_red, out_green, out_spec, 
                                     ExcFormatter, out_footer)
@@ -16,6 +17,7 @@ class Runner(object):
 
 
     def run(self):
+        timer = StopWatch()
         for f in self.paths:
             try:
                 classes = [i for i in self._collect_classes(f)]
@@ -23,17 +25,18 @@ class Runner(object):
                 self.total_errors += 1
                 self.errors.append(e)
                 continue
-
             for case in self._collect_classes(f):
                 suite = case()
                 self.run_suite(suite)
+        elapsed = timer.elapsed()
+        sys.stdout.write('\n')
         if self.failures:
             format_exc = ExcFormatter(self.failures)
             format_exc.output_failures()
         if self.errors:
             format_exc = ExcFormatter(self.errors)
             format_exc.output_errors()
-        out_footer(self.total_cases, self.total_failures)
+        out_footer(self.total_cases, self.total_failures, elapsed)
 
 
     def run_suite(self, suite):

@@ -1,3 +1,4 @@
+import time
 
 #
 # Coloring Codes
@@ -9,12 +10,14 @@ RED    = '\033[91m'
 ENDS   = '\033[0m'
 
 
+
 def green(string):
     """
     Makes incoming string output as green on the terminal
     """
     color_it = "%s%s%s" % (GREEN, string, ENDS)
     return color_it
+
 
 
 def red(string):
@@ -25,8 +28,24 @@ def red(string):
     return color_it
 
 
+
 def name_convertion(name):
     name = name.replace('_', ' ')
     name = name.capitalize() 
     return name
 
+
+
+class StopWatch(object):
+ 
+
+    def __init__(self):
+        self.start = time.time()
+
+
+    def elapsed(self):
+
+        _elapsed = str(time.time() - self.start)
+        return _elapsed[:5]
+
+     
