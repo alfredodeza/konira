@@ -1,6 +1,6 @@
 import traceback
 from os.path                import dirname, abspath
-from sys                    import stdout, exc_info
+from sys                    import stdout
 from jargon.util            import name_convertion, green, red
 
 
@@ -42,12 +42,14 @@ class ExcFormatter(object):
 
 
     def output_failures(self):
+        stdout.write(red('\n\nFailures:\n---------'))
         for failure in self.failures:
             self.single_exception(failure)
         stdout.write('\n\n')
 
 
     def output_errors(self):
+        stdout.write(red('\n\nErrors:\n-------'))
         for error in self.failures:
             error_msg = "%s: %s" % (error.exc_name, error.msg)
             self.failure_header(error_msg)

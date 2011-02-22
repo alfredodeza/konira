@@ -1,7 +1,7 @@
 import sys
 from jargon.collector       import globals_from_execed_file
 from jargon.output          import (out_red, out_green, out_spec, 
-                                    ExcFormatter, out_footer, jargon_errors)
+                                    ExcFormatter, out_footer)
 
 
 class Runner(object):
@@ -33,7 +33,6 @@ class Runner(object):
         if self.errors:
             format_exc = ExcFormatter(self.errors)
             format_exc.output_errors()
-            #jargon_errors(self.errors)
         out_footer(self.total_cases, self.total_failures)
 
 
