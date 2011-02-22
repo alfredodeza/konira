@@ -21,6 +21,7 @@ def out_spec(title):
     stdout.write("\n%s" % name_convertion(title))
 
 
+
 def out_footer(cases, failures):
     if not failures:
         string = green("\nAll %s cases passed.\n" % cases)
@@ -31,22 +32,6 @@ def out_footer(cases, failures):
     stdout.write(string)
 
 
-def jargon_errors(errors):
-    stdout.write(red("\nErrors:"))
-    error_number = 1
-    for error in errors:
-        name = error.get('exc_name')
-        exc = error.get('exc')
-        file_name = error.get('file_name')
-        line_number = exc[2].tb_lineno
-        header = "\n%s ==> %s\n" % (error_number, name)
-        stdout.write(red(header))
-        stdout.write(red("File: ")) 
-        stdout.write(file_name)
-        stdout.write(red("\nLine: "))
-        stdout.write(str(line_number))
-    stdout.write('\n')
-
 
 class ExcFormatter(object):
 
@@ -54,8 +39,22 @@ class ExcFormatter(object):
     def __init__(self, failures):
         self.failures = failures
         self.failed_test = 1
-        for failure in failures:
+
+
+    def output_failures(self):
+        for failure in self.failures:
             self.single_exception(failure)
+        stdout.write('\n\n')
+
+
+    def output_errors(self):
+        for error in self.failures:
+            error_msg = "%s: %s" % (error.exc_name, error.msg)
+            self.failure_header(error_msg)
+            stdout.write(red("File: ")) 
+            stdout.write(error.filename)
+            stdout.write(red("\nLine: "))
+            stdout.write(str(error.lineno))
         stdout.write('\n\n')
 
 
@@ -87,7 +86,6 @@ class PrettyExc(object):
         self.exception_line = self.exc_traceback.tb_lineno
         self.exception_file = self.exc_traceback.tb_frame.f_code.co_filename
         self.exc_info = exc_info
-
 
     @property
     def formatted_exception(self):
@@ -127,7 +125,4 @@ class PrettyExc(object):
         while tb.tb_next:
             tb = tb.tb_next
         return tb
-
-    
-
 

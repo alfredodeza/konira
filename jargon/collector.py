@@ -1,5 +1,6 @@
 import os
 import re
+from jargon.exceptions import JargonImportError
 
 
 
@@ -27,6 +28,15 @@ class FileCollector(list):
 
 def globals_from_execed_file(filename):
     globals_ = {}
-    execfile(filename, globals_)
-    return globals_
+    try:
+        execfile(filename, globals_)
+        return globals_
+    except Exception, e:
+        raise JargonImportError(
+                exc_name = e.__class__.__name__,
+                filename=e.filename,
+                lineno=e.lineno,
+                msg=e.msg,
+            )
+
 

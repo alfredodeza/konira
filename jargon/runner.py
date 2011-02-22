@@ -21,22 +21,19 @@ class Runner(object):
                 classes = [i for i in self._collect_classes(f)]
             except Exception, e:
                 self.total_errors += 1
-                self.errors.append(
-                    dict(
-                        file_name = f,
-                        exc = sys.exc_info(),
-                        exc_name  = e.__class__.__name__
-                       ) 
-                    )
+                self.errors.append(e)
                 continue
 
             for case in self._collect_classes(f):
                 suite = case()
                 self.run_suite(suite)
         if self.failures:
-            ExcFormatter(self.failures)
+            format_exc = ExcFormatter(self.failures)
+            format_exc.output_failures()
         if self.errors:
-            jargon_errors(self.errors)
+            format_exc = ExcFormatter(self.errors)
+            format_exc.output_errors()
+            #jargon_errors(self.errors)
         out_footer(self.total_cases, self.total_failures)
 
 
