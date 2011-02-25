@@ -27,8 +27,10 @@ def JargonCommands():
     if not test_files:
         print "No cases found to test."
         return
+
     test_runner = Runner(test_files)
     test_runner.run()
+    test_runner.report()
 
 
 main = JargonCommands

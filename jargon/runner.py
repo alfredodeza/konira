@@ -1,8 +1,10 @@
+import inspect
 import sys
 from jargon.util            import StopWatch
 from jargon.collector       import globals_from_execed_file
 from jargon.output          import (out_red, out_green, out_spec, 
                                     ExcFormatter, out_footer)
+
 
 
 class Runner(object):
@@ -17,7 +19,7 @@ class Runner(object):
 
 
     def run(self):
-        timer = StopWatch()
+        self.timer = StopWatch()
         for f in self.paths:
             try:
                 classes = [i for i in self._collect_classes(f)]
@@ -25,18 +27,10 @@ class Runner(object):
                 self.total_errors += 1
                 self.errors.append(e)
                 continue
-            for case in self._collect_classes(f):
+            for case in classes:
                 suite = case()
                 self.run_suite(suite)
-        elapsed = timer.elapsed()
-        sys.stdout.write('\n')
-        if self.failures:
-            format_exc = ExcFormatter(self.failures)
-            format_exc.output_failures()
-        if self.errors:
-            format_exc = ExcFormatter(self.errors)
-            format_exc.output_errors()
-        out_footer(self.total_cases, self.total_failures, elapsed)
+        self.elapsed = self.timer.elapsed()
 
 
     def run_suite(self, suite):
@@ -49,7 +43,9 @@ class Runner(object):
                 t = getattr(suite, test)
                 t()
                 out_green(test)
+                
             except BaseException, e:
+                trace = inspect.trace()
                 self.total_failures += 1
                 out_red(test)
                 self.failures.append(
@@ -59,6 +55,17 @@ class Runner(object):
                        ) 
                     )
                 
+
+    def report(self):
+        sys.stdout.write('\n')
+        if self.failures:
+            format_exc = ExcFormatter(self.failures)
+            format_exc.output_failures()
+        if self.errors:
+            format_exc = ExcFormatter(self.errors)
+            format_exc.output_errors()
+        out_footer(self.total_cases, self.total_failures, self.elapsed)
+
 
     def _collect_classes(self, path):
             global_modules = map(globals_from_execed_file, [path])

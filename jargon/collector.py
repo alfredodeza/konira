@@ -37,6 +37,7 @@ def globals_from_execed_file(filename):
                 filename=e.filename,
                 lineno=e.lineno,
                 msg=e.msg,
+                exc=e
             )
 
 

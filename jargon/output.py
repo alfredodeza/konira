@@ -57,6 +57,7 @@ class ExcFormatter(object):
             stdout.write(error.filename)
             stdout.write(red("\nLine: "))
             stdout.write(str(error.lineno))
+            import ipdb; ipdb.set_trace()
         stdout.write('\n\n')
 
 
@@ -70,6 +71,8 @@ class ExcFormatter(object):
         stdout.write(pretty_exc.exception_file)
         stdout.write(red("\nLine: "))
         stdout.write(str(pretty_exc.exception_line))
+        stdout.write(red("\nTraceback: \n"))
+        stdout.write(pretty_exc.indented_traceback)
 
 
     def failure_header(self, name):
@@ -85,7 +88,7 @@ class PrettyExc(object):
     def __init__(self, exc_info):
         self.exc_type, self.exc_value, exc_traceback = exc_info
         self.exc_traceback = self._remove_jargon_from_traceback(exc_traceback)
-        self.exception_line = self.exc_traceback.tb_lineno + 1
+        self.exception_line = self.exc_traceback.tb_lineno 
         self.exception_file = self.exc_traceback.tb_frame.f_code.co_filename
         self.exc_info = exc_info
 
@@ -97,6 +100,12 @@ class PrettyExc(object):
                                                      self.exc_traceback)
         return ''.join(traceback_lines)
 
+
+    @property
+    def indented_traceback(self):
+        trace = self.formatted_exception.split('\n')
+        add_indent = ["    "+i for i in trace]
+        return '\n'.join(add_indent)
 
     def _remove_jargon_from_traceback(self, traceback):
         jargon_dir = dirname(abspath(__file__))
