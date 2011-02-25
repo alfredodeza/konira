@@ -1,13 +1,13 @@
+from tokenize           import NAME, OP, STRING, generate_tokens
 from encodings          import utf_8
 import codecs
 import cStringIO
 import encodings
 import tokenize
-from tokenize import NAME, NEWLINE, OP, STRING, generate_tokens
 
 
-def class_for_describe(token):
-    return token.strip().replace(" ", "_").replace("\"","" ).strip(':') + "(object)"
+def valid_name(token):
+    return token.strip().replace(" ", "_").replace("\"","" )
     
 
 
@@ -29,7 +29,7 @@ def translate(readline):
                            [NAME, 'self'],
                            [OP, ')'],))
         elif tokenum == NAME and last_token == 'describe':
-            result.extend(([NAME, value+'Spec'],
+            result.extend(([NAME, valid_name(value)],
                            [OP, '('],
                            [NAME, 'object'],
                            [OP, ')'],))
