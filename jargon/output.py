@@ -57,7 +57,6 @@ class ExcFormatter(object):
             stdout.write(error.filename)
             stdout.write(red("\nLine: "))
             stdout.write(str(error.lineno))
-            import ipdb; ipdb.set_trace()
         stdout.write('\n\n')
 
 
