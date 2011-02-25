@@ -1,7 +1,7 @@
 import traceback
 from os.path                import dirname, abspath
 from sys                    import stdout
-from jargon.util            import name_convertion, green, red
+from jargon.util            import name_convertion, green, red, bold
 
 
 
@@ -19,6 +19,11 @@ def out_red(title):
 
 def out_spec(title):
     stdout.write("\n%s" % name_convertion(title))
+
+
+
+def out_bold(string):
+    stdout.write("%s" % (bold(string)))
 
 
 
@@ -53,10 +58,10 @@ class ExcFormatter(object):
         for error in self.failures:
             error_msg = "%s: %s" % (error.exc_name, error.msg)
             self.failure_header(error_msg)
-            stdout.write(red("File: ")) 
-            stdout.write(error.filename)
-            stdout.write(red("\nLine: "))
-            stdout.write(str(error.lineno))
+            red("File: ")
+            out_bold(error.filename)
+            red("\nLine: ")
+            out_bold(str(error.lineno))
         stdout.write('\n\n')
 
 
@@ -67,11 +72,11 @@ class ExcFormatter(object):
         pretty_exc = PrettyExc(exc)
         self.failure_header(pretty_exc.exception_description)
         stdout.write(red("File: ")) 
-        stdout.write(pretty_exc.exception_file)
+        out_bold(pretty_exc.exception_file)
         stdout.write(red("\nLine: "))
-        stdout.write(str(pretty_exc.exception_line))
-        stdout.write(red("\nTraceback: \n"))
-        stdout.write(pretty_exc.indented_traceback)
+        out_bold(str(pretty_exc.exception_line))
+        stdout.write("\n")
+        stdout.write(pretty_exc.formatted_exception)
 
 
     def failure_header(self, name):
