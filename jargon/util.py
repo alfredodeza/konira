@@ -20,7 +20,6 @@ def green(string):
     return color_it
 
 
-
 def red(string):
     """
     Makes incoming string output as red on the terminal
