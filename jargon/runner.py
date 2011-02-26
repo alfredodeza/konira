@@ -55,24 +55,21 @@ class Runner(object):
                        ) 
                     )
 
-    def set_before_all(self, case, methods):
-        if hasattr(case, 'before_all'):
-            return getattr(case, 'before_all')
+
+    def _set_before_all(self, case, methods):
+        return getattr(case, 'before_all')
 
 
-    def set_before_each(self, case, methods):
-        if hasattr(case, 'before_each'):
-            return getattr(case, 'before_each')
+    def _set_before_each(self, case, methods):
+        return getattr(case, 'before_each')
 
 
-    def set_after_all(self, case, methods):
-        if hasattr(case, 'after_all'):
-            return getattr(case, 'after_all')
+    def _set_after_all(self, case, methods):
+        return getattr(case, 'after_all')
 
 
-    def set_after_each(self, case, methods):
-        if hasattr(case, 'after_each'):
-            return getattr(case, 'after_each')
+    def _set_after_each(self, case, methods):
+        return getattr(case, 'after_each')
                 
 
     def report(self):
