@@ -33,7 +33,7 @@ class Runner(object):
         self.elapsed = self.timer.elapsed()
 
 
-    def run_suite(self, suite):
+    def run_suite(self, suite, before_all=None):
         sys.stdout.write('\n')
         out_spec(suite.__class__.__name__)
         methods = self._collect_methods(suite)
@@ -54,6 +54,25 @@ class Runner(object):
                         exc_name  = e.__class__.__name__
                        ) 
                     )
+
+    def set_before_all(self, case, methods):
+        if hasattr(case, 'before_all'):
+            return getattr(case, 'before_all')
+
+
+    def set_before_each(self, case, methods):
+        if hasattr(case, 'before_each'):
+            return getattr(case, 'before_each')
+
+
+    def set_after_all(self, case, methods):
+        if hasattr(case, 'after_all'):
+            return getattr(case, 'after_all')
+
+
+    def set_after_each(self, case, methods):
+        if hasattr(case, 'after_each'):
+            return getattr(case, 'after_each')
                 
 
     def report(self):
