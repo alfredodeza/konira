@@ -2,7 +2,7 @@
 
 
 
-describe foo:
+describe "foo is the class":
 
     it "adds one and one":
         assert 1 == 1

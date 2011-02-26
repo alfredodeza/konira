@@ -58,10 +58,11 @@ class ExcFormatter(object):
         for error in self.failures:
             error_msg = "%s: %s" % (error.exc_name, error.msg)
             self.failure_header(error_msg)
-            red("File: ")
+            stdout.write(red("File: "))
             out_bold(error.filename)
-            red("\nLine: ")
+            stdout.write(red("\nLine: "))
             out_bold(str(error.lineno))
+            stdout.write(red('\n'+error.exc.text))
         stdout.write('\n\n')
 
 

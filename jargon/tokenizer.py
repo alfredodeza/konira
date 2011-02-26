@@ -18,17 +18,17 @@ def translate(readline):
     for tokenum, value, _, _, _ in generate_tokens(readline):
         if tokenum == NAME and value == 'describe':
             result.append([tokenum, 'class'])
+        elif tokenum == STRING and last_token == 'describe':
+            result.extend(([NAME, valid_name(value)],
+                           [OP, '('],
+                           [NAME, 'object'],
+                           [OP, ')'],))
         elif tokenum == NAME and value == 'it':
             result.append([tokenum, 'def'])
         elif tokenum == STRING and last_token == 'it':
             result.extend(([tokenum, value.replace(' ', '_')[1:-1],],
                            [OP, '('],
                            [NAME, 'self'],
-                           [OP, ')'],))
-        elif tokenum == NAME and last_token == 'describe':
-            result.extend(([NAME, valid_name(value)],
-                           [OP, '('],
-                           [NAME, 'object'],
                            [OP, ')'],))
         else:
             result.append([tokenum, value])
