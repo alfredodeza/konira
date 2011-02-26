@@ -15,6 +15,18 @@ class JargonImportError(Exception):
 
 
 
+class JargonExecutionError(Exception):
+
+
+    def __init__(self, exc_name, filename,lineno, msg,exc):
+        self.exc_name = exc_name
+        self.msg      = msg
+        self.filename = filename
+        self.lineno   = lineno
+        self.exc      = exc
+        Exception.__init__(self, msg)
+
+
 class Source(object):
 
 

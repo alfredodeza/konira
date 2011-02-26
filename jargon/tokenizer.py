@@ -6,13 +6,10 @@ import encodings
 import tokenize
 
 
+
 def valid_name(token):
     return token.strip().replace(" ", "_").replace("\"","" )
     
-
-
-def method_for_it(token):
-    return token.strip().replace(" ", "_").replace("\"","" ) + "(self)"
 
 
 def translate(readline):
@@ -50,7 +47,7 @@ class StreamReader(utf_8.StreamReader):
 
 def search_function(s):
     if s!='jargon': return None
-    utf8=encodings.search_function('utf8') # Assume utf8 encoding
+    utf8=encodings.search_function('utf8')
     return codecs.CodecInfo(
         name='jargon',
         encode = utf8.encode,
@@ -59,6 +56,7 @@ def search_function(s):
         incrementaldecoder=utf8.incrementaldecoder,
         streamreader=StreamReader,
         streamwriter=utf8.streamwriter)
+
 
 
 codecs.register(search_function)
