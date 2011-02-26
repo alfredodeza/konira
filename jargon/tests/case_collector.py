@@ -5,6 +5,7 @@ from jargon.collector import FileCollector
 
 describe "collect paths":
 
+
     it "should be a list":
         f = FileCollector(path='/asdf')
         assert isinstance(f, list)
@@ -32,3 +33,15 @@ describe "collect paths":
         f = FileCollector(path='/asdf')
         py_file = "foo_case.py"
         assert f.valid_module_name.match(py_file) == None
+
+
+    it "matches if it has camelcase":
+        f = FileCollector(path='/asdf')
+        py_file = "CaSe_foo.py"
+        assert f.valid_module_name.match(py_file)
+
+
+    it "does not match if it starts with underscore":
+        f = FileCollector(path='/asdf')
+        py_file = "case_foo.py"
+        assert f.valid_module_name.match(py_file)
