@@ -10,15 +10,8 @@ def JargonCommands():
     parse = optparse.OptionParser()
     options, arguments = parse.parse_args()
 
-    verbose = False
     match   = False
     path    = os.getcwd()
-
-    if options.verbose:
-        verbose = True 
-
-    if options.path:
-        path = os.path.abspath(options.path)
 
     test_files  = FileCollector(path, match)
     if not test_files:

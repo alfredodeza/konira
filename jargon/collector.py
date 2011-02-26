@@ -10,7 +10,7 @@ class FileCollector(list):
     def __init__(self, path, match):
         self.match             = match
         self.path              = path
-        self.valid_module_name = re.compile(r'[_a-z]\w*\.py$', re.IGNORECASE)
+        self.valid_module_name = re.compile(r'case[_a-z]\w*\.py$', re.IGNORECASE)
         self._collect()
 
 
@@ -20,9 +20,7 @@ class FileCollector(list):
                 absolute_path = os.path.join(root, item)
                 if not self.valid_module_name.match(item):
                     continue
-                if item.lower().endswith("py"):
-                    if "case" in item.lower():
-                        self.append(absolute_path)
+                self.append(absolute_path)
 
 
 
@@ -34,10 +32,10 @@ def globals_from_execed_file(filename):
     except Exception, e:
         raise JargonImportError(
                 exc_name = e.__class__.__name__,
-                filename=e.filename,
-                lineno=e.lineno,
-                msg=e.msg,
-                exc=e
+                filename = e.filename,
+                lineno   = e.lineno,
+                msg      = e.msg,
+                exc      = e
             )
 
 
