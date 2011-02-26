@@ -8,7 +8,8 @@ import tokenize
 
 
 def valid_name(token):
-    return token.strip().replace(" ", "_").replace("\"","" )
+    transform = token.strip().replace(" ", "_").replace("\"","" )
+    return "Case_%s" % transform
     
 
 

@@ -37,8 +37,8 @@ def bold(string):
 
 
 def name_convertion(name):
-    name = name.replace('_', ' ')
-    name = name.capitalize() 
+    name = name.replace('_', ' ').replace('Case', '')
+    name = name.capitalize().strip() 
     return name
 
 

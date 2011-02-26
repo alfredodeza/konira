@@ -7,8 +7,7 @@ from jargon.exceptions import JargonImportError
 class FileCollector(list):
 
 
-    def __init__(self, path, match):
-        self.match             = match
+    def __init__(self, path):
         self.path              = path
         self.valid_module_name = re.compile(r'case[_a-z]\w*\.py$', re.IGNORECASE)
         self._collect()

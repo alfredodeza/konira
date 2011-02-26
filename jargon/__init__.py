@@ -10,10 +10,9 @@ def JargonCommands():
     parse = optparse.OptionParser()
     options, arguments = parse.parse_args()
 
-    match   = False
     path    = os.getcwd()
 
-    test_files  = FileCollector(path, match)
+    test_files  = FileCollector(path)
     if not test_files:
         print "No cases found to test."
         return

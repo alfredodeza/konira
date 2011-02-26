@@ -69,7 +69,7 @@ class Runner(object):
 
     def _collect_classes(self, path):
             global_modules = map(globals_from_execed_file, [path])
-            return [i for i in global_modules[0].values() if callable(i)]
+            return [i for i in global_modules[0].values() if callable(i) and i.__name__.startswith('Case_')]
 
 
     def _collect_methods(self, module):
