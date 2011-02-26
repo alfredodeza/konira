@@ -1,4 +1,3 @@
 include setup.py
-include distribute_setup.py
 recursive-include tests *
 recursive-include docs *
