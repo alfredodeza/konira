@@ -22,6 +22,8 @@ def translate(readline):
     result = []
     last_token = None
     for tokenum, value, _, _, _ in generate_tokens(readline):
+
+        # From Describe to class
         if tokenum == NAME and value == 'describe':
             result.append([tokenum, 'class'])
         elif tokenum == STRING and last_token == 'describe':
@@ -29,6 +31,32 @@ def translate(readline):
                            [OP, '('],
                            [NAME, 'object'],
                            [OP, ')'],))
+
+        # Before Constructors
+        elif tokenum == NAME and value == 'before_all':
+            result.extend([(tokenum, 'before_all'),
+                           (OP, '('),
+                           (NAME, 'self'),
+                           (OP, ')')])
+        elif tokenum == NAME and value == 'before_each':
+            result.extend([(tokenum, 'before_each'),
+                           (OP, '('),
+                           (NAME, 'self'),
+                           (OP, ')')])
+
+        # After Constructors
+        elif tokenum == NAME and value == 'after_all':
+            result.extend([(tokenum, 'after_all'),
+                           (OP, '('),
+                           (NAME, 'self'),
+                           (OP, ')')])
+        elif tokenum == NAME and value == 'after_each':
+            result.extend([(tokenum, 'after_each'),
+                           (OP, '('),
+                           (NAME, 'self'),
+                           (OP, ')')])
+
+        # From it to def
         elif tokenum == NAME and value == 'it':
             result.append([tokenum, 'def'])
         elif tokenum == STRING and last_token == 'it':
