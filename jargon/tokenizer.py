@@ -7,9 +7,14 @@ import tokenize
 
 
 
+def quote_remover(string):
+    return string.replace("'", "")
+
+
+
 def valid_name(token):
     transform = token.strip().replace(" ", "_").replace("\"","" )
-    return "Case_%s" % transform
+    return "Case_%s" % quote_remover(transform)
     
 
 
@@ -27,7 +32,7 @@ def translate(readline):
         elif tokenum == NAME and value == 'it':
             result.append([tokenum, 'def'])
         elif tokenum == STRING and last_token == 'it':
-            result.extend(([tokenum, value.replace(' ', '_')[1:-1],],
+            result.extend(([tokenum, quote_remover(value.replace(' ', '_')[1:-1]),],
                            [OP, '('],
                            [NAME, 'self'],
                            [OP, ')'],))
