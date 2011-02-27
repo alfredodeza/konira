@@ -40,10 +40,8 @@ class Runner(object):
         for test in methods:
             self.total_cases += 1
             try:
-                t = getattr(suite, test)
-                t()
+                self._exec_single_test(suite, test)
                 out_green(test)
-                
             except BaseException, e:
                 trace = inspect.trace()
                 self.total_failures += 1
@@ -54,6 +52,10 @@ class Runner(object):
                         exc_name  = e.__class__.__name__
                        ) 
                     )
+
+    def _exec_single_test(self, suite, test):
+        single_test = getattr(suite, test)
+        single_test()
 
 
     def _set_before_all(self, case, methods):
