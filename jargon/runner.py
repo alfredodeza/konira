@@ -75,7 +75,6 @@ class Runner(object):
         environ.set_after_all()
 
 
-
     def report(self):
         sys.stdout.write('\n')
         if self.failures:
@@ -93,7 +92,7 @@ class Runner(object):
 
 
     def _collect_methods(self, module):
-        invalid = ['before_each', 'before_all', 'after_each', 'after_all']
+        invalid = ['_before_each', '_before_all', '_after_each', '_after_all']
         return [i for i in dir(module) if not i.startswith('_') and i not in invalid] 
 
 
