@@ -30,8 +30,12 @@ class Source(object):
 
 
     def __init__(self, trace):
-        self.trace = trace
-        self.line = self.get_assert_line
+        self.trace    = trace
+        self.line     = self.get_assert_line
+        self.operand  = self.get_operand
+        self.is_valid = True
+        if not self.line or not self.operand:
+            self.is_valid = False
 
 
     @property
@@ -44,7 +48,8 @@ class Source(object):
         return False
 
 
-    def define_operand(self):
+    @property
+    def get_operand(self):
         operators = ['==', '!=', '<>', '>', '<', 
                      '>=', '<=', ' is ', ' not in ']
         operator = [i for i in operators if i in self.line]
@@ -54,23 +59,23 @@ class Source(object):
 
     @property
     def left_value(self):
-        operator = self.define_operand()
+        operator = self.operand
         return eval(self.line.split(operator)[0].strip())
 
 
     @property
     def right_value(self):
-        operator = self.define_operand()
+        operator = self.operand
         return eval(self.line.split(operator)[1].strip())
 
 
 
 def jargon_assert(trace):
     source  = Source(trace)
-    if source.get_assert_line:
+    if source.is_valid:
         left     = source.left_value
         right    = source.right_value
-        operand  = source.define_operand()
+        operand  = source.operand
         reassert = assertrepr_compare(operand, left, right)
         if reassert:
             return reassert
