@@ -50,6 +50,10 @@ class Runner(object):
 
         for test in methods:
             self.total_cases += 1
+
+            # Set before each if any
+            environ.set_before_each()
+
             try:
                 getattr(suite, test)()
                 out_green(test)
@@ -133,15 +137,18 @@ class TestEnviron(object):
             getattr(self.suite, '_before_all')()
 
 
-    def set_before_each(self, case, methods):
-        return getattr(case, '_before_each')
+    def set_before_each(self):
+        if self.has_before_each:
+            return getattr(self.suite, '_before_each')()
 
 
-    def set_after_all(self, case, methods):
-        return getattr(case, '_after_all')
+    def set_after_all(self):
+        if self.has_after_all:
+            return getattr(self.suite, '_after_all')()
 
 
-    def set_after_each(self, case, methods):
-        return getattr(case, '_after_each')
+    def set_after_each(self):
+        if self.has_after_each:
+            return getattr(self.suite, '_after_each')()
                 
 
