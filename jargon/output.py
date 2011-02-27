@@ -2,6 +2,7 @@ import traceback
 from os.path                import dirname, abspath
 from sys                    import stdout
 from jargon.util            import name_convertion, green, red, bold
+from jargon.exc             import jargon_assert
 
 
 
@@ -76,8 +77,29 @@ class ExcFormatter(object):
         out_bold(pretty_exc.exception_file)
         stdout.write(red("\nLine: "))
         out_bold(str(pretty_exc.exception_line))
-        stdout.write("\n")
-        stdout.write(pretty_exc.formatted_exception)
+        if name == 'AssertionError':
+            reassert = jargon_assert(exc)            
+            if reassert:
+                self.assertion_diff(reassert)
+            else:
+                stdout.write("\n")
+                stdout.write(pretty_exc.formatted_exception)
+        else:
+            stdout.write("\n")
+            stdout.write(pretty_exc.formatted_exception)
+
+    def assertion_diff(self, diff):
+        stdout.write(red("\nAssert Diff: ")) 
+
+        # remove actual assert line
+        diff.pop(0)
+        for line in diff:
+            if "?" and "^" in line:
+                stdout.write(red('\n  '+line))
+            else:
+                stdout.write('\n  '+line)
+
+        
 
 
     def failure_header(self, name):

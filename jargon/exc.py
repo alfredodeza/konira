@@ -1,5 +1,4 @@
 import difflib
-import inspect
 
 
 class JargonImportError(Exception):
@@ -32,20 +31,22 @@ class Source(object):
 
     def __init__(self, trace):
         self.trace = trace
-        self.line = self.get_source 
+        self.line = self.get_assert_line
 
 
     @property
-    def get_source(self):
-        source_string = inspect.trace()[-1][-2][0]
-        source_line = source_string.strip().strip('assert').strip()
-        return source_line
+    def get_assert_line(self):
+        from jargon.output  import PrettyExc
+        read_exc = PrettyExc(self.trace)
+        exc_line = [i.strip() for i in read_exc.formatted_exception.split('\n') if 'assert' in i]
+        if exc_line:
+            return exc_line[0].replace('assert', '').strip()
+        return False
 
 
     def define_operand(self):
         operators = ['==', '!=', '<>', '>', '<', 
                      '>=', '<=', ' is ', ' not in ']
-        source = self.get_source
         operator = [i for i in operators if i in self.line]
         if operator:
             return operator[0]
@@ -63,12 +64,19 @@ class Source(object):
         return eval(self.line.split(operator)[1].strip())
 
 
+
 def jargon_assert(trace):
     source  = Source(trace)
-    left    = source.left_value
-    right   = source.right_value
-    operand = source.define_operand()
-    assertrepr_compare(operand, left, right)
+    if source.get_assert_line:
+        left     = source.left_value
+        right    = source.right_value
+        operand  = source.define_operand()
+        reassert = assertrepr_compare(operand, left, right)
+        if reassert:
+            return reassert
+        return None
+
+
 
 def assertrepr_compare(op, left, right):
     """return specialised explanations for some operators/operands"""

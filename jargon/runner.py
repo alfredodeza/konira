@@ -75,6 +75,7 @@ class Runner(object):
         environ.set_after_all()
 
 
+    # This is probably the wrong spot for this guy
     def report(self):
         sys.stdout.write('\n')
         if self.failures:
@@ -99,6 +100,12 @@ class Runner(object):
 
 
 class TestEnviron(object):
+    """
+    Checks for all test setup calls and sets a boolean
+    flag for each.
+    This approach avoids the runner to be checking getattr
+    for every time since we alredy did at the beginning.
+    """
 
 
     def __init__(self, suite):
