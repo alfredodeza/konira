@@ -28,19 +28,30 @@ class Runner(object):
                 self.errors.append(e)
                 continue
             for case in classes:
-                suite = case()
-                self.run_suite(suite)
+                self.run_suite(case)
         self.elapsed = self.timer.elapsed()
 
 
-    def run_suite(self, suite, before_all=None):
+    def run_suite(self, case):
         sys.stdout.write('\n')
+        # Initialize the test class
+        suite = case()
+
+        # check test environment setup
+        environ = TestEnviron(suite)
+
+        # Name the class
         out_spec(suite.__class__.__name__)
+
         methods = self._collect_methods(suite)
+
+        # Set before all if any
+        environ.set_before_all()
+
         for test in methods:
             self.total_cases += 1
             try:
-                self._exec_single_test(suite, test)
+                getattr(suite, test)()
                 out_green(test)
             except BaseException, e:
                 trace = inspect.trace()
@@ -53,26 +64,7 @@ class Runner(object):
                        ) 
                     )
 
-    def _exec_single_test(self, suite, test):
-        single_test = getattr(suite, test)
-        single_test()
 
-
-    def _set_before_all(self, case, methods):
-        return getattr(case, 'before_all')
-
-
-    def _set_before_each(self, case, methods):
-        return getattr(case, 'before_each')
-
-
-    def _set_after_all(self, case, methods):
-        return getattr(case, 'after_all')
-
-
-    def _set_after_each(self, case, methods):
-        return getattr(case, 'after_each')
-                
 
     def report(self):
         sys.stdout.write('\n')
@@ -91,4 +83,65 @@ class Runner(object):
 
 
     def _collect_methods(self, module):
-            return [i for i in dir(module) if not i.startswith('_')]
+        invalid = ['before_each', 'before_all', 'after_each', 'after_all']
+        return [i for i in dir(module) if not i.startswith('_') and i not in invalid] 
+
+
+
+
+class TestEnviron(object):
+
+
+    def __init__(self, suite):
+        self.suite           = suite
+        self.has_before_all  = self._before_all
+        self.has_before_each = self._before_each
+        self.has_after_all   = self._after_all
+        self.has_after_each  = self._after_each
+
+
+    @property
+    def _before_all(self):
+        if hasattr(self.suite, '_before_all'):
+            return True
+        return False
+
+
+    @property
+    def _before_each(self):
+        if hasattr(self.suite, '_before_each'):
+            return True
+        return False
+
+
+    @property
+    def _after_all(self):
+        if hasattr(self.suite, '_after_all'):
+            return True
+        return False
+
+
+    @property
+    def _after_each(self):
+        if hasattr(self.suite, '_after_each'):
+            return True
+        return False
+    
+
+    def set_before_all(self):
+        if self.has_before_all:
+            getattr(self.suite, '_before_all')()
+
+
+    def set_before_each(self, case, methods):
+        return getattr(case, '_before_each')
+
+
+    def set_after_all(self, case, methods):
+        return getattr(case, '_after_all')
+
+
+    def set_after_each(self, case, methods):
+        return getattr(case, '_after_each')
+                
+

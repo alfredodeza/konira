@@ -34,24 +34,24 @@ def translate(readline):
 
         # Before Constructors
         elif tokenum == NAME and value == 'before_all':
-            result.extend([(tokenum, 'before_all'),
+            result.extend([(tokenum, 'def _before_all'),
                            (OP, '('),
                            (NAME, 'self'),
                            (OP, ')')])
         elif tokenum == NAME and value == 'before_each':
-            result.extend([(tokenum, 'before_each'),
+            result.extend([(tokenum, 'def _before_each'),
                            (OP, '('),
                            (NAME, 'self'),
                            (OP, ')')])
 
         # After Constructors
         elif tokenum == NAME and value == 'after_all':
-            result.extend([(tokenum, 'after_all'),
+            result.extend([(tokenum, 'def _after_all'),
                            (OP, '('),
                            (NAME, 'self'),
                            (OP, ')')])
         elif tokenum == NAME and value == 'after_each':
-            result.extend([(tokenum, 'after_each'),
+            result.extend([(tokenum, 'def _after_each'),
                            (OP, '('),
                            (NAME, 'self'),
                            (OP, ')')])
