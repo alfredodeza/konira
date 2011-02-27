@@ -10,12 +10,7 @@ describe "collect paths":
         self.f = FileCollector(path='/asdf')
 
 
-    it "should equal to one":
-        assert "a long string with some other text here aaaaaaaaaaaaaaaaaaaa" == "a Long string with some other text here aaaaaaaaaaaaaaaaaaaa"
-
-
     it "should be a list":
-        assert False
         assert isinstance(self.f, list)
 
 
