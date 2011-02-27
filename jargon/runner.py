@@ -57,6 +57,9 @@ class Runner(object):
             try:
                 getattr(suite, test)()
                 out_green(test)
+                
+                # Set after each if any
+                environ.set_after_each()
             except BaseException, e:
                 trace = inspect.trace()
                 self.total_failures += 1
@@ -67,6 +70,9 @@ class Runner(object):
                         exc_name  = e.__class__.__name__
                        ) 
                     )
+
+        # Set after all if any
+        environ.set_after_all()
 
 
 
