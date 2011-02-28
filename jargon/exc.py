@@ -1,6 +1,27 @@
 import difflib
 
 
+
+class DontReadFromInput(object):
+    """Temporary stub class.  Ideally when stdin is accessed, the
+    capturing should be turned off, with possibly all data captured
+    so far sent to the screen.  This should be configurable, though,
+    because in automated test runs it is better to crash than
+    hang indefinitely.
+    """
+    msg = "reading from stdin while output is captured (using pdb?)"
+    def flush(self, *args):
+        raise JargonIOError(self.msg)
+    def write(self, *args):
+        raise JargonIOError(self.msg)
+    def read(self, *args):
+        raise JargonIOError(self.msg)
+    readline = read
+    readlines = read
+    __iter__ = read
+
+
+
 class JargonImportError(Exception):
 
 
@@ -24,6 +45,15 @@ class JargonExecutionError(Exception):
         self.lineno   = lineno
         self.exc      = exc
         Exception.__init__(self, msg)
+
+
+
+class JargonIOError(Exception):
+
+
+    def __init__(self, msg):
+        Exception.__init__(self, msg)
+
 
 
 class Source(object):
