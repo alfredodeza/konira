@@ -1,6 +1,6 @@
 import os
 import re
-from jargon.exceptions import JargonImportError
+from jargon.exc import JargonImportError
 
 
 
