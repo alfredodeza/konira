@@ -21,7 +21,8 @@ Options:
     no-capture      Avoids capturing stderr and stdout
 """
 
-    def __init__(self, argv=None, parse=True):
+    def __init__(self, argv=None, parse=True, test=False):
+        self.test       = test
         self.no_capture = False
         if argv is None:
             argv = sys.argv
