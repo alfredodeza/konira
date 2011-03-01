@@ -1,3 +1,4 @@
+import traceback
 import difflib
 
 
@@ -25,13 +26,12 @@ class DontReadFromInput(object):
 class JargonImportError(Exception):
 
 
-    def __init__(self, exc_name, filename,lineno, msg,exc):
-        self.exc_name = exc_name
-        self.msg      = msg
-        self.filename = filename
-        self.lineno   = lineno
+    def __init__(self, exc):
         self.exc      = exc
-        Exception.__init__(self, msg)
+        self.exc_name = self.exc.__class__.__name__
+        self.filename = self.exc.filename
+        self.lineno   = self.exc.lineno
+        Exception.__init__(self, exc)
 
 
 

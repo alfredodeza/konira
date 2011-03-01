@@ -61,7 +61,6 @@ class Runner(object):
                 # Set after each if any
                 environ.set_after_each()
             except BaseException, e:
-                trace = inspect.trace()
                 self.total_failures += 1
                 red_spec(test)
                 self.failures.append(

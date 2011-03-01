@@ -1,3 +1,4 @@
+import sys
 import os
 import re
 from jargon.exc import JargonImportError
@@ -29,12 +30,6 @@ def globals_from_execed_file(filename):
         execfile(filename, globals_)
         return globals_
     except Exception, e:
-        raise JargonImportError(
-                exc_name = e.__class__.__name__,
-                filename = e.filename,
-                lineno   = e.lineno,
-                msg      = e.msg,
-                exc      = e
-            )
+        raise JargonImportError(e)
 
 

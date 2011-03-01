@@ -62,12 +62,10 @@ class ExcFormatter(object):
     def output_errors(self):
         stdout.write(red('\n\nErrors:\n-------'))
         for error in self.failures:
-            error_msg = "%s: %s" % (error.exc_name, error.msg)
+            error_msg = "%s: %s" % (error.exc_name, error.exc.msg)
             self.failure_header(error_msg)
             stdout.write(red("File: "))
-            out_bold(error.filename)
-            stdout.write(red("\nLine: "))
-            out_bold(str(error.lineno))
+            stdout.write(format_file_line(error.filename, error.lineno))
             stdout.write(red('\n'+error.exc.text))
         stdout.write('\n\n')
 
@@ -102,8 +100,6 @@ class ExcFormatter(object):
             else:
                 stdout.write('\n  '+line)
 
-        
-
 
     def failure_header(self, name):
         string = "\n\n%s ==> %s\n" % (self.failed_test, name)
@@ -137,6 +133,7 @@ class PrettyExc(object):
         add_indent = ["    "+i for i in trace]
         return '\n'.join(add_indent)
 
+
     def _remove_jargon_from_traceback(self, traceback):
         jargon_dir = dirname(abspath(__file__))
 
@@ -167,4 +164,5 @@ class PrettyExc(object):
         while tb.tb_next:
             tb = tb.tb_next
         return tb
+
 

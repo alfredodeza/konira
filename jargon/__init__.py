@@ -18,7 +18,7 @@ Run tests:
     jargon [PATH] 
 
 Options:
-    no-capture      Avoids capturing stderr and stdout
+    -s, no-capture      Avoids capturing stderr and stdout
 """
 
     def __init__(self, argv=None, parse=True, test=False):
@@ -69,7 +69,7 @@ Options:
 
     def parseArgs(self, argv):
         # No options for now
-        options      = ['no-capture']
+        options      = ['no-capture', '-s']
         help_options = ['-h', '--h', '--help', 'help']
 
         # Catch help before anything
@@ -89,7 +89,7 @@ Options:
                 arg_count[argument] = count 
                 count_arg[count] = argument
 
-            if 'no-capture' in match:
+            if [opt for opt in ['-s', 'no-capture'] if opt in match]:
                 self.no_capture = True
                 
 
