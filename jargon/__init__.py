@@ -97,12 +97,15 @@ Options:
         if not test_files:
             self.msg("No cases found to test.")
 
-        self.capture()
-        test_runner = Runner(test_files)
-        test_runner.run()
-        self.end_capture()
+        try:
+            self.capture()
+            test_runner = Runner(test_files)
+            test_runner.run()
+            self.end_capture()
 
-        test_runner.report()
+            test_runner.report()
+        except KeyboardInterrupt:
+            self.msg("Exiting from jargon.\n")
 
 
 

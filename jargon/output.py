@@ -6,19 +6,19 @@ from jargon.exc             import jargon_assert
 
 
 
-def out_green(title):
-    string = "\n  - %s" % (green(name_convertion(title)))
+def green_spec(title):
+    string = "\n    %s" % (green(name_convertion(title)))
     stdout.write(string)
 
 
 
-def out_red(title):
-    string = "\n  - %s" % (red(name_convertion(title)))
+def red_spec(title):
+    string = "\n    %s" % (red(name_convertion(title)))
     stdout.write(string)
 
 
 
-def out_spec(title):
+def out_case(title):
     stdout.write("\n%s" % name_convertion(title))
 
 
@@ -30,13 +30,18 @@ def out_bold(string):
 
 def out_footer(cases, failures, elapsed):
     if not failures:
-        string = green("\nAll %s cases passed in %s secs.\n" % (cases, elapsed))
+        spec_verb = 'specs' if cases > 1 else 'spec'
+        string = green("\nAll %s %s passed in %s secs.\n" % (cases, spec_verb, elapsed))
     elif failures:
-        string = red("\n%s cases failed, %s total in %s secs.\n" % (failures, cases, elapsed))
+        spec_verb = 'specs' if failures > 1 else 'spec'
+        string = red("\n%s %s failed, %s total in %s secs.\n" % (failures, spec_verb, cases, elapsed))
     if not cases:
-        string = "\nNo cases were collected.\n"
+        string = "\nNo cases/specs collected.\n"
     stdout.write(string)
 
+
+def format_file_line(filename, line):
+    return bold("%s:%s:" % (filename, line))
 
 
 class ExcFormatter(object):
@@ -73,10 +78,8 @@ class ExcFormatter(object):
         
         pretty_exc = PrettyExc(exc)
         self.failure_header(pretty_exc.exception_description)
-        stdout.write(red("File: ")) 
-        out_bold(pretty_exc.exception_file)
-        stdout.write(red("\nLine: "))
-        out_bold(str(pretty_exc.exception_line))
+        stdout.write(red("File: "))
+        stdout.write(format_file_line(pretty_exc.exception_file, pretty_exc.exception_line))
         if name == 'AssertionError':
             reassert = jargon_assert(exc)            
             if reassert:

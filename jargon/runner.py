@@ -2,7 +2,7 @@ import inspect
 import sys
 from jargon.util            import StopWatch
 from jargon.collector       import globals_from_execed_file
-from jargon.output          import (out_red, out_green, out_spec, 
+from jargon.output          import (red_spec, green_spec, out_case, 
                                     ExcFormatter, out_footer)
 
 
@@ -41,7 +41,7 @@ class Runner(object):
         environ = TestEnviron(suite)
 
         # Name the class
-        out_spec(suite.__class__.__name__)
+        out_case(suite.__class__.__name__)
 
         methods = self._collect_methods(suite)
 
@@ -56,14 +56,14 @@ class Runner(object):
 
             try:
                 getattr(suite, test)()
-                out_green(test)
+                green_spec(test)
                 
                 # Set after each if any
                 environ.set_after_each()
             except BaseException, e:
                 trace = inspect.trace()
                 self.total_failures += 1
-                out_red(test)
+                red_spec(test)
                 self.failures.append(
                     dict(
                         failure   = sys.exc_info(),
