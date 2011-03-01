@@ -5,6 +5,7 @@ from jargon                 import tokenizer
 from jargon.collector       import FileCollector
 from jargon.runner          import Runner
 from jargon.exc             import DontReadFromInput
+from jargon.util            import runner_options
 
 
 
@@ -19,11 +20,13 @@ Run tests:
 
 Options:
     -s, no-capture      Avoids capturing stderr and stdout
+    -x, fail            Stops at first fail
+    --tb, traceback     Shows tracebacks with errors/fails
 """
 
     def __init__(self, argv=None, parse=True, test=False):
         self.test             = test
-        self.no_capture       = False
+        self.config           = runner_options
         self._original_stdout = sys.stdout
         self._original_stderr = sys.stderr
         self._original_stdin  = sys.stdin
@@ -56,20 +59,21 @@ Options:
 
 
     def capture(self):
-        if self.no_capture == False:
+        if self.config['capturing'] is True:
             sys.stdout = self._stdout_buffer
-            sys.stdin = DontReadFromInput()
+            sys.stdin  = DontReadFromInput()
 
 
     def end_capture(self):
-        if self.no_capture == False:
+        if self.config['capturing'] is True:
             sys.stdout = self._original_stdout
             sys.stdin  = self._original_stdin
 
 
     def parseArgs(self, argv):
         # No options for now
-        options      = ['no-capture', '-s']
+        options      = ['no-capture', '-s', 'fail', '-x', '--tb',
+                        'traceback', 'tracebacks']
         help_options = ['-h', '--h', '--help', 'help']
 
         # Catch help before anything
@@ -89,8 +93,14 @@ Options:
                 arg_count[argument] = count 
                 count_arg[count] = argument
 
+            if [opt for opt in ['--tb', 'traceback'] if opt in match]:
+                self.config['traceback'] = True
+
+            if [opt for opt in ['-x', 'fail'] if opt in match]:
+                self.config['first_fail'] = True
+
             if [opt for opt in ['-s', 'no-capture'] if opt in match]:
-                self.no_capture = True
+                self.config['capturing'] = False
                 
 
         test_files = FileCollector(search_path)
@@ -99,7 +109,7 @@ Options:
 
         try:
             self.capture()
-            test_runner = Runner(test_files)
+            test_runner = Runner(test_files, self.config)
             test_runner.run()
             self.end_capture()
 

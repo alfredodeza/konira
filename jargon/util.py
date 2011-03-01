@@ -56,14 +56,10 @@ class StopWatch(object):
         return _elapsed[:5]
 
 
-
-class Source(object):
-    """A helper to try and grab the 3 most important
-    things when re-evaluating a failed assert:
-    - left value
-    - operand
-    - right value
-    """
-    pass
+runner_options = dict(
+        first_fail = False,
+        capturing  = True,
+        traceback  = False
+        )
 
      

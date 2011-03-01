@@ -1,4 +1,5 @@
 import sys
+from jargon.exc             import JargonFirstFail
 from jargon.util            import StopWatch
 from jargon.collector       import globals_from_execed_file
 from jargon.output          import (red_spec, green_spec, out_case, 
@@ -8,7 +9,8 @@ from jargon.output          import (red_spec, green_spec, out_case,
 
 class Runner(object):
 
-    def __init__(self, paths):
+    def __init__(self, paths, config):
+        self.config         = config
         self.paths          = paths
         self.failures       = []
         self.errors         = []
@@ -27,7 +29,10 @@ class Runner(object):
                 self.errors.append(e)
                 continue
             for case in classes:
-                self.run_suite(case)
+                try:
+                    self.run_suite(case)
+                except JargonFirstFail:
+                    break
         self.elapsed = self.timer.elapsed()
 
 
@@ -68,6 +73,8 @@ class Runner(object):
                         exc_name  = e.__class__.__name__
                        ) 
                     )
+                if self.config.get('first_fail'):
+                    raise JargonFirstFail
 
         # Set after all if any
         environ.set_after_all()
