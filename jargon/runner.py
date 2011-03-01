@@ -1,4 +1,3 @@
-import inspect
 import sys
 from jargon.util            import StopWatch
 from jargon.collector       import globals_from_execed_file

@@ -2,8 +2,10 @@
 
 from jargon.collector import FileCollector
 
+
 class Foo(object):
-    waka = True
+    bar = True
+
 
 describe "collect paths" Foo:
 
@@ -11,8 +13,9 @@ describe "collect paths" Foo:
     before_each:
         self.f = FileCollector(path='/asdf')
 
-    it "should see waka":
-        assert self.waka
+
+    it "should see bar":
+        assert self.bar
 
     it "should be a list":
         assert isinstance(self.f, list)
