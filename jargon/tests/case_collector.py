@@ -2,13 +2,17 @@
 
 from jargon.collector import FileCollector
 
+class Foo(object):
+    waka = True
 
-describe "collect paths":
+describe "collect paths" Foo:
 
 
     before_each:
         self.f = FileCollector(path='/asdf')
 
+    it "should see waka":
+        assert self.waka
 
     it "should be a list":
         assert isinstance(self.f, list)

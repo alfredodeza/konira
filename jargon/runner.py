@@ -94,7 +94,7 @@ class Runner(object):
 
     def _collect_methods(self, module):
         invalid = ['_before_each', '_before_all', '_after_each', '_after_all']
-        return [i for i in dir(module) if not i.startswith('_') and i not in invalid] 
+        return [i for i in dir(module) if not i.startswith('_') and i not in invalid and i.startswith('it_')] 
 
 
 

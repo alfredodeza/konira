@@ -12,7 +12,12 @@ def quote_remover(string):
 
 
 
-def valid_name(token):
+def valid_method_name(token):
+    transform = token.strip().replace(" ", "_").replace("\"","" )
+    return "it_%s" % quote_remover(transform)
+
+
+def valid_class_name(token):
     transform = token.strip().replace(" ", "_").replace("\"","" )
     return "Case_%s" % quote_remover(transform)
     
@@ -33,7 +38,7 @@ def translate(readline):
         elif tokenum == STRING and last_token == 'describe':
             last_kw = 'describe'
             descr_obj = True
-            result.extend(([NAME, valid_name(value)],))
+            result.extend(([NAME, valid_class_name(value)],))
         elif tokenum == NAME and last_type == STRING and last_kw == 'describe':
             if descr_obj:
                 result.extend(([OP, '('],
@@ -79,7 +84,8 @@ def translate(readline):
         elif tokenum == NAME and value == 'it':
             result.append([tokenum, 'def'])
         elif tokenum == STRING and last_token == 'it':
-            result.extend(([tokenum, quote_remover(value.replace(' ', '_')[1:-1]),],
+            #result.extend(([tokenum, quote_remover(value.replace(' ', '_')[1:-1]),],
+            result.extend(([tokenum, valid_method_name(value)],
                            [OP, '('],
                            [NAME, 'self'],
                            [OP, ')'],))
