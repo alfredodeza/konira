@@ -17,20 +17,39 @@ def valid_name(token):
     return "Case_%s" % quote_remover(transform)
     
 
-
 def translate(readline):
-    result = []
+    result     = []
+    last_kw    = None
     last_token = None
+    last_type  = None
+    descr_obj  = False
+
     for tokenum, value, _, _, _ in generate_tokens(readline):
 
-        # From Describe to class
+        # From Describe to class - includes inheritance
         if tokenum == NAME and value == 'describe':
+            last_kw = 'describe'
             result.append([tokenum, 'class'])
         elif tokenum == STRING and last_token == 'describe':
-            result.extend(([NAME, valid_name(value)],
-                           [OP, '('],
-                           [NAME, 'object'],
-                           [OP, ')'],))
+            last_kw = 'describe'
+            descr_obj = True
+            result.extend(([NAME, valid_name(value)],))
+        elif tokenum == NAME and last_type == STRING and last_kw == 'describe':
+            if descr_obj:
+                result.extend(([OP, '('],
+                               [NAME, value],
+                               [OP, ')'],))
+                last_kw   = None
+                descr_obj = False
+        elif last_type == STRING and last_kw == 'describe':
+            if descr_obj:
+                result.extend(([OP, '('],
+                               [NAME, 'object'],
+                               [OP, ')'],
+                               [OP, ':'],))
+                last_kw   = None
+                descr_obj = False
+
 
         # Before Constructors
         elif tokenum == NAME and value == 'before_all':
@@ -67,6 +86,7 @@ def translate(readline):
         else:
             result.append([tokenum, value])
         last_token = value
+        last_type  = tokenum
     return result
 
 
