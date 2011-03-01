@@ -48,14 +48,36 @@ Options:
             sys.exit(1)
 
 
+    def test_from_path(self, path):
+        path = path.split('::')
+        if len(path) == 3:
+            return dict(
+                    path        = path[0],
+                    class_name  = tokenizer.valid_class_name(path[1]),
+                    method_name = tokenizer.valid_method_name(path[2])
+                    )
+        elif len(path) == 2:
+            return dict(
+                    path       = path[0],
+                    class_name = tokenizer.valid_class_name(path[1]),
+                    )
+        else:
+            return dict(path = path)
+
+
     def path_from_argument(self, argv):
         # Get rid of the executable
         argv.pop(0)
-        valid_path = [path for path in argv if os.path.exists(os.path.abspath(path))]
+        valid_path = [path for path in argv if os.path.exists(os.path.abspath(path.split('::')[0]))]
         if valid_path:
-            return valid_path[0]
+            tests = self.test_from_path(valid_path[0])
+            return dict(
+                    path = tests.get('path'),
+                    class_name = tests.get('class_name'),
+                    method_name = tests.get('method_name')
+                    )
         else:
-            return os.getcwd()
+            return dict(path = os.getcwd())
 
 
     def capture(self):
@@ -81,7 +103,11 @@ Options:
             self.msg(self.jargon_help)
 
         # Get a valid path
-        search_path = self.path_from_argument(argv)
+        path_info   = self.path_from_argument(argv)
+        search_path = path_info.get('path')
+        class_name  = path_info.get('class_name')
+        method_name = path_info.get('method_name')
+
 
         match = [i for i in argv if i in options]
 
