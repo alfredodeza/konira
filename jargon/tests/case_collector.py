@@ -42,7 +42,6 @@ describe "collect paths" Foo:
 
 
     it "matches if it has camelcase":
-        assert False
         py_file = "CaSe_foo.py"
         assert self.f.valid_module_name.match(py_file)
 

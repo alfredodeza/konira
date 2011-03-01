@@ -47,8 +47,9 @@ def format_file_line(filename, line):
 class ExcFormatter(object):
 
 
-    def __init__(self, failures):
-        self.failures = failures
+    def __init__(self, failures, config):
+        self.config      = config
+        self.failures    = failures
         self.failed_test = 1
 
 
@@ -66,7 +67,8 @@ class ExcFormatter(object):
             self.failure_header(error_msg)
             stdout.write(red("File: "))
             stdout.write(format_file_line(error.filename, error.lineno))
-            stdout.write(red('\n'+error.exc.text))
+            if self.config.get('traceback'):
+                stdout.write(red('\n'+error.exc.text))
         stdout.write('\n\n')
 
 
@@ -78,16 +80,17 @@ class ExcFormatter(object):
         self.failure_header(pretty_exc.exception_description)
         stdout.write(red("File: "))
         stdout.write(format_file_line(pretty_exc.exception_file, pretty_exc.exception_line))
-        if name == 'AssertionError':
-            reassert = jargon_assert(exc)            
-            if reassert:
-                self.assertion_diff(reassert)
+        if self.config.get('traceback'):
+            if name == 'AssertionError':
+                reassert = jargon_assert(exc)            
+                if reassert:
+                    self.assertion_diff(reassert)
+                else:
+                    stdout.write("\n")
+                    stdout.write(pretty_exc.formatted_exception)
             else:
                 stdout.write("\n")
                 stdout.write(pretty_exc.formatted_exception)
-        else:
-            stdout.write("\n")
-            stdout.write(pretty_exc.formatted_exception)
 
     def assertion_diff(self, diff):
         stdout.write(red("\nAssert Diff: ")) 

@@ -84,10 +84,10 @@ class Runner(object):
     def report(self):
         sys.stdout.write('\n')
         if self.failures:
-            format_exc = ExcFormatter(self.failures)
+            format_exc = ExcFormatter(self.failures, self.config)
             format_exc.output_failures()
         if self.errors:
-            format_exc = ExcFormatter(self.errors)
+            format_exc = ExcFormatter(self.errors, self.config)
             format_exc.output_errors()
         out_footer(self.total_cases, self.total_failures, self.elapsed)
 
