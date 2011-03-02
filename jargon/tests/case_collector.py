@@ -10,12 +10,17 @@ class Foo(object):
 describe "collect paths" Foo:
 
 
-    before_each:
+    before each:
         self.f = FileCollector(path='/asdf')
+
+
+    it "should compare strings":
+        assert "this is a long string" == "This is a long string"
 
 
     it "should see bar":
         assert self.bar
+
 
     it "should be a list":
         assert isinstance(self.f, list)

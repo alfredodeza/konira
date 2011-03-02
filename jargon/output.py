@@ -67,7 +67,7 @@ class ExcFormatter(object):
             self.failure_header(error_msg)
             stdout.write(red("File: "))
             stdout.write(format_file_line(error.filename, error.lineno))
-            if self.config.get('traceback'):
+            if self.config.get('traceback') and error.exc.text:
                 stdout.write(red('\n'+error.exc.text))
         stdout.write('\n\n')
 

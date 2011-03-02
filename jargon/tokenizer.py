@@ -11,7 +11,6 @@ def quote_remover(string):
     return string.replace("'", "")
 
 
-
 def valid_method_name(token):
     transform = token.strip().replace(" ", "_").replace("\"","" )
     return "it_%s" % quote_remover(transform)
@@ -34,7 +33,7 @@ def translate(readline):
         # From Describe to class - includes inheritance
         if tokenum == NAME and value == 'describe':
             last_kw = 'describe'
-            result.append([tokenum, 'class'])
+            result.extend(([tokenum, 'class'],))
         elif tokenum == STRING and last_token == 'describe':
             last_kw = 'describe'
             descr_obj = True
@@ -57,34 +56,29 @@ def translate(readline):
 
 
         # Before Constructors
-        elif tokenum == NAME and value == 'before_all':
-            result.extend([(tokenum, 'def _before_all'),
-                           (OP, '('),
-                           (NAME, 'self'),
-                           (OP, ')')])
-        elif tokenum == NAME and value == 'before_each':
-            result.extend([(tokenum, 'def _before_each'),
-                           (OP, '('),
-                           (NAME, 'self'),
-                           (OP, ')')])
+        elif tokenum == NAME and value == 'before':
+            result.extend(([tokenum, 'def'],))
+
+        elif tokenum == NAME and last_token == 'before':
+            result.extend(([tokenum, '_before_%s' % value],
+                           [OP, '('],
+                           [NAME, 'self'],
+                           [OP, ')']))
 
         # After Constructors
-        elif tokenum == NAME and value == 'after_all':
-            result.extend([(tokenum, 'def _after_all'),
-                           (OP, '('),
-                           (NAME, 'self'),
-                           (OP, ')')])
-        elif tokenum == NAME and value == 'after_each':
-            result.extend([(tokenum, 'def _after_each'),
-                           (OP, '('),
-                           (NAME, 'self'),
-                           (OP, ')')])
+        elif tokenum == NAME and value == 'after':
+            result.extend(([tokenum, 'def'],))
+
+        elif tokenum == NAME and last_token == 'after':
+            result.extend(([tokenum, '_after_%s' % value],
+                           [OP, '('],
+                           [NAME, 'self'],
+                           [OP, ')']))
 
         # From it to def
         elif tokenum == NAME and value == 'it':
-            result.append([tokenum, 'def'])
+            result.extend(([tokenum, 'def'],))
         elif tokenum == STRING and last_token == 'it':
-            #result.extend(([tokenum, quote_remover(value.replace(' ', '_')[1:-1]),],
             result.extend(([tokenum, valid_method_name(value)],
                            [OP, '('],
                            [NAME, 'self'],
@@ -93,6 +87,7 @@ def translate(readline):
             result.append([tokenum, value])
         last_token = value
         last_type  = tokenum
+
     return result
 
 
