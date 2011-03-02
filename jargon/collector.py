@@ -1,4 +1,3 @@
-import sys
 import os
 import re
 from jargon.exc import JargonImportError

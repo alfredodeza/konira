@@ -6,7 +6,7 @@ from jargon.output          import (red_spec, green_spec, out_case,
                                     ExcFormatter, out_footer)
 
 
-
+import jargon
 class Runner(object):
 
     def __init__(self, paths, config):

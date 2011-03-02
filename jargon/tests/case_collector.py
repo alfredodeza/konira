@@ -14,8 +14,8 @@ describe "collect paths" Foo:
         self.f = FileCollector(path='/asdf')
 
 
-    it "should compare strings":
-        assert "this is a long string" == "This is a long string"
+    it "should see config":
+        assert jargon.util
 
 
     it "should see bar":
