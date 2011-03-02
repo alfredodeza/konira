@@ -6,7 +6,7 @@ from jargon.collector       import FileCollector
 from jargon.runner          import Runner
 from jargon.exc             import DontReadFromInput
 from jargon.util            import runner_options
-
+import jargon.tools
 
 
 class JargonCommands(object):

@@ -17,6 +17,11 @@ describe "collect paths" Foo:
     it "should see config":
         assert jargon.util
 
+    it "should see jargon as imported":
+        assert jargon
+
+    it "should be able to verify a raise":
+        raises AttributeError: raise AttributeError
 
     it "should see bar":
         assert self.bar

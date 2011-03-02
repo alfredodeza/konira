@@ -26,6 +26,7 @@ def initial_imports():
     import_raise = case_imports.extend(([NAME, 'import'],[NAME, 'jargon']))
     return case_imports
 
+
 def translate(readline):
     result     = []
     last_kw    = None
@@ -90,6 +91,16 @@ def translate(readline):
                            [OP, '('],
                            [NAME, 'self'],
                            [OP, ')'],))
+
+        # From raises to with jargon.tools.raises
+        elif tokenum == NAME and value == 'raises':
+            result.extend(([tokenum, 'with jargon.tools.raises'],))
+
+        elif tokenum == NAME and last_token == 'raises':
+            result.extend(([OP, '('],
+                           [NAME, value],
+                           [OP, ')'],))
+
         else:
             result.append([tokenum, value])
         last_token = value
