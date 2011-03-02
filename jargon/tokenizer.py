@@ -54,7 +54,6 @@ def translate(readline):
                 last_kw   = None
                 descr_obj = False
 
-
         # Before Constructors
         elif tokenum == NAME and value == 'before':
             result.extend(([tokenum, 'def'],))
