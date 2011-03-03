@@ -127,8 +127,10 @@ class PrettyExc(object):
 
     def __init__(self, exc_info, error=False):
         self.error = error
-        self.exc_type, self.exc_value, exc_traceback = exc_info
-        self.exc_traceback  = self._remove_konira_from_traceback(exc_traceback)
+        self.exc_type, self.exc_value, self.exc_traceback = exc_info
+        if self.error:
+            self.exc_traceback =  self._last_traceback(self.exc_traceback)
+        self.exc_traceback  = self._remove_konira_from_traceback(self.exc_traceback)
         self.exception_line = self.exc_traceback.tb_lineno
         self.exception_file = self.exc_traceback.tb_frame.f_code.co_filename
         self.exc_info       = exc_info
