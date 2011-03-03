@@ -6,12 +6,18 @@ from konira.collector import FileCollector
 class Foo(object):
     bar = True
 
+class Bar(Exception):
+    def __init__(self):
+        Exception.__init__(self, exc)
 
 describe "collect paths" Foo:
 
 
     before each:
         self.f = FileCollector(path='/asdf')
+    
+    it "compares tuples":
+        assert ('a tuple') == ('a tuplE')
 
     it "can compare dicts":
         assert {'a':1} == {'a':2}
@@ -23,7 +29,7 @@ describe "collect paths" Foo:
         assert konira
 
     it "should be able to verify a raise":
-        raises AttributeError: raise AttributeError
+        raises AttributeError: Bar()
 
     it "should see bar":
         assert self.bar

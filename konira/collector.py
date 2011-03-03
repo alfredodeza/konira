@@ -1,6 +1,5 @@
 import os
 import re
-from konira.exc import KoniraImportError
 
 
 
@@ -29,6 +28,6 @@ def globals_from_execed_file(filename):
         execfile(filename, globals_)
         return globals_
     except Exception, e:
-        raise KoniraImportError(e)
+        raise
 
 

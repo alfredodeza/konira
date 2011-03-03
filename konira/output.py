@@ -63,13 +63,23 @@ class ExcFormatter(object):
     def output_errors(self):
         stdout.write(red('\n\nErrors:\n-------'))
         for error in self.failures:
-            error_msg = "%s: %s" % (error.exc_name, error.exc.msg)
-            self.failure_header(error_msg)
+            error = self.build_error_output(error)
+            self.failure_header(error['description'])
             stdout.write(red("File: "))
-            stdout.write(format_file_line(error.filename, error.lineno))
-            if self.config.get('traceback') and error.exc.text:
-                stdout.write(red('\n'+error.exc.text))
+            stdout.write(format_file_line(error['filename'], error['lineno']))
+            if self.config.get('traceback') and error['text']:
+                stdout.write(red('\n'+error['text']))
         stdout.write('\n\n')
+
+
+    def build_error_output(self, error):
+        exc = {}
+        p_error = PrettyExc(error['failure'], error=True)
+        exc['description'] = p_error.exception_description
+        exc['filename']    = p_error.exception_file
+        exc['lineno']      = p_error.exception_line
+        exc['text']        = p_error.formatted_exception
+        return exc
 
 
     def single_exception(self, failure):
@@ -91,6 +101,7 @@ class ExcFormatter(object):
             else:
                 stdout.write("\n")
                 stdout.write(pretty_exc.formatted_exception)
+
 
     def assertion_diff(self, diff):
         stdout.write(red("\nAssert Diff: ")) 
@@ -114,12 +125,13 @@ class ExcFormatter(object):
 class PrettyExc(object):
 
 
-    def __init__(self, exc_info):
+    def __init__(self, exc_info, error=False):
+        self.error = error
         self.exc_type, self.exc_value, exc_traceback = exc_info
-        self.exc_traceback = self._remove_konira_from_traceback(exc_traceback)
-        self.exception_line = self.exc_traceback.tb_lineno 
+        self.exc_traceback  = self._remove_konira_from_traceback(exc_traceback)
+        self.exception_line = self.exc_traceback.tb_lineno
         self.exception_file = self.exc_traceback.tb_frame.f_code.co_filename
-        self.exc_info = exc_info
+        self.exc_info       = exc_info
 
 
     @property
@@ -138,6 +150,7 @@ class PrettyExc(object):
 
 
     def _remove_konira_from_traceback(self, traceback):
+        if self.error: return traceback
         konira_dir = dirname(abspath(__file__))
 
         while True:

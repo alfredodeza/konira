@@ -30,18 +30,6 @@ class DontReadFromInput(object):
 
 
 
-class KoniraImportError(Exception):
-
-
-    def __init__(self, exc):
-        self.exc      = exc
-        self.exc_name = self.exc.__class__.__name__
-        self.filename = self.exc.filename
-        self.lineno   = self.exc.lineno
-        Exception.__init__(self, exc)
-
-
-
 class KoniraExecutionError(Exception):
 
 

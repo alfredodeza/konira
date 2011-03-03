@@ -25,7 +25,12 @@ class Runner(object):
                 classes = [i for i in self._collect_classes(f)]
             except Exception, e:
                 self.total_errors += 1
-                self.errors.append(e)
+                self.errors.append(
+                    dict(
+                        failure   = sys.exc_info(),
+                        exc_name  = e.__class__.__name__
+                       ) 
+                    )
                 continue
             for case in classes:
                 try:
