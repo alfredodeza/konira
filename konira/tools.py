@@ -1,4 +1,4 @@
-
+from konira.exc import KoniraReassertError
 
 
 def raises(cls=Exception, message=None):
@@ -21,7 +21,7 @@ class AssertRaises(object):
     def __exit__(self, exc_type, exc_value, traceback):
         success = not exc_type
         if success:
-            raise AssertionError(
+            raise KoniraReassertError(
                 'Expected an exception of type %s but got none'
                 % self._exception_class.__name__)
         else:
@@ -32,7 +32,7 @@ class AssertRaises(object):
         wrong_message_was_raised = (self.message and
                                     self.message != str(exc_value))
         if wrong_message_was_raised:
-            raise AssertionError(
+            raise KoniraReassertError(
                 "Expected %s('%s') but got %s('%s')" %
                  (self._exception_class.__name__,
                   str(self.message),

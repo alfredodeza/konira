@@ -7,8 +7,8 @@ class Foo(object):
     bar = True
 
 class Bar(Exception):
-    def __init__(self):
-        Exception.__init__(self, exc)
+    def __init__(self, msg=''):
+        Exception.__init__(self, msg)
 
 describe "collect paths" Foo:
 
