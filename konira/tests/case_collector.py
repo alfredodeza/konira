@@ -13,6 +13,8 @@ describe "collect paths" Foo:
     before each:
         self.f = FileCollector(path='/asdf')
 
+    it "can compare dicts":
+        assert {'a':1} == {'a':2}
 
     it "should see config":
         assert konira.util

@@ -54,6 +54,15 @@ class KoniraExecutionError(Exception):
         Exception.__init__(self, msg)
 
 
+
+class KoniraReassertError(Exception):
+
+
+    def __init__(self, msg=''):
+        Exception.__init__(self, msg)
+
+
+
 class KoniraFirstFail(Exception):
 
 
@@ -120,7 +129,10 @@ def konira_assert(trace):
         left     = source.left_value
         right    = source.right_value
         operand  = source.operand
-        reassert = assertrepr_compare(operand, left, right)
+        try:
+            reassert = assertrepr_compare(operand, left, right)
+        except KoniraReassertError:
+            return None
         if reassert:
             return reassert
         return None
@@ -149,14 +161,12 @@ def assertrepr_compare(op, left, right):
             elif isset(left) and isset(right):
                 explanation = _compare_eq_set(left, right)
             elif isdict(left) and isdict(right):
-                explanation = _diff_text(left, right)
+                explanation = _diff_text(str(left), str(right))
         elif op == ' not in ':
             if istext(left) and istext(right):
                 explanation = _notin_text(left, right)
-    except:
-        explanation = ['representation of '
-            'details failed. Probably an object has a faulty __repr__.)']
-
+    except Exception, e:
+        raise KoniraReassertError(e)
 
     if not explanation:
         return None

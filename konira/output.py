@@ -99,9 +99,9 @@ class ExcFormatter(object):
         diff.pop(0)
         for line in diff:
             if "?" and "^" in line:
-                stdout.write(red('\n  '+line))
+                stdout.write(red('\nE  '+line))
             else:
-                stdout.write('\n  '+line)
+                stdout.write(red('\nE  ')+line)
 
 
     def failure_header(self, name):
