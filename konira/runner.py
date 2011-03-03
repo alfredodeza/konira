@@ -1,3 +1,4 @@
+import inspect
 import sys
 from konira.exc             import KoniraFirstFail
 from konira.util            import StopWatch
@@ -69,12 +70,14 @@ class Runner(object):
                 # Set after each if any
                 environ.set_after_each()
             except BaseException, e:
+                trace = inspect.trace()[1]
                 self.total_failures += 1
                 red_spec(test)
                 self.failures.append(
                     dict(
-                        failure   = sys.exc_info(),
-                        exc_name  = e.__class__.__name__
+                        failure  = sys.exc_info(),
+                        trace    = trace,
+                        exc_name = e.__class__.__name__
                        ) 
                     )
                 if self.config.get('first_fail'):

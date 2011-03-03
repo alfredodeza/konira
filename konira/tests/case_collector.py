@@ -5,7 +5,7 @@ from konira.collector import FileCollector
 
 class Foo(object):
     bar = True
-f
+
 class Bar(Exception):
     def __init__(self, msg=''):
         Exception.__init__(self, msg)
@@ -16,11 +16,17 @@ describe "collect paths" Foo:
     before each:
         self.f = FileCollector(path='/asdf')
     
-#    it "compares tuples":
-#        assert ('a tuple') == ('a tuplE')
+    it "compares with text operands":
+        bar = "foO is a very long string"
+        FOO = "foo is a very long stringg"
+        assert bar != FOO
 
-#    it "can compare dicts":
-#        assert {'a':1} == {'a':2}
+    it "compares tuples":
+        assert ('a tuple') == ('a tuple')
+
+    it "can compare dicts":
+        a = {'a':1}
+        assert {'a':2} == a
 
     it "should see config":
         assert konira.util
@@ -29,7 +35,7 @@ describe "collect paths" Foo:
         assert konira
 
     it "should be able to verify a raise":
-        raises AttributeError: Bar()
+        raises Bar: raise Bar()
 
     it "should see bar":
         assert self.bar

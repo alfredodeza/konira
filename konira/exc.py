@@ -1,3 +1,4 @@
+import inspect
 import difflib
 
 
@@ -75,17 +76,22 @@ class Source(object):
         self.line     = self.get_assert_line
         self.operand  = self.get_operand
         self.is_valid = True
+        self._locals  = self.get_locals
         if not self.line or not self.operand:
             self.is_valid = False
 
 
     @property
+    def get_locals(self):
+        frame = self.trace[0]
+        return inspect.getargvalues(frame).locals
+
+
+    @property
     def get_assert_line(self):
-        from konira.output  import PrettyExc
-        read_exc = PrettyExc(self.trace)
-        exc_line = [i.strip() for i in read_exc.formatted_exception.split('\n') if 'assert' in i]
-        if exc_line:
-            return exc_line[0].replace('assert', '').strip()
+        line = self.trace[-2][0]
+        if 'assert' in line:
+            return line.replace('assert', '').strip()
         return False
 
 
@@ -99,15 +105,32 @@ class Source(object):
 
 
     @property
-    def left_value(self):
+    def _left_text(self):
         operator = self.operand
-        return eval(self.line.split(operator)[0].strip())
+        return self.line.split(operator)[0].strip()
+
+
+    @property
+    def _right_text(self):
+        operator = self.operand
+        return self.line.split(operator)[1].strip()
 
 
     @property
     def right_value(self):
-        operator = self.operand
-        return eval(self.line.split(operator)[1].strip())
+        right = self._locals.get(self._right_text)
+        if right:
+            return right
+        return eval(self._right_text)
+
+
+    @property
+    def left_value(self):
+        left = self._locals.get(self._left_text)
+        if left:
+            return left
+        return eval(self._left_text)
+
 
 
 

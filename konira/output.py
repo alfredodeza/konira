@@ -83,16 +83,17 @@ class ExcFormatter(object):
 
 
     def single_exception(self, failure):
-        exc       = failure.get("failure")
-        name      = failure.get("exc_name")
-        
+        exc        = failure.get('failure')
+        name       = failure.get('exc_name')
+        trace      = failure.get('trace')
         pretty_exc = PrettyExc(exc)
+
         self.failure_header(pretty_exc.exception_description)
         stdout.write(red("File: "))
         stdout.write(format_file_line(pretty_exc.exception_file, pretty_exc.exception_line))
         if self.config.get('traceback'):
             if name == 'AssertionError':
-                reassert = konira_assert(exc)            
+                reassert = konira_assert(trace)            
                 if reassert:
                     self.assertion_diff(reassert)
                 else:

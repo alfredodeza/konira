@@ -72,8 +72,8 @@ Options:
         if valid_path:
             tests = self.test_from_path(valid_path[0])
             return dict(
-                    path = tests.get('path'),
-                    class_name = tests.get('class_name'),
+                    path        = tests.get('path'),
+                    class_name  = tests.get('class_name'),
                     method_name = tests.get('method_name')
                     )
         else:
@@ -116,8 +116,8 @@ Options:
             count_arg = {}
             
             for count, argument in enumerate(argv):
-                arg_count[argument] = count 
-                count_arg[count] = argument
+                arg_count[argument] = count
+                count_arg[count]    = argument
 
             if [opt for opt in ['--tb', 'traceback'] if opt in match]:
                 self.config['traceback'] = True
