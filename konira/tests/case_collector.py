@@ -1,6 +1,6 @@
-# coding: jargon
+# coding: konira
 
-from jargon.collector import FileCollector
+from konira.collector import FileCollector
 
 
 class Foo(object):
@@ -15,10 +15,10 @@ describe "collect paths" Foo:
 
 
     it "should see config":
-        assert jargon.util
+        assert konira.util
 
-    it "should see jargon as imported":
-        assert jargon
+    it "should see konira as imported":
+        assert konira
 
     it "should be able to verify a raise":
         raises AttributeError: raise AttributeError

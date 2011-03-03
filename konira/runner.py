@@ -1,12 +1,11 @@
 import sys
-from jargon.exc             import JargonFirstFail
-from jargon.util            import StopWatch
-from jargon.collector       import globals_from_execed_file
-from jargon.output          import (red_spec, green_spec, out_case, 
+from konira.exc             import KoniraFirstFail
+from konira.util            import StopWatch
+from konira.collector       import globals_from_execed_file
+from konira.output          import (red_spec, green_spec, out_case, 
                                     ExcFormatter, out_footer)
 
 
-import jargon
 class Runner(object):
 
     def __init__(self, paths, config):
@@ -31,7 +30,7 @@ class Runner(object):
             for case in classes:
                 try:
                     self.run_suite(case)
-                except JargonFirstFail:
+                except KoniraFirstFail:
                     break
         self.elapsed = self.timer.elapsed()
 
@@ -74,7 +73,7 @@ class Runner(object):
                        ) 
                     )
                 if self.config.get('first_fail'):
-                    raise JargonFirstFail
+                    raise KoniraFirstFail
 
         # Set after all if any
         environ.set_after_all()

@@ -1,4 +1,3 @@
-import traceback
 import difflib
 
 
@@ -11,19 +10,27 @@ class DontReadFromInput(object):
     hang indefinitely.
     """
     msg = "reading from stdin while output is captured (using pdb?)"
+
+
     def flush(self, *args):
-        raise JargonIOError(self.msg)
+        raise KoniraIOError(self.msg)
+
+
     def write(self, *args):
-        raise JargonIOError(self.msg)
+        raise KoniraIOError(self.msg)
+
+
     def read(self, *args):
-        raise JargonIOError(self.msg)
-    readline = read
+        raise KoniraIOError(self.msg)
+
+
+    readline  = read
     readlines = read
-    __iter__ = read
+    __iter__  = read
 
 
 
-class JargonImportError(Exception):
+class KoniraImportError(Exception):
 
 
     def __init__(self, exc):
@@ -35,7 +42,7 @@ class JargonImportError(Exception):
 
 
 
-class JargonExecutionError(Exception):
+class KoniraExecutionError(Exception):
 
 
     def __init__(self, exc_name, filename,lineno, msg,exc):
@@ -47,7 +54,7 @@ class JargonExecutionError(Exception):
         Exception.__init__(self, msg)
 
 
-class JargonFirstFail(Exception):
+class KoniraFirstFail(Exception):
 
 
     def __init__(self, msg=''):
@@ -55,7 +62,7 @@ class JargonFirstFail(Exception):
 
 
 
-class JargonIOError(Exception):
+class KoniraIOError(Exception):
 
 
     def __init__(self, msg):
@@ -77,7 +84,7 @@ class Source(object):
 
     @property
     def get_assert_line(self):
-        from jargon.output  import PrettyExc
+        from konira.output  import PrettyExc
         read_exc = PrettyExc(self.trace)
         exc_line = [i.strip() for i in read_exc.formatted_exception.split('\n') if 'assert' in i]
         if exc_line:
@@ -107,7 +114,7 @@ class Source(object):
 
 
 
-def jargon_assert(trace):
+def konira_assert(trace):
     source  = Source(trace)
     if source.is_valid:
         left     = source.left_value
@@ -122,15 +129,15 @@ def jargon_assert(trace):
 
 def assertrepr_compare(op, left, right):
     """return specialised explanations for some operators/operands"""
-    width = 80 - 15 - len(op) - 2 # 15 chars indentation, 1 space around op
-    left_repr = left
+    width      = 80 - 15 - len(op) - 2 # 15 chars indentation, 1 space around op
+    left_repr  = left
     right_repr = right
-    summary = '%s %s %s' % (left_repr, op, right_repr)
+    summary    = '%s %s %s' % (left_repr, op, right_repr)
 
     issequence = lambda x: isinstance(x, (list, tuple))
-    istext = lambda x: isinstance(x, basestring)
-    isdict = lambda x: isinstance(x, dict)
-    isset = lambda x: isinstance(x, set)
+    istext     = lambda x: isinstance(x, basestring)
+    isdict     = lambda x: isinstance(x, dict)
+    isset      = lambda x: isinstance(x, set)
 
     explanation = None
     try:
@@ -147,7 +154,6 @@ def assertrepr_compare(op, left, right):
             if istext(left) and istext(right):
                 explanation = _notin_text(left, right)
     except:
-        #excinfo = py.code.ExceptionInfo()
         explanation = ['representation of '
             'details failed. Probably an object has a faulty __repr__.)']
 
@@ -177,7 +183,7 @@ def _diff_text(left, right):
         i -= 10                 # Provide some context
         explanation = ['Skipping %s identical '
                        'leading characters in diff' % i]
-        left = left[i:]
+        left  = left[i:]
         right = right[i:]
     if len(left) == len(right):
         for i in range(len(left)):
@@ -187,7 +193,7 @@ def _diff_text(left, right):
             i -= 10     # Provide some context
             explanation += ['Skipping %s identical '
                             'trailing characters in diff' % i]
-            left = left[:-i]
+            left  = left[:-i]
             right = right[:-i]
     explanation += [line.strip('\n')
                     for line in difflib.ndiff(left.splitlines(),
@@ -214,8 +220,8 @@ def _compare_eq_sequence(left, right):
 
 def _compare_eq_set(left, right):
     explanation = []
-    diff_left = left - right
-    diff_right = right - left
+    diff_left   = left - right
+    diff_right  = right - left
     if diff_left:
         explanation.append('Extra items in the left set:')
         for item in diff_left:
@@ -228,12 +234,12 @@ def _compare_eq_set(left, right):
 
 
 def _notin_text(term, text):
-    index = text.find(term)
-    head = text[:index]
-    tail = text[index+len(term):]
+    index        = text.find(term)
+    head         = text[:index]
+    tail         = text[index+len(term):]
     correct_text = head + tail
-    diff = _diff_text(correct_text, text)
-    newdiff = ['%s is contained here:' % repr(term, maxsize=42)]
+    diff         = _diff_text(correct_text, text)
+    newdiff      = ['%s is contained here:' % repr(term, maxsize = 42)]
     for line in diff:
         if line.startswith('Skipping'):
             continue

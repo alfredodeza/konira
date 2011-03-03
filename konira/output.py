@@ -1,8 +1,8 @@
 import traceback
 from os.path                import dirname, abspath
 from sys                    import stdout
-from jargon.util            import name_convertion, green, red, bold
-from jargon.exc             import jargon_assert
+from konira.util            import name_convertion, green, red, bold
+from konira.exc             import konira_assert
 
 
 
@@ -82,7 +82,7 @@ class ExcFormatter(object):
         stdout.write(format_file_line(pretty_exc.exception_file, pretty_exc.exception_line))
         if self.config.get('traceback'):
             if name == 'AssertionError':
-                reassert = jargon_assert(exc)            
+                reassert = konira_assert(exc)            
                 if reassert:
                     self.assertion_diff(reassert)
                 else:
@@ -116,7 +116,7 @@ class PrettyExc(object):
 
     def __init__(self, exc_info):
         self.exc_type, self.exc_value, exc_traceback = exc_info
-        self.exc_traceback = self._remove_jargon_from_traceback(exc_traceback)
+        self.exc_traceback = self._remove_konira_from_traceback(exc_traceback)
         self.exception_line = self.exc_traceback.tb_lineno 
         self.exception_file = self.exc_traceback.tb_frame.f_code.co_filename
         self.exc_info = exc_info
@@ -137,15 +137,15 @@ class PrettyExc(object):
         return '\n'.join(add_indent)
 
 
-    def _remove_jargon_from_traceback(self, traceback):
-        jargon_dir = dirname(abspath(__file__))
+    def _remove_konira_from_traceback(self, traceback):
+        konira_dir = dirname(abspath(__file__))
 
         while True:
             frame    = traceback.tb_frame
             code     = frame.f_code
             filename = code.co_filename
             code_dir = dirname(abspath(filename))
-            if code_dir != jargon_dir:
+            if code_dir != konira_dir:
                 break
             else:
                 traceback = traceback.tb_next

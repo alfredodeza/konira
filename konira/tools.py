@@ -1,16 +1,22 @@
 
 
+
 def raises(cls=Exception, message=None):
     return AssertRaises(cls, message)
 
 
+
 class AssertRaises(object):
+
+
     def __init__(self, exception_class, message):
         self._exception_class = exception_class
-        self.message = message
+        self.message          = message
+
 
     def __enter__(self):
         pass
+
 
     def __exit__(self, exc_type, exc_value, traceback):
         success = not exc_type
@@ -20,6 +26,7 @@ class AssertRaises(object):
                 % self._exception_class.__name__)
         else:
             return self.validate_failure(exc_type, exc_value)
+
 
     def validate_failure(self, exc_type, exc_value):
         wrong_message_was_raised = (self.message and

@@ -1,6 +1,6 @@
 import os
 import re
-from jargon.exc import JargonImportError
+from konira.exc import KoniraImportError
 
 
 
@@ -29,6 +29,6 @@ def globals_from_execed_file(filename):
         execfile(filename, globals_)
         return globals_
     except Exception, e:
-        raise JargonImportError(e)
+        raise KoniraImportError(e)
 
 

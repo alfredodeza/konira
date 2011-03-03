@@ -1,13 +1,13 @@
 from distutils.core import setup
 
 setup(
-    name         = "jargon",
+    name         = "konira",
     version      = "0.0.1",
-    packages     = ['jargon'],
-    scripts      = ['bin/jargon'],
+    packages     = ['konira'],
+    scripts      = ['bin/konira'],
     author       = "Alfredo Deza",
     author_email = "alfredodeza [at] gmail.com",
-    description  = "Nicer, (beautiful!) readable BDD tests",
+    description  = "A DSL Testing Framework for nicer, (beautiful!) readable BDD tests",
     license      = "MIT",
     keywords     = "test, readable, testrunner, bdd"
 

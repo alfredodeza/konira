@@ -23,7 +23,7 @@ def valid_class_name(token):
 
 def initial_imports():
     case_imports = []
-    import_raise = case_imports.extend(([NAME, 'import'],[NAME, 'jargon']))
+    import_raise = case_imports.extend(([NAME, 'import'],[NAME, 'konira']))
     return case_imports
 
 
@@ -92,9 +92,9 @@ def translate(readline):
                            [NAME, 'self'],
                            [OP, ')'],))
 
-        # From raises to with jargon.tools.raises
+        # From raises to with konira.tools.raises
         elif tokenum == NAME and value == 'raises':
-            result.extend(([tokenum, 'with jargon.tools.raises'],))
+            result.extend(([tokenum, 'with konira.tools.raises'],))
 
         elif tokenum == NAME and last_token == 'raises':
             result.extend(([OP, '('],
@@ -119,10 +119,10 @@ class StreamReader(utf_8.StreamReader):
 
 
 def search_function(s):
-    if s!='jargon': return None
+    if s!='konira': return None
     utf8=encodings.search_function('utf8')
     return codecs.CodecInfo(
-        name='jargon',
+        name='konira',
         encode = utf8.encode,
         decode = utf8.decode,
         incrementalencoder=utf8.incrementalencoder,

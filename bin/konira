@@ -21,9 +21,9 @@
 # THE SOFTWARE.
 #
 
-from jargon import JargonCommands
+from konira import KoniraCommands
 
 if __name__ == "__main__":
-    JargonCommands()
+    KoniraCommands()
 
 

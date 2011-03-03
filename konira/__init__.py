@@ -1,22 +1,22 @@
 from cStringIO import StringIO
 import sys
 import os
-from jargon                 import tokenizer
-from jargon.collector       import FileCollector
-from jargon.runner          import Runner
-from jargon.exc             import DontReadFromInput
-from jargon.util            import runner_options
-import jargon.tools
+from konira                 import tokenizer
+from konira.collector       import FileCollector
+from konira.runner          import Runner
+from konira.exc             import DontReadFromInput
+from konira.util            import runner_options
+import konira.tools
 
 
-class JargonCommands(object):
+class KoniraCommands(object):
 
-    jargon_help = """
-Jargon: A test runner and DSL testing framework for writing readable, 
+    konira_help = """
+konira: A test runner and DSL testing framework for writing readable, 
 descriptive tests.
 
 Run tests:
-    jargon [PATH] 
+    konira [PATH] 
 
 Options:
     -s, no-capture      Avoids capturing stderr and stdout
@@ -100,7 +100,7 @@ Options:
 
         # Catch help before anything
         if [i for i in argv if i in help_options]:
-            self.msg(self.jargon_help)
+            self.msg(self.konira_help)
 
         # Get a valid path
         path_info   = self.path_from_argument(argv)
@@ -141,7 +141,7 @@ Options:
 
             test_runner.report()
         except KeyboardInterrupt:
-            self.msg("Exiting from jargon.\n")
+            self.msg("Exiting from konira.\n")
 
 
 
