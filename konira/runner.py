@@ -57,15 +57,15 @@ class Runner(object):
         methods = self.methods(suite)
 
         # Set before all if any
-        environ.set_before_all()
+        self.safe_environ_call(environ.set_before_all)
 
         for test in methods:
             self.total_cases += 1
 
-            # Set before each if any
-            environ.set_before_each()
-
             try:
+                # Set before each if any
+                environ.set_before_each()
+
                 getattr(suite, test)()
                 green_spec(test)
                 
@@ -86,10 +86,22 @@ class Runner(object):
                     raise KoniraFirstFail
 
         # Set after all if any
-        environ.set_after_all()
+        self.safe_environ_call(environ.set_after_all)
 
 
-    # This is probably the wrong spot for this guy
+    def safe_environ_call(self, env_call):
+        try:
+            env_call()
+        except Exception, e:
+            self.errors.append(
+                dict(
+                    failure   = sys.exc_info(),
+                    exc_name  = e.__class__.__name__
+                   ) 
+                )
+
+
+    # XXX This is probably the wrong spot for this guy
     def report(self):
         sys.stdout.write('\n')
         if self.failures:

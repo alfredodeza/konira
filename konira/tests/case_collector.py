@@ -1,45 +1,15 @@
 # coding: konira
 
-from konira.collector import FileCollector
+from cStringIO import StringIO
+from konira.collector import FileCollector, globals_from_execed_file
 
 
-class Foo(object):
-    bar = True
-
-class Bar(Exception):
-    def __init__(self, msg=''):
-        Exception.__init__(self, msg)
-
-describe "collect paths" Foo:
+describe "path collection":
 
 
     before each:
         self.f = FileCollector(path='/asdf')
     
-    it "compares with text operands":
-        bar = "foO is a very long string"
-        FOO = "foo is a very long stringg"
-        assert bar != FOO
-
-    it "compares tuples":
-        assert ('a tuple') == ('a tuple')
-
-    it "can compare dicts":
-        a = {'a':1}
-        assert {'a':2} == a
-
-    it "should see config":
-        assert konira.util
-
-    it "should see konira as imported":
-        assert konira
-
-    it "should be able to verify a raise":
-        raises Bar: raise Bar()
-
-    it "should see bar":
-        assert self.bar
-
 
     it "should be a list":
         assert isinstance(self.f, list)
@@ -73,3 +43,16 @@ describe "collect paths" Foo:
     it "does not match if it starts with underscore":
         py_file = "case_foo.py"
         assert self.f.valid_module_name.match(py_file)
+
+
+
+describe "global values from file":
+
+    before all:
+        foo_file = StringIO.write("import sys")
+        foo_contents = foo_file.get_value()
+
+    it "should see globals":
+        globs = globals_from_execed_file(self.foo_contents)
+        assert globs
+
