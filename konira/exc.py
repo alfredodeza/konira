@@ -137,9 +137,12 @@ class Source(object):
 def konira_assert(trace):
     source  = Source(trace)
     if source.is_valid:
-        left     = source.left_value
-        right    = source.right_value
-        operand  = source.operand
+        try:
+            left     = source.left_value
+            right    = source.right_value
+            operand  = source.operand
+        except NameError:
+            return None
         try:
             reassert = assertrepr_compare(operand, left, right)
         except KoniraReassertError:

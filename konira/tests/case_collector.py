@@ -49,10 +49,12 @@ describe "path collection":
 describe "global values from file":
 
     before all:
-        foo_file = StringIO.write("import sys")
-        foo_contents = foo_file.get_value()
+        with open('/tmp/case_test.py', 'w') as self.case_test:
+            self.case_test.write("import sys")
+        #self.foo_contents = foo_file.get_value()
 
     it "should see globals":
-        globs = globals_from_execed_file(self.foo_contents)
-        assert globs
+        globs = globals_from_execed_file('/tmp/case_test.py')
+        
+        assert len(globs)> 4
 

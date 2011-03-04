@@ -62,15 +62,13 @@ class Runner(object):
         for test in methods:
             self.total_cases += 1
 
-            try:
-                # Set before each if any
-                environ.set_before_each()
+            # Set before each if any
+            self.safe_environ_call(environ.set_before_each)
 
+            try:
                 getattr(suite, test)()
                 green_spec(test)
                 
-                # Set after each if any
-                environ.set_after_each()
             except BaseException, e:
                 trace = inspect.trace()[1]
                 self.total_failures += 1
@@ -84,6 +82,10 @@ class Runner(object):
                     )
                 if self.config.get('first_fail'):
                     raise KoniraFirstFail
+
+            # Set after each if any
+            self.safe_environ_call(environ.set_after_each)
+
 
         # Set after all if any
         self.safe_environ_call(environ.set_after_all)
