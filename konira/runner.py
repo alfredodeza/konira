@@ -17,13 +17,15 @@ class Runner(object):
         self.total_cases    = 0
         self.total_failures = 0
         self.total_errors   = 0
+        self.class_name     = config.get('class_name')
+        self.method_name    = config.get('method_name')
 
 
     def run(self):
         self.timer = StopWatch()
         for f in self.paths:
             try:
-                classes = [i for i in self._collect_classes(f)]
+                classes = self.classes(f)
             except Exception, e:
                 self.total_errors += 1
                 self.errors.append(
@@ -52,7 +54,7 @@ class Runner(object):
         # Name the class
         out_case(suite.__class__.__name__)
 
-        methods = self._collect_methods(suite)
+        methods = self.methods(suite)
 
         # Set before all if any
         environ.set_before_all()
@@ -97,6 +99,32 @@ class Runner(object):
             format_exc = ExcFormatter(self.errors, self.config)
             format_exc.output_errors()
         out_footer(self.total_cases, self.total_failures, self.elapsed)
+
+
+    def _class_name(self, klass):
+        klass = str(klass).split("'")[1]
+        if klass.startswith('Case_'):
+            return klass
+
+
+    def classes(self, filename):
+        if self.class_name:
+            classes = [i for i in self._collect_classes(filename) 
+                        if self.class_name == self._class_name(i)]
+        else:
+            classes = [i for i in self._collect_classes(filename)]
+
+        return classes
+
+
+    def methods(self, suite):
+        if self.method_name:
+            methods = [i for i in self._collect_methods(suite) 
+                        if i == self.method_name]
+        else:
+            methods = self._collect_methods(suite)
+
+        return methods
 
 
     def _collect_classes(self, path):

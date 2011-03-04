@@ -105,15 +105,15 @@ class ExcFormatter(object):
 
 
     def assertion_diff(self, diff):
-        stdout.write(red("\nAssert Diff: ")) 
+        stdout.write(red("\nAssert Diff: %s" % diff[0])) 
 
         # remove actual assert line
         diff.pop(0)
         for line in diff:
             if "?" and "^" in line:
-                stdout.write(red('\nE  '+line))
+                stdout.write(red('\nE\t'+line))
             else:
-                stdout.write(red('\nE  ')+line)
+                stdout.write(red('\nE\t')+line)
 
 
     def failure_header(self, name):

@@ -49,17 +49,17 @@ Options:
 
 
     def test_from_path(self, path):
-        path = path.split('::')
-        if len(path) == 3:
+        spath = path.split('::')
+        if len(spath) == 3:
             return dict(
-                    path        = path[0],
-                    class_name  = tokenizer.valid_class_name(path[1]),
-                    method_name = tokenizer.valid_method_name(path[2])
+                    path        = spath[0],
+                    class_name  = tokenizer.valid_class_name(spath[1]),
+                    method_name = tokenizer.valid_method_name(spath[2])
                     )
-        elif len(path) == 2:
+        elif len(spath) == 2:
             return dict(
-                    path       = path[0],
-                    class_name = tokenizer.valid_class_name(path[1]),
+                    path       = spath[0],
+                    class_name = tokenizer.valid_class_name(spath[1]),
                     )
         else:
             return dict(path = path)
@@ -67,10 +67,10 @@ Options:
 
     def path_from_argument(self, argv):
         # Get rid of the executable
-        argv.pop(0)
-        valid_path = [path for path in argv if os.path.exists(os.path.abspath(path.split('::')[0]))]
+        p_argv = argv[1:]
+        valid_path = [path for path in p_argv if os.path.exists(os.path.abspath(path.split('::')[0]))]
         if valid_path:
-            tests = self.test_from_path(valid_path[0])
+            tests = self.test_from_path(os.path.abspath(valid_path[0]))
             return dict(
                     path        = tests.get('path'),
                     class_name  = tests.get('class_name'),
@@ -95,7 +95,7 @@ Options:
     def parseArgs(self, argv):
         # No options for now
         options      = ['no-capture', '-s', 'fail', '-x', '--tb',
-                        'traceback', 'tracebacks']
+                        'traceback', 'tracebacks', 'describe', 'it']
         help_options = ['-h', '--h', '--help', 'help']
 
         # Catch help before anything
@@ -105,9 +105,8 @@ Options:
         # Get a valid path
         path_info   = self.path_from_argument(argv)
         search_path = path_info.get('path')
-        class_name  = path_info.get('class_name')
-        method_name = path_info.get('method_name')
-
+        self.config['class_name']  = path_info.get('class_name')
+        self.config['method_name'] = path_info.get('method_name')
 
         match = [i for i in argv if i in options]
 
@@ -119,15 +118,35 @@ Options:
                 arg_count[argument] = count
                 count_arg[count]    = argument
 
+            # Matches for describe
+            if arg_count.get('describe'):
+                count = arg_count.get('describe')
+                value = count_arg.get(count+1)
+                if value:
+                    self.config['class_name'] = tokenizer.valid_class_name(value)
+                else:
+                    self.msg("No valid 'describe' name")
+            
+            # Matches for it
+            if arg_count.get('it'):
+                count = arg_count.get('it')
+                value = count_arg.get(count+1)
+                if value:
+                    self.config['method_name'] = tokenizer.valid_method_name(value)
+                else:
+                    self.msg("No valid 'it' name")
+
+            # Traceback options
             if [opt for opt in ['--tb', 'traceback'] if opt in match]:
                 self.config['traceback'] = True
 
+            # Fail options
             if [opt for opt in ['-x', 'fail'] if opt in match]:
                 self.config['first_fail'] = True
 
+            # Capturing options
             if [opt for opt in ['-s', 'no-capture'] if opt in match]:
                 self.config['capturing'] = False
-                
 
         test_files = FileCollector(search_path)
         if not test_files:
