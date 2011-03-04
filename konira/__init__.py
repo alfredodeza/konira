@@ -16,12 +16,19 @@ konira: A test runner and DSL testing framework for writing readable,
 descriptive tests.
 
 Run tests:
-    konira [PATH] 
+    konira [/path/to/cases] 
+    konira ['/path/to/cases::case description::it description']
 
-Options:
+Control Options:
     -s, no-capture      Avoids capturing stderr and stdout
     -x, fail            Stops at first fail
     --tb, traceback     Shows tracebacks with errors/fails
+
+Matching Options:
+    describe            Matches a case description (needs to be 
+                        quoted).
+    it                  Matches an 'it' spec (needs to be quoted).
+
 """
 
     def __init__(self, argv=None, parse=True, test=False):
