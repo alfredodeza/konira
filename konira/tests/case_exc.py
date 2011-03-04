@@ -1,7 +1,7 @@
 # coding: konira
 
-from konira.exc import KoniraIOError
-from konira import exc
+from konira.exc         import KoniraIOError
+from konira             import exc
 
 
 describe "dont read from input":
