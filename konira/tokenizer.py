@@ -8,7 +8,8 @@ import tokenize
 
 
 def quote_remover(string):
-    return string.replace("'", "")
+    _string = string.replace(",", "")
+    return _string.replace("'", "")
 
 
 def valid_method_name(token):

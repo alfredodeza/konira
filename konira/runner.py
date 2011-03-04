@@ -45,17 +45,19 @@ class Runner(object):
 
 
     def run_suite(self, case):
-        self.write('\n')
         # Initialize the test class
         suite = case()
 
         # check test environment setup
         environ = TestEnviron(suite)
 
+        methods = self.methods(suite)
+        if not methods: return
+
         # Name the class
+        self.write('\n')
         out_case(suite.__class__.__name__)
 
-        methods = self.methods(suite)
 
         # Set before all if any
         self.safe_environ_call(environ.set_before_all)
