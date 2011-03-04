@@ -48,13 +48,23 @@ describe "path collection":
 
 describe "global values from file":
 
+
     before all:
         with open('/tmp/case_test.py', 'w') as self.case_test:
             self.case_test.write("import sys")
-        #self.foo_contents = foo_file.get_value()
+
 
     it "should see globals":
         globs = globals_from_execed_file('/tmp/case_test.py')
-        
-        assert len(globs)> 4
+        assert globs
+        assert len(globs) == 2
+
+
+    it "raises IOError when it tries an invalid path":
+        raises IOError: globals_from_execed_file('/foo/bar/foo.py')
+
+
+    it "raises TypeError when no filename is passed":
+        raises TypeError: globals_from_execed_file()
+
 
