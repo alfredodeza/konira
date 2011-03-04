@@ -121,7 +121,7 @@ class Source(object):
         right = self._locals.get(self._right_text)
         if right:
             return right
-        return eval(self._right_text)
+        return self._eval(self._right_text)
 
 
     @property
@@ -129,9 +129,11 @@ class Source(object):
         left = self._locals.get(self._left_text)
         if left:
             return left
-        return eval(self._left_text)
+        return self._eval(self._left_text)
 
 
+    def _eval(self, code):
+        return eval(code, None, self._locals)
 
 
 def konira_assert(trace):
@@ -141,6 +143,7 @@ def konira_assert(trace):
             left     = source.left_value
             right    = source.right_value
             operand  = source.operand
+            line     = source.line
         except NameError:
             return None
         try:
@@ -149,9 +152,16 @@ def konira_assert(trace):
             return None
         if reassert:
             return reassert
-        return None
+        return assert_description(operand, left, right, line)
 
 
+def assert_description(op, left, right, line):
+    explanation = [line]
+    explanation.append('%s %s %s' % (left, op, right))
+    return explanation
+        
+
+    
 
 def assertrepr_compare(op, left, right):
     """return specialised explanations for some operators/operands"""
