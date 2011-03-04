@@ -19,6 +19,7 @@ class Runner(object):
         self.total_errors   = 0
         self.class_name     = config.get('class_name')
         self.method_name    = config.get('method_name')
+        self.write          = sys.__stdout__.write
 
 
     def run(self):
@@ -44,7 +45,7 @@ class Runner(object):
 
 
     def run_suite(self, case):
-        sys.stdout.write('\n')
+        self.write('\n')
         # Initialize the test class
         suite = case()
 
@@ -86,7 +87,6 @@ class Runner(object):
             # Set after each if any
             self.safe_environ_call(environ.set_after_each)
 
-
         # Set after all if any
         self.safe_environ_call(environ.set_after_all)
 
@@ -105,7 +105,7 @@ class Runner(object):
 
     # XXX This is probably the wrong spot for this guy
     def report(self):
-        sys.stdout.write('\n')
+        self.write('\n')
         if self.failures:
             format_exc = ExcFormatter(self.failures, self.config)
             format_exc.output_failures()
