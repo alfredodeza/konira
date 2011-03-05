@@ -38,7 +38,7 @@ def out_footer(cases, failures, elapsed):
         spec_verb = 'specs' if failures > 1 else 'spec'
         string = "%s %s failed, %s total in %s secs.\n" % (failures, spec_verb, cases, elapsed)
         std.writeln(string, 'red')
-    if not cases:
+    if not cases or cases == 0:
         string = "No cases/specs collected.\n"
         std.writeln(string, 'bold')
 
