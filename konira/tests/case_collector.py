@@ -46,7 +46,7 @@ describe "path collection":
 
 
 
-describe "global values from file":
+describe 'global values from file' Foo:
 
 
     before all:
@@ -54,7 +54,7 @@ describe "global values from file":
             self.case_test.write("import sys")
 
 
-    it "should see globals":
+    it 'should see globals':
         globs = globals_from_execed_file('/tmp/case_test.py')
         assert globs
         assert len(globs) == 2

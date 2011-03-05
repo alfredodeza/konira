@@ -34,7 +34,7 @@ class DontReadFromInput(object):
 class KoniraExecutionError(Exception):
 
 
-    def __init__(self, exc_name, filename,lineno, msg,exc):
+    def __init__(self, exc_name, filename, lineno, msg, exc):
         self.exc_name = exc_name
         self.msg      = msg
         self.filename = filename

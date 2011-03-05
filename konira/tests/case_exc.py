@@ -1,6 +1,6 @@
 # coding: konira
 
-from konira.exc         import KoniraIOError
+from konira.exc         import KoniraIOError, KoniraExecutionError
 from konira             import exc
 
 
@@ -35,3 +35,19 @@ describe "dont read from input":
         raises KoniraIOError: self.dont_read.__iter__()
         raises KoniraIOError: self.dont_read.readline()
         raises KoniraIOError: self.dont_read.readlines()
+
+
+describe "konira execution error":
+
+    before all:
+        self.exc_err = exc.KoniraExecutionError 
+
+    
+    it "raises when there are insufficient args":
+        raises TypeError: self.exc_err()
+
+    it "raises a konira execution error":
+        args = ('exc_name', 'filename', 1, 'a message', 'exc')
+        exc = self.exc_err('a', 'b', 'c', 'd', 'e')
+        raises KoniraExecutionError: raise exc
+
