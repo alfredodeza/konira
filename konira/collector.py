@@ -13,6 +13,9 @@ class FileCollector(list):
 
 
     def _collect(self):
+        if os.path.isfile(self.path):
+            self.append(self.path)
+            return
         for root, dirs, files in os.walk(self.path):
             for item in files:
                 absolute_path = os.path.join(root, item)
