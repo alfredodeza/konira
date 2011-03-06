@@ -46,7 +46,7 @@ describe "path collection":
 
 
 
-describe 'global values from file' Foo:
+describe 'global values from file':
 
 
     before all:

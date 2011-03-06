@@ -44,8 +44,11 @@ def out_footer(cases, failures, elapsed):
         string = "No cases/specs collected.\n"
         std.writeln(string, 'bold')
 
+
+
 def format_file_line(filename, line):
     return Writer().bold("%s:%s:" % (filename, line))
+
 
 
 class ExcFormatter(object):
@@ -92,7 +95,7 @@ class ExcFormatter(object):
         pretty_exc = PrettyExc(exc)
 
         self.failure_header(pretty_exc.exception_description)
-        self.std.write("File: ", 'red')
+        self.std.writeln("File: ", 'red')
         self.std.println(format_file_line(pretty_exc.exception_file, pretty_exc.exception_line))
         if self.config.get('traceback'):
             if name == 'AssertionError':
@@ -100,9 +103,9 @@ class ExcFormatter(object):
                 if reassert:
                     self.assertion_diff(reassert)
                 else:
-                    self.std.println(pretty_exc.formatted_exception)
+                    self.std.writeln(pretty_exc.formatted_exception)
             else:
-                self.std.println(pretty_exc.formatted_exception)
+                self.std.writeln(pretty_exc.formatted_exception)
 
 
     def assertion_diff(self, diff):
@@ -200,6 +203,7 @@ class Writer(object):
 
     def color(self, form):
         if not self.isatty: return ''
+        if form == None: return ''
         available = dict(
                 blue   = '\033[94m',
                 green  = '\033[92m',
@@ -226,7 +230,7 @@ class Writer(object):
         self.out(out_str)
 
 
-    def writeln(self, string, form):
+    def writeln(self, string, form=None):
         """With a new line before and after"""
         color   = self.color(form)
         ends    = self.color('ends')
