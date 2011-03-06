@@ -95,8 +95,17 @@ class ExcFormatter(object):
         pretty_exc = PrettyExc(exc)
 
         self.failure_header(pretty_exc.exception_description)
-        self.std.writeln("File: ", 'red')
-        self.std.println(format_file_line(pretty_exc.exception_file, pretty_exc.exception_line))
+        starts = pretty_exc.exception_file_start 
+        ends= pretty_exc.exception_file_end
+        if starts == ends:
+            self.std.writeln("Starts and Ends: ", 'red')
+            self.std.println(format_file_line(pretty_exc.exception_file_start, pretty_exc.exception_line_start))
+        else:
+            self.std.writeln("Starts: ", 'red')
+            self.std.println(format_file_line(pretty_exc.exception_file_start, pretty_exc.exception_line_start))
+            self.std.writeln("Ends: ", 'red')
+            self.std.println(format_file_line(pretty_exc.exception_file_end, pretty_exc.exception_line_end))
+
         if self.config.get('traceback'):
             if name == 'AssertionError':
                 reassert = konira_assert(trace)            
@@ -135,10 +144,15 @@ class PrettyExc(object):
         self.exc_type, self.exc_value, self.exc_traceback = exc_info
         if self.error:
             self.exc_traceback =  self._last_traceback(self.exc_traceback)
-        self.exc_traceback  = self._remove_konira_from_traceback(self.exc_traceback)
-        self.exception_line = self.exc_traceback.tb_lineno
-        self.exception_file = self.exc_traceback.tb_frame.f_code.co_filename
-        self.exc_info       = exc_info
+        self.exc_traceback = self._remove_konira_from_traceback(self.exc_traceback)
+        self.end_traceback = self._last_traceback(self.exc_traceback)
+        self.exception_file_start = self.exc_traceback.tb_frame.f_code.co_filename
+        self.exception_line_start = self.exc_traceback.tb_lineno
+        self.exception_file_end   = self.end_traceback.tb_frame.f_code.co_filename
+        self.exception_line_end   = self.end_traceback.tb_lineno
+        self.exception_line       = self.exc_traceback.tb_lineno
+        self.exception_file       = self.exc_traceback.tb_frame.f_code.co_filename
+        self.exc_info             = exc_info
 
 
     @property
@@ -187,6 +201,7 @@ class PrettyExc(object):
         while tb.tb_next:
             tb = tb.tb_next
         return tb
+
 
 
 class Writer(object):
