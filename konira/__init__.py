@@ -156,6 +156,7 @@ Matching Options:
                 self.config['capturing'] = False
 
         test_files = FileCollector(search_path)
+
         if not test_files:
             self.msg("No cases found to test.")
 

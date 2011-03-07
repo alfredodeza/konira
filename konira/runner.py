@@ -1,6 +1,6 @@
 import inspect
 import sys
-from konira.exc             import KoniraFirstFail
+from konira.exc             import KoniraFirstFail, KoniraNoSkip
 from konira.util            import StopWatch
 from konira.collector       import globals_from_execed_file
 from konira.output          import (red_spec, green_spec, out_case, 
@@ -17,6 +17,7 @@ class Runner(object):
         self.total_cases    = 0
         self.total_failures = 0
         self.total_errors   = 0
+        self.total_skips    = 0
         self.class_name     = config.get('class_name')
         self.method_name    = config.get('method_name')
         self.write          = sys.__stdout__.write
@@ -58,6 +59,10 @@ class Runner(object):
         self.write('\n')
         out_case(suite.__class__.__name__)
 
+        # Are we skipping?
+        if self.safe_skip_call(environ.set_skip_if):
+            self.write(' ...skipping')
+            return
 
         # Set before all if any
         self.safe_environ_call(environ.set_before_all)
@@ -104,6 +109,14 @@ class Runner(object):
                    ) 
                 )
 
+    def safe_skip_call(self, env_call):
+        try:
+            skip = env_call()
+            return True
+        except KoniraNoSkip:
+            return False
+        except Exception:
+            return False
 
     # XXX This is probably the wrong spot for this guy
     def report(self):
@@ -166,10 +179,18 @@ class TestEnviron(object):
 
     def __init__(self, suite):
         self.suite           = suite
+        self.has_skip_if     = self._skip_if
         self.has_before_all  = self._before_all
         self.has_before_each = self._before_each
         self.has_after_all   = self._after_all
         self.has_after_each  = self._after_each
+
+
+    @property
+    def _skip_if(self):
+        if hasattr(self.suite, '_skip_if'):
+            return True
+        return False
 
 
     @property
@@ -199,6 +220,13 @@ class TestEnviron(object):
             return True
         return False
     
+
+    def set_skip_if(self):
+        if self.has_skip_if:
+            getattr(self.suite, '_skip_if')()
+        else:
+            raise KoniraNoSkip
+
 
     def set_before_all(self):
         if self.has_before_all:

@@ -64,6 +64,16 @@ def translate(readline):
                 last_kw   = None
                 descr_obj = False
 
+        # Skip if Constructors
+        elif tokenum == NAME and value == 'skip':
+            result.extend(([tokenum, 'def'],))
+
+        elif tokenum == NAME and last_token == 'skip' and value == 'if':
+            result.extend(([tokenum, '_skip_if'],
+                           [OP, '('],
+                           [NAME, 'self'],
+                           [OP, ')']))
+
         # Before Constructors
         elif tokenum == NAME and value == 'before':
             result.extend(([tokenum, 'def'],))

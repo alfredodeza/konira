@@ -44,6 +44,14 @@ class KoniraExecutionError(Exception):
 
 
 
+class KoniraNoSkip(Exception):
+
+
+    def __init__(self, msg=''):
+        Exception.__init__(self, msg)
+
+
+
 class KoniraReassertError(Exception):
 
 

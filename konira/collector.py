@@ -2,7 +2,6 @@ import os
 import re
 
 
-
 class FileCollector(list):
 
 
@@ -16,9 +15,22 @@ class FileCollector(list):
         if os.path.isfile(self.path):
             self.append(self.path)
             return
-        for root, dirs, files in os.walk(self.path):
+
+        # Local is faster
+        walk = os.walk
+        join = os.path.join
+        path = self.path
+        levels_deep = 0
+
+        for root, dirs, files in walk(path):
+            levels_deep += 1
+
+            # Start checking for Python packages after 2 levels
+            if levels_deep > 1:
+                if not '__init__.py' in files:
+                    continue 
             for item in files:
-                absolute_path = os.path.join(root, item)
+                absolute_path = join(root, item)
                 if not self.valid_module_name.match(item):
                     continue
                 self.append(absolute_path)
