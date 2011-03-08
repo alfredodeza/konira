@@ -105,9 +105,11 @@ class Source(object):
 
     @property
     def get_operand(self):
-        operators = ['==', '!=', '<>', '>', '<', 
+        operators = ['==', '!=', '>', '<', 
                      '>=', '<=', ' is ', ' not in ']
         operator = [i for i in operators if i in self.line]
+        if len(operator) > 1: # probably <, >, mixed with <= >= operators 
+            return operator[-1]
         if operator:
             return operator[0]
 

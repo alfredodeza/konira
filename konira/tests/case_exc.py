@@ -111,8 +111,7 @@ describe "konira IO Error exception":
     
 
 
-describe "Source from frame objects":
-
+describe "Source operands and values from frame objects":
 
     before all:
         try:
@@ -170,6 +169,62 @@ describe "Source from frame objects":
         source = self.source(self.eq_trace)
         assert source.operand == '=='
 
+
     it "catches not equal operand":
         source = self.source(self.ne_trace)
         assert source.operand == '!='
+
+
+    it "catches more than operand":
+        source = self.source(self.mt_trace)
+        assert source.operand == '>'
+
+
+    it "catches less than operand":
+        source = self.source(self.lt_trace)
+        assert source.operand == '<'
+
+
+    it "catches more than or equal operand":
+        source = self.source(self.mte_trace)
+        assert source.operand == '>='
+
+
+    it "catches less than or equal operand":
+        source = self.source(self.lte_trace)
+        assert source.operand == '<='
+
+
+    it "catches the is keyword operand":
+        source = self.source(self.is_trace)
+        assert source.operand == ' is '
+
+
+    it "catches the not int keyword operand":
+        source = self.source(self.notin_trace)
+        assert source.operand == ' not in '
+
+
+    it "parses and evalueates left values and text values with an equality operand":
+        source = self.source(self.eq_trace)
+        assert source._left_text == '1'
+        assert source.left_value == 1
+
+
+    it "parses and evaluates right values and text values with an equality operand":
+        source = self.source(self.eq_trace)
+        assert source._right_text == '2'
+        assert source.right_value == 2
+
+
+    it "parses and evaluates right values and text values with a not equal operand":
+        source = self.source(self.ne_trace)
+        assert type(source._right_text) == str
+        assert source.right_value       == 'foo'
+
+
+    it "parses and evaluates left values and text values with a not equal operand":
+        source = self.source(self.ne_trace)
+        assert type(source._left_text) == str
+        assert source.left_value       == 'foo'
+
