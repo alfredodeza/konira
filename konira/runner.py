@@ -118,6 +118,7 @@ class Runner(object):
         except Exception:
             return False
 
+
     # XXX This is probably the wrong spot for this guy
     def report(self):
         self.write('\n')
@@ -157,14 +158,13 @@ class Runner(object):
 
 
     def _collect_classes(self, path):
-            global_modules = map(globals_from_execed_file, [path])
-            return [i for i in global_modules[0].values() if callable(i) and i.__name__.startswith('Case_')]
+        global_modules = map(globals_from_execed_file, [path])
+        return [i for i in global_modules[0].values() if callable(i) and i.__name__.startswith('Case_')]
 
 
     def _collect_methods(self, module):
         invalid = ['_before_each', '_before_all', '_after_each', '_after_all']
         return [i for i in dir(module) if not i.startswith('_') and i not in invalid and i.startswith('it_')] 
-
 
 
 
