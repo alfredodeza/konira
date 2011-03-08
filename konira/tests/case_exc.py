@@ -110,18 +110,47 @@ describe "konira IO Error exception":
         raises KoniraIOError: raise exc_err("an exception message")
     
 
+
 describe "Source from frame objects":
+
 
     before all:
         try:
-            assert 'foo' == 'Foo'
+            assert 1 == 2
         except:
-            self.foo_trace = inspect.trace()[0]
+            self.eq_trace = inspect.trace()[0]
+        try:
+            assert 1 >= 2
+        except:
+            self.mte_trace = inspect.trace()[0]
+        try:
+            assert 2 <= 1
+        except:
+            self.lte_trace = inspect.trace()[0]
+        try:
+            assert 'foo' != 'foo'
+        except:
+            self.ne_trace = inspect.trace()[0]
+        try:
+            assert 'foo' is 'Foo'
+        except:
+            self.is_trace = inspect.trace()[0]
+        try:
+            assert 1 > 2
+        except:
+            self.mt_trace = inspect.trace()[0]
+        try:
+            assert 2 < 1
+        except:
+            self.lt_trace = inspect.trace()[0]
+        try:
+            assert 'foo' not in 'a foo here'
+        except:
+            self.notin_trace = inspect.trace()[0]
         try:
             assert False
         except:
             self.false_trace = inspect.trace()[0]
-
 
     before each:
         self.source = exc.Source
@@ -131,10 +160,16 @@ describe "Source from frame objects":
         validate = self.source(self.false_trace)
         assert validate.is_valid == False
 
+
     it "can return the actual assert line stripping out assert":
         source = self.source(self.false_trace)
         assert source.line == 'False'
 
-    it "can return a valid operand when it finds one":
-        source = self.source(self.foo_trace)
+
+    it "catches equality operand":
+        source = self.source(self.eq_trace)
         assert source.operand == '=='
+
+    it "catches not equal operand":
+        source = self.source(self.ne_trace)
+        assert source.operand == '!='
