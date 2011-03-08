@@ -1,6 +1,8 @@
 # coding: konira
 
-from konira.exc         import KoniraIOError, KoniraExecutionError
+import inspect
+from konira.exc         import (KoniraIOError, KoniraExecutionError, KoniraNoSkip, 
+                                KoniraReassertError, KoniraFirstFail)
 from konira             import exc
 
 
@@ -72,50 +74,67 @@ describe "konira execution error exception":
 describe "konira no skip exception":
 
 
-    it "is an Exception type":
+    it "raises a konira no skip exception":
         exc_err = exc.KoniraNoSkip
-        type(exc_err) == Exception
+        raises KoniraNoSkip: raise exc_err
 
 
 
 describe "konira reassert error exception":
 
 
-    it "is an Exception type":
+    it "raises a reassert error exception":
         exc_err = exc.KoniraReassertError
-        type(exc_err) == Exception
+        raises KoniraReassertError: raise exc_err
 
 
 
 describe "konira first fail exception":
 
 
-    it "is an Exception type":
+    it "raises a first fail exception":
         exc_err = exc.KoniraFirstFail
-        type(exc_err) == Exception
+        raises KoniraFirstFail: raise exc_err
 
 
 
 describe "konira IO Error exception":
 
 
-    it "is an Exception type":
+    it "raises TypeError when arguments are not enough":
         exc_err = exc.KoniraIOError
-        type(exc_err) == Exception
-    
+        raises TypeError: raise exc_err
 
+    it "raises a konira IO Error":
+        exc_err = exc.KoniraIOError
+        raises KoniraIOError: raise exc_err("an exception message")
+    
 
 describe "Source from frame objects":
 
-
     before all:
-        self.invalid_trace = [[["this is", ["an invalid"], "an invalid trace"]
+        try:
+            assert 'foo' == 'Foo'
+        except:
+            self.foo_trace = inspect.trace()[0]
+        try:
+            assert False
+        except:
+            self.false_trace = inspect.trace()[0]
+
 
     before each:
         self.source = exc.Source
 
 
     it "returns invalid when it cannot match correctly":
-
-        validate = self.source(self.invalid_trace)
+        validate = self.source(self.false_trace)
         assert validate.is_valid == False
+
+    it "can return the actual assert line stripping out assert":
+        source = self.source(self.false_trace)
+        assert source.line == 'False'
+
+    it "can return a valid operand when it finds one":
+        source = self.source(self.foo_trace)
+        assert source.operand == '=='

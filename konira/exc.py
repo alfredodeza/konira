@@ -155,10 +155,18 @@ def konira_assert(trace):
             line     = source.line
         except NameError:
             return None
+
+        # At this point we have tried everything we can to
+        # get a valid comparison so return to basic Assertion
+        # to avoid a huge traceback
+        except Exception:
+            return None
+
         try:
             reassert = assertrepr_compare(operand, left, right)
         except KoniraReassertError:
             return None
+
         if reassert:
             return reassert
         return assert_description(operand, left, right, line)
