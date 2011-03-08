@@ -144,6 +144,7 @@ class Source(object):
         return eval(code, None, self._locals)
 
 
+
 def konira_assert(trace):
     source  = Source(trace)
     if source.is_valid:
@@ -163,11 +164,11 @@ def konira_assert(trace):
         return assert_description(operand, left, right, line)
 
 
+
 def assert_description(op, left, right, line):
     explanation = [line]
     explanation.append('%s %s %s' % (left, op, right))
     return explanation
-        
 
     
 

@@ -30,7 +30,7 @@ def out_bold(string):
 def out_footer(cases, failures, elapsed):
     std = Writer()
     std.newline(2)
-    if not failures:
+    if not failures and cases > 0:
         spec_verb = 'specs' if cases > 1 else 'spec'
         string = "All %s %s passed in %s secs.\n" % (cases, spec_verb, elapsed)
         std.writeln(string, 'green')
