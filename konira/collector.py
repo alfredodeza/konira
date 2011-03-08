@@ -25,8 +25,8 @@ class FileCollector(list):
         for root, dirs, files in walk(path):
             levels_deep += 1
 
-            # Start checking for Python packages after 2 levels
-            if levels_deep > 1:
+            # Start checking for Python packages after 3 levels
+            if levels_deep > 2:
                 if not '__init__.py' in files:
                     continue 
             for item in files:
@@ -42,6 +42,9 @@ def globals_from_execed_file(filename):
     try:
         execfile(filename, globals_)
         return globals_
+    except SyntaxError, e:
+        msg = "konira was unable to load %s." % filename
+        raise SyntaxError(msg)
     except Exception, e:
         raise
 
