@@ -101,7 +101,7 @@ Matching Options:
 
     def parseArgs(self, argv):
         # No options for now
-        options      = ['no-capture', '-s', 'fail', '-x', '--tb',
+        options      = ['no-capture', '-s', 'fail', '-x', '-t',
                         'traceback', 'tracebacks', 'describe', 'it']
         help_options = ['-h', '--h', '--help', 'help']
 
@@ -144,7 +144,7 @@ Matching Options:
                     self.msg("No valid 'it' name")
 
             # Traceback options
-            if [opt for opt in ['--tb', 'traceback'] if opt in match]:
+            if [opt for opt in ['-t', 'traceback'] if opt in match]:
                 self.config['traceback'] = True
 
             # Fail options
