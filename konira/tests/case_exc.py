@@ -228,3 +228,49 @@ describe "Source operands and values from frame objects":
         assert type(source._left_text) == str
         assert source.left_value       == 'foo'
 
+    
+    it "parses and evals right values and text values with an is operand":
+        source = self.source(self.is_trace)
+        assert type(source._right_text) == str
+        assert source.right_value       == 'Foo'
+
+    
+    it "parses and evals left values and text values with an is operand":
+        source = self.source(self.is_trace)
+        assert type(source._left_text) == str
+        assert source.left_value       == 'foo'
+
+
+    it "parses and evals right values and text values with a less than operand":
+        source = self.source(self.lt_trace)
+        assert source._right_text == '1'
+        assert source.right_value == 1
+
+
+    it "parses and evals left values and text values with a less than operand":
+        source = self.source(self.lt_trace)
+        assert source._left_text == '2'
+        assert source.left_value == 2
+
+
+    it "parses and evals left and text values from a not in operand":
+        source = self.source(self.notin_trace)
+        assert type(source._left_text) == str
+        assert source.left_value       == 'foo'
+
+
+    it "parses and evals right and text values from a not in operand":
+        source = self.source(self.notin_trace)
+        assert type(source._right_text) == str
+        assert source.right_value       == 'a foo here'
+
+
+    it "parses and evals a single assert statement":
+        source = self.source(self.false_trace)
+        assert source._left_text == 'False'
+        assert source.left_value == False
+
+
+    it "raises index error when doing eval of a right value of a single assert":
+        source = self.source(self.false_trace)
+        raises IndexError: source.right_value
