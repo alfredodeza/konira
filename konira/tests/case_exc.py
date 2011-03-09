@@ -115,30 +115,6 @@ describe "Source operands and values from frame objects":
 
     before all:
         try:
-            assert 1 == 2
-        except:
-            self.eq_trace = inspect.trace()[0]
-        try:
-            assert 1 >= 2
-        except:
-            self.mte_trace = inspect.trace()[0]
-        try:
-            assert 2 <= 1
-        except:
-            self.lte_trace = inspect.trace()[0]
-        try:
-            assert 'foo' != 'foo'
-        except:
-            self.ne_trace = inspect.trace()[0]
-        try:
-            assert 'foo' is 'Foo'
-        except:
-            self.is_trace = inspect.trace()[0]
-        try:
-            assert 1 > 2
-        except:
-            self.mt_trace = inspect.trace()[0]
-        try:
             assert 2 < 1
         except:
             self.lt_trace = inspect.trace()[0]
@@ -165,80 +141,14 @@ describe "Source operands and values from frame objects":
         assert source.line == 'False'
 
 
-    it "catches equality operand":
-        source = self.source(self.eq_trace)
-        assert source.operand == '=='
-
-
-    it "catches not equal operand":
-        source = self.source(self.ne_trace)
-        assert source.operand == '!='
-
-
-    it "catches more than operand":
-        source = self.source(self.mt_trace)
-        assert source.operand == '>'
-
-
     it "catches less than operand":
         source = self.source(self.lt_trace)
         assert source.operand == '<'
 
 
-    it "catches more than or equal operand":
-        source = self.source(self.mte_trace)
-        assert source.operand == '>='
-
-
-    it "catches less than or equal operand":
-        source = self.source(self.lte_trace)
-        assert source.operand == '<='
-
-
-    it "catches the is keyword operand":
-        source = self.source(self.is_trace)
-        assert source.operand == ' is '
-
-
     it "catches the not int keyword operand":
         source = self.source(self.notin_trace)
         assert source.operand == ' not in '
-
-
-    it "parses and evalueates left values and text values with an equality operand":
-        source = self.source(self.eq_trace)
-        assert source._left_text == '1'
-        assert source.left_value == 1
-
-
-    it "parses and evaluates right values and text values with an equality operand":
-        source = self.source(self.eq_trace)
-        assert source._right_text == '2'
-        assert source.right_value == 2
-
-
-    it "parses and evaluates right values and text values with a not equal operand":
-        source = self.source(self.ne_trace)
-        assert type(source._right_text) == str
-        assert source.right_value       == 'foo'
-
-
-    it "parses and evaluates left values and text values with a not equal operand":
-        source = self.source(self.ne_trace)
-        assert type(source._left_text) == str
-        assert source.left_value       == 'foo'
-
-    
-    it "parses and evals right values and text values with an is operand":
-        source = self.source(self.is_trace)
-        assert type(source._right_text) == str
-        assert source.right_value       == 'Foo'
-
-    
-    it "parses and evals left values and text values with an is operand":
-        source = self.source(self.is_trace)
-        assert type(source._left_text) == str
-        assert source.left_value       == 'foo'
 
 
     it "parses and evals right values and text values with a less than operand":
@@ -274,3 +184,175 @@ describe "Source operands and values from frame objects":
     it "raises index error when doing eval of a right value of a single assert":
         source = self.source(self.false_trace)
         raises IndexError: source.right_value
+
+
+
+describe "Source equality assertions and values":
+
+    before all:
+        try:
+            assert 1 == 2
+        except:
+            self.eq_trace = inspect.trace()[0]
+
+    before each:
+        self.source = exc.Source(self.eq_trace)
+
+
+    it "catches equality operand":
+        assert self.source.operand == '=='
+
+
+    it "parses and evalueates left values and text values with an equality operand":
+        assert self.source._left_text == '1'
+        assert self.source.left_value == 1
+
+
+    it "parses and evaluates right values and text values with an equality operand":
+        assert self.source._right_text == '2'
+        assert self.source.right_value == 2
+
+
+
+describe "Source more than or equal assertions and values":
+
+
+    before all:
+        try:
+            assert 1 >= 2
+        except:
+            self.mte_trace = inspect.trace()[0]
+
+
+    before each:
+        self.source = exc.Source(self.mte_trace)
+
+
+    it "catches more than or equal operand":
+        assert self.source.operand == '>='
+
+
+    it "parses and evalueates left values and text values with an equality operand":
+        assert self.source._left_text == '1'
+        assert self.source.left_value == 1
+
+
+    it "parses and evaluates right values and text values with an equality operand":
+        assert self.source._right_text == '2'
+        assert self.source.right_value == 2
+
+
+
+describe "Source less than or equal assertions and values":
+
+
+    before all:
+        try:
+            assert 2 <= 1
+        except:
+            self.lte_trace = inspect.trace()[0]
+
+
+    before each:
+        self.source = exc.Source(self.lte_trace)
+
+
+    it "catches less than or equal operand":
+        assert self.source.operand == '<='
+
+
+    it "parses and evalueates left values and text values with an equality operand":
+        assert self.source._left_text == '2'
+        assert self.source.left_value == 2
+
+
+    it "parses and evaluates right values and text values with an equality operand":
+        assert self.source._right_text == '1'
+        assert self.source.right_value == 1
+     
+
+
+describe "Source not equal assertions and values":
+
+
+    before all:
+        try:
+            assert 'foo' != 'foo'
+        except:
+            self.ne_trace = inspect.trace()[0]
+
+
+    before each:
+        self.source = exc.Source(self.ne_trace)
+        
+        
+    it "catches not equal operand":
+        assert self.source.operand == '!='
+
+
+    it "parses and evaluates right values and text values with a not equal operand":
+        assert type(self.source._right_text) == str
+        assert self.source.right_value       == 'foo'
+
+
+    it "parses and evaluates left values and text values with a not equal operand":
+        assert type(self.source._left_text) == str
+        assert self.source.left_value       == 'foo'
+
+    
+
+describe "Source is assertions and values":
+
+
+    before all:
+        try:
+            assert 'foo' is 'Foo'
+        except:
+            self.is_trace = inspect.trace()[0]
+
+
+    before each:
+        self.source = exc.Source(self.is_trace)
+
+
+    it "catches the is keyword operand":
+        assert self.source.operand == ' is '
+
+
+    it "parses and evals right values and text values with an is operand":
+        assert type(self.source._right_text) == str
+        assert self.source.right_value       == 'Foo'
+
+    
+    it "parses and evals left values and text values with an is operand":
+        assert type(self.source._left_text) == str
+        assert self.source.left_value       == 'foo'
+
+
+
+describe "Source more than assertions and values":
+
+
+    before all:
+        try:
+            assert 1 > 2
+        except:
+            self.mt_trace = inspect.trace()[0]
+
+    before each:
+        self.source = exc.Source(self.mt_trace)
+
+
+    it "catches more than operand":
+        assert self.source.operand == '>'
+
+
+    it "parses and evalueates left values and text values with an equality operand":
+        assert self.source._left_text == '1'
+        assert self.source.left_value == 1
+
+
+    it "parses and evaluates right values and text values with an equality operand":
+        assert self.source._right_text == '2'
+        assert self.source.right_value == 2
+    
