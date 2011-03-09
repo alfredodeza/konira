@@ -144,6 +144,9 @@ describe "Source False value and assertions":
         assert self.source.line == 'False'
 
 
+    it "should not be valid because there is no operand":
+        assert self.source.is_valid == False
+
 
 describe "Source equality assertions and values":
 
