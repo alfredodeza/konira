@@ -3,8 +3,9 @@ import sys
 from konira.exc             import KoniraFirstFail, KoniraNoSkip
 from konira.util            import StopWatch
 from konira.collector       import globals_from_execed_file
-from konira.output          import (red_spec, green_spec, out_case, 
-                                    ExcFormatter, out_footer)
+from konira.output          import TerminalWriter, ExcFormatter, out_footer
+#from konira.output          import (red_spec, green_spec, out_case, 
+#                                    ExcFormatter, out_footer)
 
 
 class Runner(object):
@@ -21,6 +22,7 @@ class Runner(object):
         self.class_name     = config.get('class_name')
         self.method_name    = config.get('method_name')
         self.write          = sys.__stdout__.write
+        self.writer         = TerminalWriter(config.get('dotted'))
 
 
     def run(self):
@@ -56,12 +58,14 @@ class Runner(object):
         if not methods: return
 
         # Name the class
-        self.write('\n')
-        out_case(suite.__class__.__name__)
+        #self.write('\n')
+        #out_case(suite.__class__.__name__)
+        self.writer.out_case(suite.__class__.__name__)
 
         # Are we skipping?
         if self.safe_skip_call(environ.set_skip_if):
-            self.write(' ...skipping')
+            self.writer.skipping()
+            #self.write(' ...skipping')
             return
 
         # Set before all if any
@@ -75,12 +79,14 @@ class Runner(object):
 
             try:
                 getattr(suite, test)()
-                green_spec(test)
+                self.writer.green_spec(test)
+                #green_spec(test)
                 
             except BaseException, e:
                 trace = inspect.trace()[1]
                 self.total_failures += 1
-                red_spec(test)
+                self.writer.red_spec(test)
+                #red_spec(test)
                 self.failures.append(
                     dict(
                         failure  = sys.exc_info(),

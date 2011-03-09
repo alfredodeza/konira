@@ -5,25 +5,47 @@ from konira.util            import name_convertion
 from konira.exc             import konira_assert
 
 
-def green_spec(title):
-    string = "    %s" % (name_convertion(title))
-    Writer().writeln(string, 'green')
+class TerminalWriter(object):
 
 
-
-def red_spec(title):
-    string = "    %s" % (name_convertion(title))
-    Writer().writeln(string, 'red')
-
+    def __init__(self, dotted):
+        self.dotted = dotted
+        self.writer = Writer()
 
 
-def out_case(title):
-    Writer().println("\n%s" % name_convertion(title))
+    def green_spec(self, title):
+        string = "    %s" % (name_convertion(title))
+        if not self.dotted:
+            self.writer.writeln(string, 'green')
+        else:
+            self.writer.println('.')
+            self.writer.flush()
 
 
+    def red_spec(self, title):
+        string = "    %s" % (name_convertion(title))
+        if not self.dotted:
+            self.writer.writeln(string, 'red')
+        else:
+            self.writer.println('F')
+            self.writer.flush()
 
-def out_bold(string):
-    Writer().write(string, 'bold')
+
+    def out_case(self, title):
+        if not self.dotted:
+            self.writer.println("\n\n%s" % name_convertion(title))
+
+
+    def out_bold(self, string):
+        self.writer.write(string, 'bold')
+
+
+    def skipping(self):
+        if not self.dotted:
+            self.write.println(' ...skipping')
+        else:
+            self.writer.println('S')
+            self.writer.flush()
 
 
 
@@ -214,6 +236,7 @@ class Writer(object):
             self.stdout = stdout
         self.out    = self.stdout.write
         self.isatty = self.stdout.isatty()
+        self.flush  = self.stdout.flush
 
 
     def color(self, form):

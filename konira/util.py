@@ -24,7 +24,8 @@ class StopWatch(object):
 runner_options = dict(
         first_fail = False,
         capturing  = True,
-        traceback  = False
+        traceback  = False,
+        dotted     = False
         )
 
      

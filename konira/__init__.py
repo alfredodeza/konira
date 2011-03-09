@@ -22,7 +22,8 @@ Run tests:
 Control Options:
     -s, no-capture      Avoids capturing stderr and stdout
     -x, fail            Stops at first fail
-    --tb, traceback     Shows tracebacks with errors/fails
+    -t, traceback       Shows tracebacks with errors/fails
+    -d, dots            Displays '.' for passing and 'F' for failed tests.
 
 Matching Options:
     describe            Matches a case description (needs to be 
@@ -101,8 +102,8 @@ Matching Options:
 
     def parseArgs(self, argv):
         # No options for now
-        options      = ['no-capture', '-s', 'fail', '-x', '-t',
-                        'traceback', 'tracebacks', 'describe', 'it']
+        options      = ['no-capture', '-s', 'fail', '-x', '-t', '-d',
+                        'dots', 'traceback', 'tracebacks', 'describe', 'it']
         help_options = ['-h', '--h', '--help', 'help']
 
         # Catch help before anything
@@ -142,6 +143,10 @@ Matching Options:
                     self.config['method_name'] = tokenizer.valid_method_name(value)
                 else:
                     self.msg("No valid 'it' name")
+
+            # Dotted output
+            if [opt for opt in ['-d', 'dots'] if opt in match]:
+                self.config['dotted'] = True
 
             # Traceback options
             if [opt for opt in ['-t', 'traceback'] if opt in match]:
