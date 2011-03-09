@@ -140,6 +140,10 @@ describe "Source False value and assertions":
         raises IndexError: self.source.right_value
 
 
+    it "is able to get the actual source line":
+        assert self.source.line == 'False'
+
+
 
 describe "Source equality assertions and values":
 
@@ -165,6 +169,10 @@ describe "Source equality assertions and values":
     it "parses and evaluates right values and text values with an equality operand":
         assert self.source._right_text == '2'
         assert self.source.right_value == 2
+
+
+    it "is able to get the actual source line":
+        assert self.source.line ==  '1 == 2'
 
 
 
@@ -196,6 +204,10 @@ describe "Source more than or equal assertions and values":
         assert self.source.right_value == 2
 
 
+    it "is able to get the actual source line":
+        assert self.source.line == '1 >= 2'
+
+
 
 describe "Source less than or equal assertions and values":
 
@@ -225,6 +237,10 @@ describe "Source less than or equal assertions and values":
         assert self.source.right_value == 1
      
 
+    it "is able to get the actual source line":
+        assert self.source.line == '2 <= 1'
+
+
 
 describe "Source not equal assertions and values":
 
@@ -252,6 +268,10 @@ describe "Source not equal assertions and values":
     it "parses and evaluates left values and text values with a not equal operand":
         assert type(self.source._left_text) == str
         assert self.source.left_value       == 'foo'
+
+
+    it "is able to get the actual source line":
+        assert self.source.line == """'foo' != 'foo'"""
 
     
 
@@ -283,6 +303,10 @@ describe "Source is assertions and values":
         assert self.source.left_value       == 'foo'
 
 
+    it "is able to get the actual source line":
+        assert self.source.line == """'foo' is 'Foo'"""
+
+
 
 describe "Source more than assertions and values":
 
@@ -309,6 +333,10 @@ describe "Source more than assertions and values":
     it "parses and evaluates right values and text values with an equality operand":
         assert self.source._right_text == '2'
         assert self.source.right_value == 2
+
+
+    it "is able to get the actual source line":
+        assert self.source.line == '1 > 2'
     
 
 
@@ -340,6 +368,10 @@ describe "Source less than assertions and values":
         assert self.source.left_value == 2
 
 
+    it "is able to get the actual source line":
+        assert self.source.line == '2 < 1'
+
+
 
 describe "Source not in values and assertions":
 
@@ -369,4 +401,6 @@ describe "Source not in values and assertions":
         assert self.source.right_value       == 'a foo here'
 
 
+    it "is able to get the actual source line":
+        assert self.source.line == """'foo' not in 'a foo here'"""
 
