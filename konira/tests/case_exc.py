@@ -111,79 +111,33 @@ describe "konira IO Error exception":
     
 
 
-describe "Source operands and values from frame objects":
+describe "Source False value and assertions":
 
     before all:
-        try:
-            assert 2 < 1
-        except:
-            self.lt_trace = inspect.trace()[0]
-        try:
-            assert 'foo' not in 'a foo here'
-        except:
-            self.notin_trace = inspect.trace()[0]
         try:
             assert False
         except:
             self.false_trace = inspect.trace()[0]
 
     before each:
-        self.source = exc.Source
+        self.source = exc.Source(self.false_trace)
 
 
     it "returns invalid when it cannot match correctly":
-        validate = self.source(self.false_trace)
-        assert validate.is_valid == False
+        assert self.source.is_valid == False
 
 
     it "can return the actual assert line stripping out assert":
-        source = self.source(self.false_trace)
-        assert source.line == 'False'
-
-
-    it "catches less than operand":
-        source = self.source(self.lt_trace)
-        assert source.operand == '<'
-
-
-    it "catches the not int keyword operand":
-        source = self.source(self.notin_trace)
-        assert source.operand == ' not in '
-
-
-    it "parses and evals right values and text values with a less than operand":
-        source = self.source(self.lt_trace)
-        assert source._right_text == '1'
-        assert source.right_value == 1
-
-
-    it "parses and evals left values and text values with a less than operand":
-        source = self.source(self.lt_trace)
-        assert source._left_text == '2'
-        assert source.left_value == 2
-
-
-    it "parses and evals left and text values from a not in operand":
-        source = self.source(self.notin_trace)
-        assert type(source._left_text) == str
-        assert source.left_value       == 'foo'
-
-
-    it "parses and evals right and text values from a not in operand":
-        source = self.source(self.notin_trace)
-        assert type(source._right_text) == str
-        assert source.right_value       == 'a foo here'
+        assert self.source.line == 'False'
 
 
     it "parses and evals a single assert statement":
-        source = self.source(self.false_trace)
-        assert source._left_text == 'False'
-        assert source.left_value == False
+        assert self.source._left_text == 'False'
+        assert self.source.left_value == False
 
 
     it "raises index error when doing eval of a right value of a single assert":
-        source = self.source(self.false_trace)
-        raises IndexError: source.right_value
+        raises IndexError: self.source.right_value
 
 
 
@@ -356,3 +310,63 @@ describe "Source more than assertions and values":
         assert self.source._right_text == '2'
         assert self.source.right_value == 2
     
+
+
+describe "Source less than assertions and values":
+
+
+    before all:
+        try:
+            assert 2 < 1
+        except:
+            self.lt_trace = inspect.trace()[0]
+
+
+    before each:
+        self.source = exc.Source(self.lt_trace)
+
+
+    it "catches less than operand":
+        assert self.source.operand == '<'
+
+
+    it "parses and evals right values and text values with a less than operand":
+        assert self.source._right_text == '1'
+        assert self.source.right_value == 1
+
+
+    it "parses and evals left values and text values with a less than operand":
+        assert self.source._left_text == '2'
+        assert self.source.left_value == 2
+
+
+
+describe "Source not in values and assertions":
+
+
+    before all:
+        try:
+            assert 'foo' not in 'a foo here'
+        except:
+            self.notin_trace = inspect.trace()[0]
+
+
+    before each:
+        self.source = exc.Source(self.notin_trace)
+
+
+    it "catches the not int keyword operand":
+        assert self.source.operand == ' not in '
+
+
+    it "parses and evals left and text values from a not in operand":
+        assert type(self.source._left_text) == str
+        assert self.source.left_value       == 'foo'
+
+
+    it "parses and evals right and text values from a not in operand":
+        assert type(self.source._right_text) == str
+        assert self.source.right_value       == 'a foo here'
+
+
+
