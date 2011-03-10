@@ -84,3 +84,13 @@ describe "writer stdout ouput":
         self.writer.write("A blue string", "blue")
         assert self.stdout.getvalue() == 'A blue string'
 
+
+    it "writelns with newline and colors":
+        self.writer.isatty = True
+        self.writer.writeln("A blue string", "blue")
+        assert self.stdout.getvalue() == '\n\033[94mA blue string\033[0m'
+
+
+    it "writelns with newline and no colors":
+        self.writer.writeln("A blue string", "blue")
+        assert self.stdout.getvalue() == '\nA blue string'
