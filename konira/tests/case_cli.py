@@ -135,6 +135,11 @@ describe "getting parsed paths from arguments":
         assert path_dict.get('path')        == '/tmp'
 
 
-     
+    it "returns the cwd if no paths are sent":
+        args = ['/bin/konira']
+        path_dict = self.commands.path_from_argument(args)
+        assert len(path_dict)        == 1
+        assert path_dict.get('path') == self.cwd
+
 
 
