@@ -63,7 +63,6 @@ class Runner(object):
         # Are we skipping?
         if self.safe_skip_call(environ.set_skip_if):
             self.writer.skipping()
-            #self.write(' ...skipping')
             return
 
         # Set before all if any
