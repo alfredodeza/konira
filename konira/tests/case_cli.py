@@ -101,10 +101,38 @@ describe "getting parsed paths from arguments":
         self.cwd = os.getcwd()
 
 
-    it "returns the current cwd for invalid paths":
-        args = ['/usr/bin/executable', '/a/completely/wrong/path']
+    it "returns the current only the cwd for invalid paths":
+        args = ['/bin/konira', '/a/completely/wrong/path']
         path_dict = self.commands.path_from_argument(args)
+        assert len(path_dict)        == 1
         assert path_dict.get('path') == self.cwd
+
+
+    it "if it is a valid path then return a dict with other options":
+        args = ['/bin/konira', '/tmp']
+        path_dict = self.commands.path_from_argument(args)
+        assert len(path_dict)               == 3
+        assert path_dict.get('class_name')  == None
+        assert path_dict.get('method_name') == None
+        assert path_dict.get('path')        == '/tmp'
+
+
+    it "returns classes with paths if it is valid":
+        args = ['/bin/konira', '/tmp::my class']
+        path_dict = self.commands.path_from_argument(args)
+        assert len(path_dict)               == 3
+        assert path_dict.get('class_name')  == 'Case_my_class'
+        assert path_dict.get('method_name') == None
+        assert path_dict.get('path')        == '/tmp'
+
+        
+    it "returns classes and method when valid paths are passed":
+        args = ['/bin/konira', '/tmp::my class:: my method']
+        path_dict = self.commands.path_from_argument(args)
+        assert len(path_dict)               == 3
+        assert path_dict.get('class_name')  == 'Case_my_class'
+        assert path_dict.get('method_name') == 'it_my_method'
+        assert path_dict.get('path')        == '/tmp'
 
 
      
