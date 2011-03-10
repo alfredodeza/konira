@@ -45,7 +45,7 @@ def translate(readline):
             last_kw = 'describe'
             result.extend(([tokenum, 'class'],))
         elif tokenum == STRING and last_token == 'describe':
-            last_kw = 'describe'
+            last_kw   = 'describe'
             descr_obj = True
             result.extend(([NAME, valid_class_name(value)],))
         elif tokenum == NAME and last_type == STRING and last_kw == 'describe':

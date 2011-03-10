@@ -1,11 +1,11 @@
-from cStringIO import StringIO
 import sys
 import os
-from konira                 import tokenizer
-from konira.collector       import FileCollector
-from konira.runner          import Runner
-from konira.exc             import DontReadFromInput
-from konira.util            import runner_options
+from cStringIO        import StringIO
+from konira           import tokenizer
+from konira.collector import FileCollector
+from konira.runner    import Runner
+from konira.exc       import DontReadFromInput
+from konira.util      import runner_options
 import konira.tools
 
 
