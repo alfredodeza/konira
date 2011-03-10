@@ -328,7 +328,7 @@ describe "Source more than assertions and values":
         assert self.source.operand == '>'
 
 
-    it "parses and evalueates left values and text values with an equality operand":
+    it "parses and evaluates left values and text values with an equality operand":
         assert self.source._left_text == '1'
         assert self.source.left_value == 1
 
@@ -407,3 +407,60 @@ describe "Source not in values and assertions":
     it "is able to get the actual source line":
         assert self.source.line == """'foo' not in 'a foo here'"""
 
+
+
+describe "konira assert helper function":
+
+
+    before all:
+        try:
+            assert False
+        except:
+            self.trace = inspect.trace()[0]
+
+        try:
+            assert "long string" == "Long string"
+        except:
+            self.bad_trace = inspect.trace()[0]
+
+        try:
+            assert ('a',1) == ('b',1)
+        except:
+            self.tpl_trace = inspect.trace()[0]
+
+        try:
+            assert {'a':1} == {'b':1}
+        except:
+            self.dict_trace = inspect.trace()[0]
+
+
+    it "is None when the source is invalid":
+        reassert = exc.konira_assert(self.trace)
+        assert reassert == None
+
+
+    it "returns a valid diff when comparing strings":
+        reassert = exc.konira_assert(self.bad_trace)
+        description = ['long string == Long string', '- long string', '? ^', '+ Long string', '? ^']
+        assert reassert == description
+        
+        
+    it "returns valid dictionary comparisons":
+        reassert = exc.konira_assert(self.dict_trace)
+        description = ["{'a': 1} == {'b': 1}", "- {'a': 1}", '?   ^', "+ {'b': 1}", '?   ^']
+        assert reassert == description
+
+
+    it "returns tuple comparisons":
+        reassert = exc.konira_assert(self.tpl_trace)
+        description = ["('a', 1) == ('b', 1)", "At index 0 diff: 'a' != 'b'"]
+        assert reassert == description
+
+
+
+describe "Assert repr from source lines":
+
+
+    it "returns None when it does not have an equality operand":
+        _repr = exc.assertrepr_compare('==', None, '')
+        assert _repr == None
