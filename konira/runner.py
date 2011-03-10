@@ -111,6 +111,7 @@ class Runner(object):
                    ) 
                 )
 
+
     def safe_skip_call(self, env_call):
         try:
             skip = env_call()
