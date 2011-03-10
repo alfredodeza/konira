@@ -59,3 +59,28 @@ describe "writer and ansi codes":
         self.writer.isatty = True
         assert self.writer.color('ends') == '\033[0m'
 
+
+
+describe "writer stdout ouput":
+
+
+    before each:
+        self.stdout = StringIO()
+        self.writer = output.Writer(stdout=self.stdout)
+
+
+    it "println to stdout the string correctly without colors":
+        self.writer.println("a string with no colors")
+        assert self.stdout.getvalue() == "a string with no colors"
+
+
+    it "writes to stdout without newlines but with colors":
+        self.writer.isatty = True
+        self.writer.write("A blue string", "blue")
+        assert self.stdout.getvalue() == '\033[94mA blue string\033[0m'
+
+
+    it "writes to stdout without newlines with no colors if not atty":
+        self.writer.write("A blue string", "blue")
+        assert self.stdout.getvalue() == 'A blue string'
+
