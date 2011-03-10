@@ -58,8 +58,6 @@ class Runner(object):
         if not methods: return
 
         # Name the class
-        #self.write('\n')
-        #out_case(suite.__class__.__name__)
         self.writer.out_case(suite.__class__.__name__)
 
         # Are we skipping?
@@ -80,13 +78,11 @@ class Runner(object):
             try:
                 getattr(suite, test)()
                 self.writer.green_spec(test)
-                #green_spec(test)
                 
             except BaseException, e:
                 trace = inspect.trace()[1]
                 self.total_failures += 1
                 self.writer.red_spec(test)
-                #red_spec(test)
                 self.failures.append(
                     dict(
                         failure  = sys.exc_info(),
