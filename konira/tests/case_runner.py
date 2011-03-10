@@ -2,7 +2,7 @@
 
 import os
 import inspect
-from konira import Runner
+from konira        import Runner
 from konira.runner import TestEnviron
 
 
@@ -103,7 +103,7 @@ describe "running a spec suite":
 describe "get test environ setup values":
 
 
-    before all:
+    before each:
         class Object(object):
             pass
         self.object = Object
@@ -127,5 +127,65 @@ describe "get test environ setup values":
         assert environ.has_before_each == False
         assert environ.has_after_all   == False
         assert environ.has_after_each  == False
+
+
+    it "checks for before all properties":
+        before_all = self.object()
+        before_all._before_all = True
+        environ = TestEnviron(before_all)
+        assert environ.has_skip_if     == False
+        assert environ.has_before_all  == True
+        assert environ.has_before_each == False
+        assert environ.has_after_all   == False
+        assert environ.has_after_each  == False
+
+
+    it "checks for before each properties":
+        before_each = self.object()
+        before_each._before_each = True
+        environ = TestEnviron(before_each)
+        assert environ.has_skip_if     == False
+        assert environ.has_before_all  == False
+        assert environ.has_before_each == True
+        assert environ.has_after_all   == False
+        assert environ.has_after_each  == False
+
+
+    it "checks for after all properties":
+        after_all = self.object()
+        after_all._after_all = True
+        environ = TestEnviron(after_all)
+        assert environ.has_skip_if     == False
+        assert environ.has_before_all  == False
+        assert environ.has_before_each == False
+        assert environ.has_after_all   == True
+        assert environ.has_after_each  == False
+
+
+    it "checks for after each properties":
+        after_each = self.object()
+        after_each._after_each = True
+        environ = TestEnviron(after_each)
+        assert environ.has_skip_if     == False
+        assert environ.has_before_all  == False
+        assert environ.has_before_each == False
+        assert environ.has_after_all   == False
+        assert environ.has_after_each  == True
+
+
+    it "catches all properties set":
+        properties = self.object()
+        properties._after_all   = True
+        properties._after_each  = True
+        properties._before_all  = True
+        properties._before_each = True
+        properties._skip_if     = True
+
+        environ = TestEnviron(properties)
+        assert environ.has_skip_if     == True
+        assert environ.has_before_all  == True
+        assert environ.has_before_each == True
+        assert environ.has_after_all   == True
+        assert environ.has_after_each  == True
 
 
