@@ -105,3 +105,19 @@ describe "writer stdout ouput":
         self.writer.newline()
         assert self.stdout.getvalue() == '\n'
 
+
+    it "returns valid green strings on demand":
+        self.writer.isatty = True
+        assert self.writer.green("A green string") == '\033[92mA green string\033[0m'
+
+
+    it "returns valid red strings on demand":
+        self.writer.isatty = True
+        assert self.writer.red("A red string") == '\033[91mA red string\033[0m' 
+
+
+    it "returns valid bold strings on demand":
+        self.writer.isatty = True
+        assert self.writer.bold("A bold string") == '\033[1mA bold string\033[0m' 
+
+
