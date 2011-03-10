@@ -4,8 +4,6 @@ from konira.exc             import KoniraFirstFail, KoniraNoSkip
 from konira.util            import StopWatch
 from konira.collector       import globals_from_execed_file
 from konira.output          import TerminalWriter, ExcFormatter, out_footer
-#from konira.output          import (red_spec, green_spec, out_case, 
-#                                    ExcFormatter, out_footer)
 
 
 class Runner(object):
