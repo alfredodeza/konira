@@ -46,6 +46,7 @@ describe "stdout messages for the command line":
         assert self.mystdout.getvalue() == ""
 
 
+
 describe "getting tests and paths from arguments":
 
 
