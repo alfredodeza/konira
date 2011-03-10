@@ -48,7 +48,7 @@ fast and readable action in the terminal
 Are you sold yet?
 ---------------------
 
-Head over to the :ref:`getting-started` guide and see what other goodness this
+Head over to :ref:`getting-started` guide and see what other goodness this
 testing tool packs.
 
 
@@ -62,3 +62,13 @@ made the fields and terraced hillsides. Dropping a reed blossom, he made water f
 
 This is a DSL, it looks like Python - it mostly is, but it packs simplicity and makes
 testing look good and easy.
+
+
+Contents
+========
+
+.. toctree::
+   :maxdepth: 2
+
+   getting_started.rst
+
