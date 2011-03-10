@@ -302,11 +302,11 @@ class Writer(object):
 
 
     def bold(self, string):
-        color   = self.color('bold')
-        ends    = self.color('ends')
         """
         Makes text bold in the terminal
         """
+        color   = self.color('bold')
+        ends    = self.color('ends')
         bold_it = "%s%s%s" % (color, string, ends)
         return bold_it
 
