@@ -94,3 +94,14 @@ describe "writer stdout ouput":
     it "writelns with newline and no colors":
         self.writer.writeln("A blue string", "blue")
         assert self.stdout.getvalue() == '\nA blue string'
+
+
+    it "writes n number of newlines":
+        self.writer.newline(lines=3)
+        assert self.stdout.getvalue() == '\n\n\n'
+
+
+    it "writes a single newline by default":
+        self.writer.newline()
+        assert self.stdout.getvalue() == '\n'
+
