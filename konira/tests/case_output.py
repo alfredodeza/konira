@@ -9,21 +9,26 @@ describe "writer and ansi codes":
 
     before each:
         self.stdout = StringIO()
+        self.writer = output.Writer(stdout=self.stdout)
 
     it "knows if it is atty or not":
-        writer = output.Writer(stdout=self.stdout)
-        assert writer.isatty == False
+        assert self.writer.isatty == False
 
 
     it "returns empty strings for colors if it is not atty":
-        writer = output.Writer(stdout=self.stdout)
-        writer.isatty = False
-        assert writer.color("") == ''
+        self.writer.isatty = False
+        assert self.writer.color("") == ''
+
 
     it "returns empty strings for colors when for is None":
-        writer = output.Writer(stdout=self.stdout)
-        writer.isatty = False
-        assert writer.color(None) == ''
+        self.writer.isatty = False
+        assert self.writer.color(None) == ''
+
+
+    it "raises a keyerror when you try to get an invalid color":
+        self.writer.isatty = True
+        raises KeyError: self.writer.color('foo')
+
 
 
 
