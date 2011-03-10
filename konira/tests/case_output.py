@@ -121,3 +121,52 @@ describe "writer stdout ouput":
         assert self.writer.bold("A bold string") == '\033[1mA bold string\033[0m' 
 
 
+
+describe "terminal writer stdout ouput":
+
+
+    before each:
+        self.stdout         = StringIO()
+        self.writer         = output.Writer(stdout=self.stdout)
+        self.twriter        = output.TerminalWriter(False)
+        self.twriter.writer = self.writer
+
+    after each:
+        self.stdout = StringIO()
+        
+    it "outputs green spec titles":
+        self.twriter.green_spec("green spec title")
+        assert self.stdout.getvalue() == "\n    Green spec title"
+
+
+    it "outputs a dot for green specs when dotted option is passed":
+        self.twriter.dotted = True
+        self.twriter.green_spec("green spec title")
+        assert self.stdout.getvalue() == '.'
+
+
+    it "outputs red spec titles":
+        self.twriter.red_spec("red spec title")
+        assert self.stdout.getvalue() == "\n    Red spec title"
+
+
+    it "outputs an eff for red specs when dotted option is passed":
+        self.twriter.dotted = True
+        self.twriter.red_spec("red spec title")
+        assert self.stdout.getvalue() == 'F'
+
+
+    it "is None when dotted for out case":
+        self.twriter.dotted = True
+        assert self.twriter.out_case("an out case") == None
+        assert self.stdout.getvalue() == ''
+
+
+    it "outputs an out case when not dotted":
+        assert self.twriter.dotted ==  False
+        self.twriter.out_case("an out case") 
+        assert self.stdout.getvalue() == '\n\nAn out case'
+
+
+
+
