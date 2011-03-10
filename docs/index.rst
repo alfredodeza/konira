@@ -1,7 +1,4 @@
-.. konira documentation master file, created by
-   sphinx-quickstart on Wed Mar  9 17:14:43 2011.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+.. rubric:: now with 0 calorie syntactic sugar!
 
 Konira - A Python DSL Testing Framework
 =======================================
@@ -12,20 +9,32 @@ It is flexible enough to accommodate Behavioral Driven
 Development as well as traditional Unit Testing. 
 
 
-How does a test case looks like?::
 
+How does a test case looks like?
+------------------------------------
+
+.. highlight:: ruby
+
+::
 
     describe "a very simple test case for my_module":
 
         it "has a foo property that is True":
             assert my_module.foo
 
+
 But this is not valid Python!
------------------------------
+---------------------------------
+
 I hear you. It is a DSL. All tests need to specify the ``konira`` encoding
 at the top and they can be executed with the included command line tool.
 
-The above example would look like this when executed in the terminal::
+fast and readable action in the terminal
+--------------------------------------------
+
+.. highlight:: text
+
+::
 
     $ konira
     
@@ -37,13 +46,15 @@ The above example would look like this when executed in the terminal::
 
 
 Are you sold yet?
------------------
+---------------------
+
 Head over to the :ref:`getting-started` guide and see what other goodness this
 testing tool packs.
 
 
 The name
---------
+------------
+
 *Konira* is one of the names of an ancient Inca God. Konira Wirakocha diguised 
 as a traveler in rags. A trickster, a prankster. No one knew who he was, and the 
 people he passed called him names. Yet as he walked, he created. With a word he 
