@@ -30,5 +30,32 @@ describe "writer and ansi codes":
         raises KeyError: self.writer.color('foo')
 
 
+    it "returns blue ansi codes":
+        self.writer.isatty = True
+        assert self.writer.color('blue') == '\033[94m'
+        
 
+    it "returns green ansi codes":
+        self.writer.isatty = True
+        assert self.writer.color('green') == '\033[92m'
+
+
+    it "returns yellow ansi codes":
+        self.writer.isatty = True
+        assert self.writer.color('yellow') == '\033[93m'
+
+
+    it "returns red ansi codes":
+        self.writer.isatty = True
+        assert self.writer.color('red') == '\033[91m'
+
+
+    it "returns bold ansi codes":
+        self.writer.isatty = True
+        assert self.writer.color('bold') == '\033[1m'
+
+
+    it "returns ends ansi codes":
+        self.writer.isatty = True
+        assert self.writer.color('ends') == '\033[0m'
 
