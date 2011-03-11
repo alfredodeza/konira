@@ -8,6 +8,16 @@ def name_convertion(name):
 
 
 
+def get_class_name(class_name):
+    try:
+        name = str(class_name).split("'")[1]
+    except IndexError:
+        return class_name
+    if name.startswith('Case_'):
+        return name
+
+
+
 class StopWatch(object):
  
 

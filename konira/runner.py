@@ -1,7 +1,7 @@
 import inspect
 import sys
 from konira.exc             import KoniraFirstFail, KoniraNoSkip
-from konira.util            import StopWatch
+from konira.util            import StopWatch, get_class_name
 from konira.collector       import globals_from_execed_file
 from konira.output          import TerminalWriter, ExcFormatter, out_footer
 
@@ -132,16 +132,10 @@ class Runner(object):
         out_footer(self.total_cases, self.total_failures, self.elapsed)
 
 
-    def _class_name(self, klass):
-        klass = str(klass).split("'")[1]
-        if klass.startswith('Case_'):
-            return klass
-
-
     def classes(self, filename):
         if self.class_name:
             classes = [i for i in self._collect_classes(filename) 
-                        if self.class_name == self._class_name(i)]
+                        if self.class_name == get_class_name(i)]
         else:
             classes = [i for i in self._collect_classes(filename)]
 

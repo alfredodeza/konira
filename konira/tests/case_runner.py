@@ -89,16 +89,6 @@ describe "running a spec suite":
         assert self.runner.errors[0].get('exc_name') == 'IOError'
 
 
-    it "validates class names with convertion":
-        class_name = "'Case_foo'"
-        assert self.runner._class_name(class_name) == 'Case_foo'
-
-
-    it "returns none if a class name does not match":
-        class_name = "'CaseBad'"
-        assert self.runner._class_name(class_name) == None
-
-
 
 describe "get test environ setup values":
 
