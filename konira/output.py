@@ -49,8 +49,9 @@ class TerminalWriter(object):
 
 
 
-def out_footer(cases, failures, elapsed):
-    std = Writer()
+def out_footer(cases, failures, elapsed, std=None):
+    if not std:
+        std = Writer()
     std.newline(2)
     if not failures and cases > 0:
         spec_verb = 'specs' if cases > 1 else 'spec'
@@ -172,6 +173,9 @@ class PrettyExc(object):
         self.exception_line_start = self.exc_traceback.tb_lineno
         self.exception_file_end   = self.end_traceback.tb_frame.f_code.co_filename
         self.exception_line_end   = self.end_traceback.tb_lineno
+        self.exception_line       = self.exc_traceback.tb_lineno
+        self.exception_file       = self.exc_traceback.tb_frame.f_code.co_filename
+        
         self.exc_info             = exc_info
 
 
