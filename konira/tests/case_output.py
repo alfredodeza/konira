@@ -168,5 +168,26 @@ describe "terminal writer stdout ouput":
         assert self.stdout.getvalue() == '\n\nAn out case'
 
 
+describe "footer output":
 
+
+    before each:
+        self.stdout = StringIO()
+        self.writer = output.Writer(stdout=self.stdout)
+        self.footer = output.out_footer
+
+
+    it "outputs all passed when no failures and cases are more than zero":
+        self.footer(1, 0, 0, std=self.writer)
+        assert self.stdout.getvalue() == "\n\n\nAll 1 spec passed in 0 secs.\n"
+
+
+    it "outputs plural specs when no failures and cases are more than zero":
+        self.footer(2, 0, 0, std=self.writer)
+        assert self.stdout.getvalue() == "\n\n\nAll 2 specs passed in 0 secs.\n"
+
+
+    it "outputs failures as singular":
+        self.footer(1, 1, 0, std=self.writer)
+        assert self.stdout.getvalue() == "\n\n\n1 spec failed, 1 total in 0 secs.\n"
 
