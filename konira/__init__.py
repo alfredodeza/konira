@@ -164,7 +164,7 @@ Matching Options:
 
         if not test_files:
             self.msg("No cases found to test.")
-
+        
         try:
             self.capture()
             test_runner = Runner(test_files, self.config)

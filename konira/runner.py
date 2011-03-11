@@ -37,11 +37,12 @@ class Runner(object):
                        ) 
                     )
                 continue
-            for case in classes:
-                try:
+            try:
+                for case in classes:
                     self.run_suite(case)
-                except KoniraFirstFail:
-                    break
+            except KoniraFirstFail:
+                break
+
         self.elapsed = self.timer.elapsed()
 
 
