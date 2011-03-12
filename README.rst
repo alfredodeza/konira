@@ -48,9 +48,9 @@ fast and readable action in the terminal
 Are you sold yet?
 ---------------------
 
-Head over to :ref:`getting-started` guide and see what other goodness this
-testing tool packs.
-
+Fork the project and start contributing. This has not yet been released and 
+it is pretty much a work in progress. 
+If you have any ideas or suggestions ping me @alfredodeza
 
 The name
 ------------

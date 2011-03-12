@@ -6,6 +6,7 @@ from konira.exc         import (KoniraIOError, KoniraExecutionError, KoniraNoSki
 from konira             import exc
 
 
+
 describe "dont read from input":
 
 
