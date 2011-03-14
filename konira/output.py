@@ -134,6 +134,7 @@ class ExcFormatter(object):
                 reassert = konira_assert(trace)            
                 if reassert:
                     self.assertion_diff(reassert)
+                    self.std.writeln(pretty_exc.formatted_exception)
                 else:
                     self.std.writeln(pretty_exc.formatted_exception)
             else:
