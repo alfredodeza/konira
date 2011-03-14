@@ -16,7 +16,7 @@ Development as well as traditional Unit Testing.
 
 
 
-How does a test case looks like?
+What does a test case look like?
 ------------------------------------
 
 .. highlight:: ruby
