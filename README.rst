@@ -1,5 +1,11 @@
 .. rubric:: now with 0 calorie syntactic sugar!
 
+**this is a project NOT YET released**
+I am really close to get it out the door, but this is 
+not yet the case.
+
+
+
 Konira - A Python DSL Testing Framework
 =======================================
 Konira is a tool that allows you to write minimalistic
