@@ -108,3 +108,22 @@ describe "translate dsl into valid Python":
         line = self.line('').readline
         assert self.translate(line) == [[1, 'import'], [1, 'konira'], [0, '']] 
 
+    
+    it "translates describe into a class":
+        line = self.line('describe "my test class":\n pass')
+        result = self.translate(line.readline)
+        assert len(result) == 13
+        assert result[0] == [1, 'import']
+        assert result[1] == [1, 'konira']
+        assert result[2] == [1, 'class']
+        assert result[3] == [1, 'Case_my_test_class']
+        assert result[4] == [51, '(']
+        assert result[5] == [1, 'object']
+        assert result[6] == [51, ')']
+        assert result[7] == [51, ':']
+        assert result[8] == [4, '\n']
+        assert result[9] == [5, ' ']
+        assert result[10] == [1, 'pass']
+        assert result[11] == [6, '']
+        assert result[12] == [0, '']
+        
