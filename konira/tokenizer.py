@@ -8,7 +8,7 @@ import tokenize
 
 
 def quote_remover(string):
-    _string = string.replace(",", "")
+    _string = string.replace(",", "").replace(".", "")
     return _string.replace("'", "")
 
 

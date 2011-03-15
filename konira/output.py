@@ -150,7 +150,7 @@ class ExcFormatter(object):
             if "?" and "^" in line:
                 self.std.writeln(self.std.red('E            '+line))
             else:
-                self.std.writeln(self.std.red('E            ')+str(line.__repr__()))
+                self.std.writeln(self.std.red('E            ')+line)
 
 
     def failure_header(self, name):
