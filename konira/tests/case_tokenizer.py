@@ -127,3 +127,78 @@ describe "translate dsl into valid Python":
         assert result[11]  == [6, '']
         assert result[12]  == [0, '']
         
+
+    it "translates an it to a def":
+        line = self.line('it "should test my method":\n pass')
+        result = self.translate(line.readline)
+        assert len(result) == 13
+        assert result[0]   == [1, 'import']
+        assert result[1]   == [1, 'konira']
+        assert result[2]   == [1, 'def']
+        assert result[3]   == [3, 'it_should_test_my_method']
+        assert result[4]   == [51, '(']
+        assert result[5]   == [1, 'self']
+        assert result[6]   == [51, ')']
+        assert result[7]   == [51, ':']
+        assert result[8]   == [4, '\n']
+        assert result[9]   == [5, ' ']
+        assert result[10]  == [1, 'pass']
+        assert result[11]  == [6, '']
+        assert result[12]  == [0, '']
+
+
+    it "translates a describe with inheritance":
+        line = self.line('describe "my test class", Foo:\n pass')
+        result = self.translate(line.readline)
+        assert len(result) == 13
+        assert result[0]   == [1, 'import']
+        assert result[1]   == [1, 'konira']
+        assert result[2]   == [1, 'class']
+        assert result[3]   == [1, 'Case_my_test_class']
+        assert result[4]   == [51, '(']
+        assert result[5]   == [1, 'Foo']
+        assert result[6]   == [51, ')']
+        assert result[7]   == [51, ':']
+        assert result[8]   == [4, '\n']
+        assert result[9]   == [5, ' ']
+        assert result[10]  == [1, 'pass']
+        assert result[11]  == [6, '']
+        assert result[12]  == [0, '']
+
+
+    it "translates a describe with inheritance regardless of space":
+        line = self.line('describe "my test class",Foo:\n pass')
+        result = self.translate(line.readline)
+        assert len(result) == 13
+        assert result[0]   == [1, 'import']
+        assert result[1]   == [1, 'konira']
+        assert result[2]   == [1, 'class']
+        assert result[3]   == [1, 'Case_my_test_class']
+        assert result[4]   == [51, '(']
+        assert result[5]   == [1, 'Foo']
+        assert result[6]   == [51, ')']
+        assert result[7]   == [51, ':']
+        assert result[8]   == [4, '\n']
+        assert result[9]   == [5, ' ']
+        assert result[10]  == [1, 'pass']
+        assert result[11]  == [6, '']
+        assert result[12]  == [0, '']
+
+
+    it "translates a describe with inheritance with a lot of whitespace":
+        line = self.line('describe "my test class"    ,          Foo:\n pass')
+        result = self.translate(line.readline)
+        assert len(result) == 13
+        assert result[0]   == [1, 'import']
+        assert result[1]   == [1, 'konira']
+        assert result[2]   == [1, 'class']
+        assert result[3]   == [1, 'Case_my_test_class']
+        assert result[4]   == [51, '(']
+        assert result[5]   == [1, 'Foo']
+        assert result[6]   == [51, ')']
+        assert result[7]   == [51, ':']
+        assert result[8]   == [4, '\n']
+        assert result[9]   == [5, ' ']
+        assert result[10]  == [1, 'pass']
+        assert result[11]  == [6, '']
+        assert result[12]  == [0, '']

@@ -48,13 +48,20 @@ def translate(readline):
             last_kw   = 'describe'
             descr_obj = True
             result.extend(([NAME, valid_class_name(value)],))
-        elif tokenum == NAME and last_type == STRING and last_kw == 'describe':
+
+        elif tokenum == OP and value == ',' and last_type == STRING and last_kw == 'describe':
             if descr_obj:
-                result.extend(([OP, '('],
-                               [NAME, value],
+                result.extend(([OP, '('],))
+                last_kw   = 'describe'
+                descr_obj = True
+
+        elif tokenum == NAME and last_type == OP and last_kw == 'describe':
+            if descr_obj:
+                result.extend(([NAME, value],
                                [OP, ')'],))
                 last_kw   = None
                 descr_obj = False
+
         elif last_type == STRING and last_kw == 'describe':
             if descr_obj:
                 result.extend(([OP, '('],
