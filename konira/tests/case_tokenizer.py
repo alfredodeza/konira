@@ -1,7 +1,7 @@
 # coding: konira
 
 from cStringIO import StringIO
-from konira import tokenizer
+from konira    import tokenizer
 
 
 describe "quote remover":
@@ -202,3 +202,154 @@ describe "translate dsl into valid Python":
         assert result[10]  == [1, 'pass']
         assert result[11]  == [6, '']
         assert result[12]  == [0, '']
+
+
+    it "translates skip if constructors":
+        line = self.line('skip if:\n pass')
+        result = self.translate(line.readline)
+        assert len(result) == 13
+        assert result[0]   == [1, 'import']
+        assert result[1]   == [1, 'konira']
+        assert result[2]   == [1, 'def']
+        assert result[3]   == [1, '_skip_if']
+        assert result[4]   == [51, '(']
+        assert result[5]   == [1, 'self']
+        assert result[6]   == [51, ')']
+        assert result[7]   == [51, ':']
+        assert result[8]   == [4, '\n']
+        assert result[9]   == [5, ' ']
+        assert result[10]  == [1, 'pass']
+        assert result[11]  == [6, '']
+        assert result[12]  == [0, '']
+
+
+    it "translates before all constructors":
+        line = self.line('before all:\n pass')
+        result = self.translate(line.readline)
+        assert len(result) == 13
+        assert result[0]   == [1, 'import']
+        assert result[1]   == [1, 'konira']
+        assert result[2]   == [1, 'def']
+        assert result[3]   == [1, '_before_all']
+        assert result[4]   == [51, '(']
+        assert result[5]   == [1, 'self']
+        assert result[6]   == [51, ')']
+        assert result[7]   == [51, ':']
+        assert result[8]   == [4, '\n']
+        assert result[9]   == [5, ' ']
+        assert result[10]  == [1, 'pass']
+        assert result[11]  == [6, '']
+        assert result[12]  == [0, '']
+
+
+    it "translates before each constructors":
+        line = self.line('before each:\n pass')
+        result = self.translate(line.readline)
+        assert len(result) == 13
+        assert result[0]   == [1, 'import']
+        assert result[1]   == [1, 'konira']
+        assert result[2]   == [1, 'def']
+        assert result[3]   == [1, '_before_each']
+        assert result[4]   == [51, '(']
+        assert result[5]   == [1, 'self']
+        assert result[6]   == [51, ')']
+        assert result[7]   == [51, ':']
+        assert result[8]   == [4, '\n']
+        assert result[9]   == [5, ' ']
+        assert result[10]  == [1, 'pass']
+        assert result[11]  == [6, '']
+        assert result[12]  == [0, '']
+
+
+    it "translates after each constructors":
+        line = self.line('after each:\n pass')
+        result = self.translate(line.readline)
+        assert len(result) == 13
+        assert result[0]   == [1, 'import']
+        assert result[1]   == [1, 'konira']
+        assert result[2]   == [1, 'def']
+        assert result[3]   == [1, '_after_each']
+        assert result[4]   == [51, '(']
+        assert result[5]   == [1, 'self']
+        assert result[6]   == [51, ')']
+        assert result[7]   == [51, ':']
+        assert result[8]   == [4, '\n']
+        assert result[9]   == [5, ' ']
+        assert result[10]  == [1, 'pass']
+        assert result[11]  == [6, '']
+        assert result[12]  == [0, '']
+
+
+    it "translates after all constructors":
+        line = self.line('after all:\n pass')
+        result = self.translate(line.readline)
+        assert len(result) == 13
+        assert result[0]   == [1, 'import']
+        assert result[1]   == [1, 'konira']
+        assert result[2]   == [1, 'def']
+        assert result[3]   == [1, '_after_all']
+        assert result[4]   == [51, '(']
+        assert result[5]   == [1, 'self']
+        assert result[6]   == [51, ')']
+        assert result[7]   == [51, ':']
+        assert result[8]   == [4, '\n']
+        assert result[9]   == [5, ' ']
+        assert result[10]  == [1, 'pass']
+        assert result[11]  == [6, '']
+        assert result[12]  == [0, '']
+
+
+    it "translates raises into with statements":
+        line = self.line('raises IOError: foo()')
+        result = self.translate(line.readline)
+        assert len(result) == 11
+        assert result[0]   == [1, 'import']
+        assert result[1]   == [1, 'konira']
+        assert result[2]   == [1, 'with konira.tools.raises']
+        assert result[3]   == [51, '(']
+        assert result[4]   == [1, 'IOError']
+        assert result[5]   == [51, ')']
+        assert result[6]   == [51, ':']
+        assert result[7]   == [1, 'foo']
+        assert result[8]   == [51, '(']
+        assert result[9]  == [51, ')']
+        assert result[10]  == [0, '']
+
+
+    it "does not translate a regular class":
+        line = self.line('class Foo(object):\n pass')
+        result = self.translate(line.readline)
+        assert len(result) == 13
+        assert result[0]   == [1, 'import']
+        assert result[1]   == [1, 'konira']
+        assert result[2]   == [1, 'class']
+        assert result[3]   == [1, 'Foo']
+        assert result[4]   == [51, '(']
+        assert result[5]   == [1, 'object']
+        assert result[6]   == [51, ')']
+        assert result[7]   == [51, ':']
+        assert result[8]   == [4, '\n']
+        assert result[9]   == [5, ' ']
+        assert result[10]  == [1, 'pass']
+        assert result[11]  == [6, '']
+        assert result[12]  == [0, '']
+
+
+    it "does not translate a regular method":
+        line = self.line('def foo(self):\n pass')
+        result = self.translate(line.readline)
+        assert len(result) == 13
+        assert result[0]   == [1, 'import']
+        assert result[1]   == [1, 'konira']
+        assert result[2]   == [1, 'def']
+        assert result[3]   == [1, 'foo']
+        assert result[4]   == [51, '(']
+        assert result[5]   == [1, 'self']
+        assert result[6]   == [51, ')']
+        assert result[7]   == [51, ':']
+        assert result[8]   == [4, '\n']
+        assert result[9]   == [5, ' ']
+        assert result[10]  == [1, 'pass']
+        assert result[11]  == [6, '']
+        assert result[12]  == [0, '']
+
