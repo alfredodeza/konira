@@ -142,7 +142,7 @@ class ExcFormatter(object):
 
 
     def assertion_diff(self, diff):
-        self.std.writeln("Assert Diff: %s" % diff[0], 'red') 
+        self.std.writeln("Assert Diff: %s" % str(diff[0].__repr__()), 'red') 
 
         # remove actual assert line
         diff.pop(0)
@@ -150,7 +150,7 @@ class ExcFormatter(object):
             if "?" and "^" in line:
                 self.std.writeln(self.std.red('E            '+line))
             else:
-                self.std.writeln(self.std.red('E            ')+line)
+                self.std.writeln(self.std.red('E            ')+str(line.__repr__()))
 
 
     def failure_header(self, name):
