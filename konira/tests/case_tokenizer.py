@@ -1,5 +1,6 @@
 # coding: konira
 
+from cStringIO import StringIO
 from konira import tokenizer
 
 
@@ -30,6 +31,10 @@ describe "quote remover":
         assert self.remover("a. dotted. string.") == "a dotted string"
 
 
+    it "respects camel case strings":
+        assert self.remover("a Camel Case string") == "a Camel Case string"
+
+
 
 describe "valid method names":
 
@@ -55,4 +60,51 @@ describe "valid method names":
 
 
     it "removes dots from strings":
-        assert self.valid("a. doted. string.") == "it_a_doted_string"
+        assert self.valid("a. dotted. string.") == "it_a_dotted_string"
+
+
+    it "respects camel case from strings":
+        assert self.valid("a CamelCase string") == "it_a_CamelCase_string"
+
+
+
+describe "valid class names":
+
+
+    before each:
+        self.valid = tokenizer.valid_class_name
+
+
+    it "replaces whitespace with underscores":
+        assert self.valid("a string with whitespace") == "Case_a_string_with_whitespace"
+
+
+    it "removes double quotes from strings":
+        assert self.valid("a string\"") == "Case_a_string"
+
+
+    it "removes dots and commas from strings":
+        assert self.valid("a. string, \'") == "Case_a_string_"
+
+
+    it "removes single quotes from strings":
+        assert self.valid("\'single quote") == "Case_single_quote"
+
+
+    it "respects camel case in strings":
+        assert self.valid("my Test") == "Case_my_Test"
+
+
+
+describe "translate dsl into valid Python":
+    
+
+    before each:
+        self.translate = tokenizer.translate
+        self.line      = StringIO
+
+
+    it "always has import konira at the top":
+        line = self.line('').readline
+        assert self.translate(line) == [[1, 'import'], [1, 'konira'], [0, '']] 
+

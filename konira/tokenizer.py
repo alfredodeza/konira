@@ -116,7 +116,7 @@ def translate(readline):
             result.append([tokenum, value])
         last_token = value
         last_type  = tokenum
-
+    
     return result
 
 
