@@ -1,0 +1,297 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Basic Structure &mdash; konira v0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="konira v0.0.1 documentation" href="index.html" />
+    <link rel="next" title="Advanced Structure" href="advanced_structure.html" />
+    <link rel="prev" title="Konira - A Python DSL Testing Framework" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="advanced_structure.html" title="Advanced Structure"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Konira - A Python DSL Testing Framework"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">konira v0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="basic-structure">
+<span id="id1"></span><h1>Basic Structure<a class="headerlink" href="#basic-structure" title="Permalink to this headline">¶</a></h1>
+<p>Testing with <em>Konira</em> is straightforward: you describe a given situation and
+then you make small assertions about it.</p>
+<div class="section" id="first-test">
+<h2>First test<a class="headerlink" href="#first-test" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s assume you have a <tt class="docutils literal"><span class="pre">foo.py</span></tt> file with a <tt class="docutils literal"><span class="pre">Foo</span></tt> class that has some
+properties and needs some testing. And this class looks like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">bar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">True</span>
+
+    <span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">False</span>
+</pre></div>
+</div>
+<p>Simple enough, it has a couple of methods that return booleans. How do we test
+that?</p>
+<p>In a different file, that should match <em>Konira&#8217;s</em> file naming conventions
+(files should start with <tt class="docutils literal"><span class="pre">case_</span></tt>) a test scenario would be like this:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="c1"># coding: konira</span>
+
+<span class="n">from</span> <span class="n">foo</span> <span class="n">import</span> <span class="no">Foo</span>
+
+
+<span class="n">describe</span> <span class="s2">&quot;the Foo class&quot;</span><span class="p">:</span>
+
+    <span class="n">it</span> <span class="s2">&quot;has a bar method that always returns True&quot;</span><span class="p">:</span>
+        <span class="n">my_module</span> <span class="o">=</span> <span class="no">Foo</span><span class="p">()</span>
+        <span class="n">assert</span> <span class="n">my_module</span><span class="o">.</span><span class="n">bar</span>
+</pre></div>
+</div>
+<p>That single test has a few things going on around it:</p>
+<blockquote>
+<p># Sets the right encoding for the DSL (<tt class="docutils literal"><span class="pre">#</span> <span class="pre">coding:</span> <span class="pre">konira</span></tt>)
+# Imports the <tt class="docutils literal"><span class="pre">Foo</span></tt> class
+# Starts a test scenario where the string describes the test
+# Starts a unique test about a method in <tt class="docutils literal"><span class="pre">Foo</span></tt></p>
+<p>If you save your file and run the <tt class="docutils literal"><span class="pre">konira</span></tt> command in the terminal
+you should see output similar to this:</p>
+</blockquote>
+<div class="highlight-text"><div class="highlight"><pre>$ konira
+
+the foo class
+    It has a bar method that always returns True
+
+
+All specs passed in 0.000 secs.
+</pre></div>
+</div>
+<p>Congratulations! You have just written your first test case and it passed.</p>
+</div>
+<div class="section" id="adding-more-tests">
+<h2>Adding more tests<a class="headerlink" href="#adding-more-tests" title="Permalink to this headline">¶</a></h2>
+<p>Since we have a few more methods in the <tt class="docutils literal"><span class="pre">Foo</span></tt> module, adding more test cases
+is trivial. The complete test file would look like this with all the
+remaining tests:</p>
+<dl class="docutils">
+<dt>::</dt>
+<dd><p class="first"># coding: konira</p>
+<p>from foo import Foo</p>
+<p>describe &#8220;the Foo class&#8221;:</p>
+<blockquote class="last">
+<dl class="docutils">
+<dt>it &#8220;has a bar method that always returns True&#8221;:</dt>
+<dd>my_module = Foo()
+assert my_module.bar</dd>
+<dt>it &#8220;has a foo method that always returns False&#8221;:</dt>
+<dd>my_module = Foo()
+assert my_module.foo == False</dd>
+</dl>
+</blockquote>
+</dd>
+</dl>
+<p>If you run that file again, you should see a few more <em>green</em> passing tests
+in the terminal:</p>
+<div class="highlight-text"><div class="highlight"><pre>$ konira
+
+the foo class
+    It has a bar method that always returns True
+    It has a foo method that always returns False
+
+
+All 2 specs passed in 0.000 secs.
+</pre></div>
+</div>
+</div>
+<div class="section" id="failing-tests">
+<h2>Failing Tests<a class="headerlink" href="#failing-tests" title="Permalink to this headline">¶</a></h2>
+<p>So far we have covered passing tests. But how do you deal with failing
+ones?</p>
+<p>By default <em>Konira</em> suppresses tracebacks and gives you a minimal error
+reporting in the terminal. With some command line options you can
+control more output if desired.</p>
+<p>Let&#8217;s see what happens when we add a failing test:</p>
+<dl class="docutils">
+<dt>::</dt>
+<dd><p class="first">describe &#8220;some test scenario&#8221;:</p>
+<blockquote class="last">
+<dl class="docutils">
+<dt>it &#8220;has a property that is true&#8221;:</dt>
+<dd>assert 1 == 2</dd>
+</dl>
+</blockquote>
+</dd>
+</dl>
+<p>If you run the above code at the command line you would get an output similar
+to this:</p>
+<div class="highlight-text"><div class="highlight"><pre>$ konira
+
+
+some test scenario
+    It has a property that is true
+
+Failures:
+---------
+
+1 ==&gt; AssertionError
+Starts and Ends: /Users/alfredo/python/case_fail.py:6:
+
+
+1 spec failed, 1 total in 0.017 secs.
+</pre></div>
+</div>
+<p>The above output does not have a full traceback on purpose (this is the
+default behavior). But it also provides some extra information that is
+useful for debugging:</p>
+<p># Provides a color coded failing description (in red)
+# Adds a count to the failing tests with the Exception name
+# Displays the complete file path and file number where the exception occurred.</p>
+<p>For more detailed output (that includes a traceback) you need to pass in the
+<tt class="docutils literal"><span class="pre">-t</span></tt> flag to the command line tool:</p>
+<div class="highlight-text"><div class="highlight"><pre>$ konira -t
+
+
+some test scenario
+    It has a property that is true
+
+Failures:
+---------
+
+1 ==&gt; AssertionError
+Starts and Ends: /Users/alfredo/python/case_fail.py:6:
+Assert Diff: &#39;1 == 2&#39;
+E            1 == 2
+Traceback (most recent call last):
+  File &quot;/Users/alfredo/python/case_fail.py&quot;, line 6, in it_has_a_property_that_is_true
+    assert 1 == 2
+AssertionError
+
+
+
+1 spec failed, 1 total in 0.016 secs.
+</pre></div>
+</div>
+<p>Fixing our small mistake of asserting that one is equal to two, fixes the test,
+and we end up having a passing test with green color coded output:</p>
+<div class="highlight-text"><div class="highlight"><pre>some test scenario
+    It has a property that is true
+
+
+
+All specs passed in 0.000 secs.
+</pre></div>
+</div>
+</div>
+<div class="section" id="next-steps">
+<h2>Next steps<a class="headerlink" href="#next-steps" title="Permalink to this headline">¶</a></h2>
+<p>At this point we have covered how to create the most simple test scenarios
+possible to test a class in a different file and we went from some failing
+tests to passing tests while controlling terminal output.</p>
+<p>There are a few things you might want to look at next if you feel you need some
+more advanced examples and <em>Konira</em> control:</p>
+<div class="highlight-text"><div class="highlight"><pre>* :ref:`advanced-structure`
+* :ref:`commandline-options`
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Basic Structure</a><ul>
+<li><a class="reference internal" href="#first-test">First test</a></li>
+<li><a class="reference internal" href="#adding-more-tests">Adding more tests</a></li>
+<li><a class="reference internal" href="#failing-tests">Failing Tests</a></li>
+<li><a class="reference internal" href="#next-steps">Next steps</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Konira - A Python DSL Testing Framework</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="advanced_structure.html"
+                        title="next chapter">Advanced Structure</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/basic_structure.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="advanced_structure.html" title="Advanced Structure"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Konira - A Python DSL Testing Framework"
+             >previous</a> |</li>
+        <li><a href="index.html">konira v0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Alfredo Deza.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.5.
+    </div>
+  </body>
+</html>

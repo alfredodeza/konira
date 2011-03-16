@@ -171,7 +171,6 @@ would look like this:
 .. highlight:: ruby
 
 ::
-
     import sys
     
     describe "a testing scenario":

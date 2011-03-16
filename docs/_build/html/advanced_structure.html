@@ -1,0 +1,276 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Advanced Structure &mdash; konira v0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="konira v0.0.1 documentation" href="index.html" />
+    <link rel="next" title="The Getting Started Guide" href="getting_started.html" />
+    <link rel="prev" title="Basic Structure" href="basic_structure.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="getting_started.html" title="The Getting Started Guide"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="basic_structure.html" title="Basic Structure"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">konira v0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="advanced-structure">
+<span id="id1"></span><h1>Advanced Structure<a class="headerlink" href="#advanced-structure" title="Permalink to this headline">¶</a></h1>
+<p>The more advanced techniques for testing in <em>Konira</em> are covered here. If you
+need something more basic to get started with try the <a class="reference internal" href="basic_structure.html#basic-structure"><em>Basic Structure</em></a>.</p>
+<p><em>Konira</em> is very flexible unlike other testing frameworks in Python. Proper
+test scenario setups and tear downs are easier to read and control.</p>
+<p>This section will cover how these test controlling keywords make testing
+easier.</p>
+</div>
+<div class="section" id="setting-up-a-test-scenario">
+<h1>Setting up a Test Scenario<a class="headerlink" href="#setting-up-a-test-scenario" title="Permalink to this headline">¶</a></h1>
+<p>The setup section has two helper keywords in <em>Konira</em>:</p>
+<blockquote>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">before</span> <span class="pre">all</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">before</span> <span class="pre">each</span></tt></li>
+</ul>
+<p>Each one affects differently how your tests are set before test are run.</p>
+</blockquote>
+<div class="section" id="before-all">
+<h2>before all<a class="headerlink" href="#before-all" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">before</span> <span class="pre">all</span></tt> gets called once before <strong>any</strong> tests are run in a given
+scenario.</p>
+<p>For example, in the below test case, <tt class="docutils literal"><span class="pre">before</span> <span class="pre">all</span></tt> would be called <strong>once</strong>
+before all the tests:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="n">describe</span> <span class="s2">&quot;a testing scenario&quot;</span><span class="p">:</span>
+
+    <span class="n">before</span> <span class="n">all</span><span class="p">:</span>
+        <span class="nb">self</span><span class="o">.</span><span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;a very long result string&quot;</span>
+
+    <span class="n">it</span> <span class="s2">&quot;compares strings&quot;</span><span class="p">:</span>
+        <span class="n">assert</span> <span class="s2">&quot;very&quot;</span> <span class="k">in</span> <span class="nb">self</span><span class="o">.</span><span class="n">string</span>
+
+    <span class="n">it</span> <span class="s2">&quot;verifies that bar is not in the string&quot;</span><span class="p">:</span>
+        <span class="n">assert</span> <span class="s2">&quot;bar&quot;</span> <span class="ow">not</span> <span class="k">in</span> <span class="nb">self</span><span class="o">.</span><span class="n">string</span>
+</pre></div>
+</div>
+<p>In the above code, <tt class="docutils literal"><span class="pre">before</span> <span class="pre">all</span></tt> was called <strong>once</strong> before all the tests were
+run and in turn it made the actual tests extremely readable. <tt class="docutils literal"><span class="pre">before</span> <span class="pre">all</span></tt> is
+very useful in cases like that, where the actual value is not meant to change
+with tests.</p>
+<p>For values or attributes that get affected by tests, you may want to use
+<tt class="docutils literal"><span class="pre">before</span> <span class="pre">each</span></tt>.</p>
+</div>
+<div class="section" id="before-each">
+<h2>before each<a class="headerlink" href="#before-each" title="Permalink to this headline">¶</a></h2>
+<p>This helper method, is called before every test in a test scenario. It is very
+useful when you have values or attributes that may change or get altered in
+some way by other tests.
+Setting a <tt class="docutils literal"><span class="pre">before</span> <span class="pre">each</span></tt> method, ensures that the values are always the same.</p>
+<p>If we had a scenario where the tests keep changing the value of anything in
+the setup stage, we would use <tt class="docutils literal"><span class="pre">before</span> <span class="pre">each</span></tt> in this way:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="n">describe</span> <span class="s2">&quot;a testing scenario&quot;</span><span class="p">:</span>
+
+    <span class="n">before</span> <span class="n">each</span><span class="p">:</span>
+        <span class="nb">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="no">True</span>
+
+    <span class="n">it</span> <span class="s2">&quot;changes a value to False&quot;</span><span class="p">:</span>
+        <span class="nb">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="no">False</span>
+        <span class="n">assert</span> <span class="nb">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="no">False</span>
+
+    <span class="n">it</span> <span class="s2">&quot;changes a value to a string&quot;</span><span class="p">:</span>
+        <span class="nb">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="s2">&quot;a string&quot;</span>
+        <span class="n">assert</span> <span class="nb">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;a string&quot;</span>
+
+    <span class="n">it</span> <span class="s2">&quot;verifies that value is always True&quot;</span><span class="p">:</span>
+        <span class="n">assert</span> <span class="nb">self</span><span class="o">.</span><span class="n">value</span>
+</pre></div>
+</div>
+<p>In the above test, we changed the value of <tt class="docutils literal"><span class="pre">self.value</span></tt> on almost every test,
+but this value was <em>reset</em> back before each one of them was run.</p>
+<p><tt class="docutils literal"><span class="pre">before</span> <span class="pre">each</span></tt> can be really meaningful if you need to create files, or remove
+them. Or even if you need to make sure certain things are set before any (and
+all) tests are run.</p>
+</div>
+<div class="section" id="after-all">
+<h2>after all<a class="headerlink" href="#after-all" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">after</span> <span class="pre">all</span></tt> is a <em>clean up</em> helper. It allows you to perform actions after all of
+the tests in your test scenario are run.</p>
+<p>For example, if your tests have created a file and you need to make
+sure it gets removed from the system after all the tests in a scenario are run, then
+you would call <tt class="docutils literal"><span class="pre">after</span> <span class="pre">all</span></tt>. The way it is used in a scenario is as follows:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="n">describe</span> <span class="s2">&quot;a testing scenario&quot;</span><span class="p">:</span>
+
+    <span class="n">after</span> <span class="n">all</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;/tmp/foo.txt&#39;</span><span class="p">)</span>
+
+    <span class="n">it</span> <span class="s2">&quot;does some filesystem stuff&quot;</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;/tmp/foo.txt&#39;</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;foo!&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">&#39;/tmp/foo.txt&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the above case, <tt class="docutils literal"><span class="pre">after</span> <span class="pre">all</span></tt> gets called only once after all tests are finished,
+to perform any actions it needs to do.</p>
+</div>
+<div class="section" id="after-each">
+<h2>after each<a class="headerlink" href="#after-each" title="Permalink to this headline">¶</a></h2>
+<p>This helper is similar to <tt class="docutils literal"><span class="pre">after</span> <span class="pre">all</span></tt> but it differs in the sense that it is called
+every single time a test has completed (even if such test fails).</p>
+<p>The syntax is also similar, and would be (from the example above) like so:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="n">describe</span> <span class="s2">&quot;a testing scenario&quot;</span><span class="p">:</span>
+
+    <span class="n">after</span> <span class="n">each</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;/tmp/foo.txt&#39;</span><span class="p">)</span>
+
+    <span class="n">it</span> <span class="s2">&quot;does some filesystem stuff&quot;</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;/tmp/foo.txt&#39;</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;foo!&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">&#39;/tmp/foo.txt&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The control that <tt class="docutils literal"><span class="pre">after</span> <span class="pre">each</span></tt> gives your test case is more precise and it is applied
+for all the tests in your scenario.</p>
+</div>
+</div>
+<div class="section" id="controlling-skips">
+<h1>Controlling Skips<a class="headerlink" href="#controlling-skips" title="Permalink to this headline">¶</a></h1>
+<p><em>Konira</em> allows you to skip certain tests when some predetermined conditions apply.
+It is very common to have situations where depending on your environment you want
+to run a subset of tests.</p>
+<p>With other testing tools, you need to specify global environments or globally
+accessible values but with <em>Konira</em> you can define all the logic you want in
+any fashion you may need.</p>
+<div class="section" id="skip-if">
+<h2>skip if<a class="headerlink" href="#skip-if" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">skip</span> <span class="pre">if</span></tt> is a helper that when defined, allows you to put code that when
+evaluated <strong>without</strong> an Exception being raised it will make all the tests in
+a scenario to be skipped.</p>
+<p>A valid example that would make the whole set of tests in a scenario to be skipped
+would look like this:</p>
+<dl class="docutils">
+<dt>::</dt>
+<dd><p class="first">import sys</p>
+<p>describe &#8220;a testing scenario&#8221;:</p>
+<blockquote class="last">
+<dl class="docutils">
+<dt>skip if:</dt>
+<dd>sys.platform == &#8216;linux2&#8217;</dd>
+<dt>it &#8220;changes a value to False&#8221;:</dt>
+<dd>assert some_value == False</dd>
+</dl>
+</blockquote>
+</dd>
+</dl>
+<p>If the above code was run in a Linux operating system, any tests that where included
+in that scenario, would be skipped.</p>
+<p>The <em>whole</em> scenario would be skipped!</p>
+<p>In the case that the code was not run on a Linux OS, the <tt class="docutils literal"><span class="pre">skip</span> <span class="pre">if</span></tt> would raise an
+exception that would be catch by <em>Konira</em> and tests would all run.</p>
+<p>If a <tt class="docutils literal"><span class="pre">skip</span> <span class="pre">if</span></tt> doesn&#8217;t evaluate correctly (raising an exception) it does <strong>not</strong> count
+as an error or a failure. It simply ignores the exception and execute your tests.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Advanced Structure</a></li>
+<li><a class="reference internal" href="#setting-up-a-test-scenario">Setting up a Test Scenario</a><ul>
+<li><a class="reference internal" href="#before-all">before all</a></li>
+<li><a class="reference internal" href="#before-each">before each</a></li>
+<li><a class="reference internal" href="#after-all">after all</a></li>
+<li><a class="reference internal" href="#after-each">after each</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#controlling-skips">Controlling Skips</a><ul>
+<li><a class="reference internal" href="#skip-if">skip if</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="basic_structure.html"
+                        title="previous chapter">Basic Structure</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="getting_started.html"
+                        title="next chapter">The Getting Started Guide</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/advanced_structure.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="getting_started.html" title="The Getting Started Guide"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="basic_structure.html" title="Basic Structure"
+             >previous</a> |</li>
+        <li><a href="index.html">konira v0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Alfredo Deza.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.5.
+    </div>
+  </body>
+</html>
