@@ -123,6 +123,7 @@ Let's see what happens when we add a failing test:
 .. highlight:: ruby
 
 ::
+
     describe "some test scenario":
 
         it "has a property that is true":
