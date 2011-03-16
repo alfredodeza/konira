@@ -156,9 +156,9 @@ The above output does not have a full traceback on purpose (this is the
 default behavior). But it also provides some extra information that is
 useful for debugging: 
 
-# Provides a color coded failing description (in red)
-# Adds a count to the failing tests with the Exception name
-# Displays the complete file path and file number where the exception occurred.
+ #. Provides a color coded failing description (in red)
+ #. Adds a count to the failing tests with the Exception name
+ #. Displays the complete file path and file number where the exception occurred.
 
 
 For more detailed output (that includes a traceback) you need to pass in the 
