@@ -205,7 +205,7 @@ possible to test a class in a different file and we went from some failing
 tests to passing tests while controlling terminal output.
 
 There are a few things you might want to look at next if you feel you need some
-more advanced examples and *Konira* control::
+more advanced examples and *Konira* control:
 
  * :ref:`advanced-structure`
  * :ref:`commandline-options`
