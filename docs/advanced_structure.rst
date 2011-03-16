@@ -41,6 +41,7 @@ before all the tests::
         it "verifies that bar is not in the string":
             assert "bar" not in self.string
 
+
 In the above code, ``before all`` was called **once** before all the tests were
 run and in turn it made the actual tests extremely readable. ``before all`` is
 very useful in cases like that, where the actual value is not meant to change
@@ -83,3 +84,49 @@ but this value was *reset* back before each one of them was run.
 ``before each`` can be really meaningful if you need to create files, or remove
 them. Or even if you need to make sure certain things are set before any (and
 all) tests are run.
+
+
+after all
+---------
+``after all`` is a *clean up* helper. It allows you to perform actions after all of
+the tests in your test scenario are run.
+
+For example, if your tests have created a file and you need to make
+sure it gets removed from the system after all the tests in a scenario are run, then
+you would call ``after all``. The way it is used in a scenario is as follows::
+
+    
+    describe "a testing scenario":
+
+        after all:
+            os.remove('/tmp/foo.txt')
+
+        it "does some filesystem stuff":
+            f = open('/tmp/foo.txt')
+            f.write('foo!').close()
+            assert os.path.isfile('/tmp/foo.txt')
+
+
+In the above case, ``after all`` gets called only once after all tests are finished,
+to perform any actions it needs to do.
+
+
+after each
+----------
+This helper is similar to ``after all`` but it differs in the sense that it is called
+every single time a test has completed (even if such test fails).
+
+The syntax is also similar, and would be (from the example above) like so:
+
+
+    describe "a testing scenario":
+
+        after each:
+            os.remove('/tmp/foo.txt')
+
+        it "does some filesystem stuff":
+            f = open('/tmp/foo.txt')
+            f.write('foo!').close()
+            assert os.path.isfile('/tmp/foo.txt')
+
+
