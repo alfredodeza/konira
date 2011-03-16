@@ -79,5 +79,7 @@ Contents
 .. toctree::
    :maxdepth: 2
 
+   basic_structure.rst
+   advanced_structure.rst
    getting_started.rst
 

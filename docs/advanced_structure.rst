@@ -116,7 +116,7 @@ after each
 This helper is similar to ``after all`` but it differs in the sense that it is called
 every single time a test has completed (even if such test fails).
 
-The syntax is also similar, and would be (from the example above) like so:
+The syntax is also similar, and would be (from the example above) like so::
 
 
     describe "a testing scenario":
@@ -130,3 +130,47 @@ The syntax is also similar, and would be (from the example above) like so:
             assert os.path.isfile('/tmp/foo.txt')
 
 
+The control that ``after each`` gives your test case is more precise and it is applied
+for all the tests in your scenario.
+
+
+Controlling Skips
+=================
+*Konira* allows you to skip certain tests when some predetermined conditions apply.
+It is very common to have situations where depending on your environment you want
+to run a subset of tests.
+
+With other testing tools, you need to specify global environments or globally 
+accessible values but with *Konira* you can define all the logic you want in
+any fashion you may need.
+
+skip if
+-------
+``skip if`` is a helper that when defined, allows you to put code that when 
+evaluated **without** an Exception being raised it will make all the tests in
+a scenario to be skipped.
+
+
+A valid example that would make the whole set of tests in a scenario to be skipped
+would look like this::
+
+    import sys
+    
+    describe "a testing scenario":
+
+        skip if:
+            sys.platform == 'linux2'
+
+        it "changes a value to False":
+            assert some_value == False
+
+If the above code was run in a Linux operating system, any tests that where included
+in that scenario, would be skipped.
+
+The *whole* scenario would be skipped!
+
+In the case that the code was not run on a Linux OS, the ``skip if`` would raise an 
+exception that would be catch by *Konira* and tests would all run.
+
+If a ``skip if`` doesn't evaluate correctly (raising an exception) it does **not** count
+as an error or a failure. It simply ignores the exception and execute your tests.
