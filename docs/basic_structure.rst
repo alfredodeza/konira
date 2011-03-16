@@ -99,3 +99,97 @@ in the terminal::
 
     All 2 specs passed in 0.000 secs.
 
+
+Failing Tests
+-------------
+So far we have covered passing tests. But how do you deal with failing
+ones?
+
+By default *Konira* suppresses tracebacks and gives you a minimal error
+reporting in the terminal. With some command line options you can 
+control more output if desired.
+
+Let's see what happens when we add a failing test::
+
+    describe "some test scenario":
+
+        it "has a property that is true":
+            assert 1 == 2
+
+If you run the above code at the command line you would get an output similar 
+to this::
+
+    $ konira 
+
+
+    some test scenario
+        It has a property that is true
+
+    Failures:
+    ---------
+
+    1 ==> AssertionError
+    Starts and Ends: /Users/alfredo/python/case_fail.py:6:
+
+
+    1 spec failed, 1 total in 0.017 secs.
+
+
+The above output does not have a full traceback on purpose (this is the 
+default behavior). But it also provides some extra information that is
+useful for debugging: 
+
+# Provides a color coded failing description (in red)
+# Adds a count to the failing tests with the Exception name
+# Displays the complete file path and file number where the exception occurred.
+
+
+For more detailed output (that includes a traceback) you need to pass in the 
+``-t`` flag to the command line tool::
+
+    $ konira -t
+
+
+    some test scenario
+        It has a property that is true
+
+    Failures:
+    ---------
+
+    1 ==> AssertionError
+    Starts and Ends: /Users/alfredo/python/case_fail.py:6:
+    Assert Diff: '1 == 2'
+    E            1 == 2
+    Traceback (most recent call last):
+      File "/Users/alfredo/python/case_fail.py", line 6, in it_has_a_property_that_is_true
+        assert 1 == 2
+    AssertionError
+
+
+
+    1 spec failed, 1 total in 0.016 secs.
+
+
+Fixing our small mistake of asserting that one is equal to two, fixes the test,
+and we end up having a passing test with green color coded output::
+
+    some test scenario
+        It has a property that is true
+
+
+
+    All specs passed in 0.000 secs.
+
+
+Next steps
+----------
+At this point we have covered how to create the most simple test scenarios
+possible to test a class in a different file and we went from some failing
+tests to passing tests while controlling terminal output.
+
+There are a few things you might want to look at next if you feel you need some
+more advanced examples and *Konira* control::
+
+ * :ref:`advanced-structure`
+ * :ref:`commandline-options`
+
