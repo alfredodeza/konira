@@ -2,10 +2,6 @@
 
 Basic Structure
 ===============
-The most basic aspects of test structure are covered here. If you are looking
-for something more advanced, you need to go for the :ref:`advanced-structure` 
-section.
-
 Testing with *Konira* is straightforward: you describe a given situation and
 then you make small assertions about it.
 
