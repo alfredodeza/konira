@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="konira v0.0.1 documentation" href="#" />
-    <link rel="next" title="The Getting Started Guide" href="getting_started.html" /> 
+    <link rel="next" title="Basic Structure" href="basic_structure.html" /> 
   </head>
   <body>
     <div class="related">
@@ -33,7 +33,7 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="getting_started.html" title="The Getting Started Guide"
+          <a href="basic_structure.html" title="Basic Structure"
              accesskey="N">next</a> |</li>
         <li><a href="#">konira v0.0.1 documentation</a> &raquo;</li> 
       </ul>
@@ -44,19 +44,20 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <p class="rubric" id="index">now with 0 calorie syntactic sugar!</p>
+  <p class="rubric">now with 0 calorie syntactic sugar!</p>
 <div class="section" id="konira-a-python-dsl-testing-framework">
 <h1>Konira - A Python DSL Testing Framework<a class="headerlink" href="#konira-a-python-dsl-testing-framework" title="Permalink to this headline">¶</a></h1>
 <p>Konira is a tool that allows you to write minimalistic
 descriptions for testing scenarios and unit tests.</p>
 <p>It is flexible enough to accommodate Behavioral Driven
 Development as well as traditional Unit Testing.</p>
+<p>It also adds a few neat things to make testing easier.</p>
 <div class="section" id="how-does-a-test-case-looks-like">
 <h2>How does a test case looks like?<a class="headerlink" href="#how-does-a-test-case-looks-like" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-ruby"><div class="highlight"><pre><span class="n">describe</span> <span class="s2">&quot;a very simple test case for my_module&quot;</span><span class="p">:</span>
 
-    <span class="n">it</span> <span class="s2">&quot;has a foo property that is True&quot;</span><span class="p">:</span>
-        <span class="n">assert</span> <span class="n">my_module</span><span class="o">.</span><span class="n">foo</span>
+    <span class="n">it</span> <span class="s2">&quot;has a foo property that is False&quot;</span><span class="p">:</span>
+        <span class="n">assert</span> <span class="n">my_module</span><span class="o">.</span><span class="n">foo</span> <span class="o">==</span> <span class="no">False</span>
 </pre></div>
 </div>
 </div>
@@ -64,9 +65,13 @@ Development as well as traditional Unit Testing.</p>
 <h2>But this is not valid Python!<a class="headerlink" href="#but-this-is-not-valid-python" title="Permalink to this headline">¶</a></h2>
 <p>I hear you. It is a DSL. All tests need to specify the <tt class="docutils literal"><span class="pre">konira</span></tt> encoding
 at the top and they can be executed with the included command line tool.</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="c1"># coding: konira</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="fast-and-readable-action-in-the-terminal">
 <h2>fast and readable action in the terminal<a class="headerlink" href="#fast-and-readable-action-in-the-terminal" title="Permalink to this headline">¶</a></h2>
+<p>Most tests take a mere 0.0007s to run!</p>
 <div class="highlight-text"><div class="highlight"><pre>$ konira
 
 a very simple test case for my_module
@@ -96,7 +101,27 @@ testing look good and easy.</p>
 <h1>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="basic_structure.html">Basic Structure</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="basic_structure.html#first-test">First test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basic_structure.html#adding-more-tests">Adding more tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basic_structure.html#failing-tests">Failing Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basic_structure.html#next-steps">Next steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_structure.html">Advanced Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_structure.html#setting-up-a-test-scenario">Setting up a Test Scenario</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="advanced_structure.html#before-all">before all</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_structure.html#before-each">before each</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_structure.html#after-all">after all</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced_structure.html#after-each">after each</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_structure.html#controlling-skips">Controlling Skips</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="advanced_structure.html#skip-if">skip if</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">The Getting Started Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">0.0.1</a></li>
 </ul>
 </div>
 </div>
@@ -123,8 +148,8 @@ testing look good and easy.</p>
 </ul>
 
   <h4>Next topic</h4>
-  <p class="topless"><a href="getting_started.html"
-                        title="next chapter">The Getting Started Guide</a></p>
+  <p class="topless"><a href="basic_structure.html"
+                        title="next chapter">Basic Structure</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/index.txt"
@@ -154,7 +179,7 @@ testing look good and easy.</p>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="getting_started.html" title="The Getting Started Guide"
+          <a href="basic_structure.html" title="Basic Structure"
              >next</a> |</li>
         <li><a href="#">konira v0.0.1 documentation</a> &raquo;</li> 
       </ul>

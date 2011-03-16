@@ -82,4 +82,5 @@ Contents
    basic_structure.rst
    advanced_structure.rst
    getting_started.rst
+   changelog.rst
 
