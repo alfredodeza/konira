@@ -8,6 +8,8 @@ descriptions for testing scenarios and unit tests.
 It is flexible enough to accommodate Behavioral Driven 
 Development as well as traditional Unit Testing. 
 
+It also adds a few neat things to make testing easier.
+
 
 
 How does a test case looks like?
@@ -19,8 +21,8 @@ How does a test case looks like?
 
     describe "a very simple test case for my_module":
 
-        it "has a foo property that is True":
-            assert my_module.foo
+        it "has a foo property that is False":
+            assert my_module.foo == False
 
 
 But this is not valid Python!
@@ -29,8 +31,15 @@ But this is not valid Python!
 I hear you. It is a DSL. All tests need to specify the ``konira`` encoding
 at the top and they can be executed with the included command line tool.
 
+::
+
+    # coding: konira
+
+
+
 fast and readable action in the terminal
 --------------------------------------------
+Most tests take a mere 0.0007s to run!
 
 .. highlight:: text
 
