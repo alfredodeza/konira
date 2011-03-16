@@ -28,6 +28,7 @@ In a different file, that should match *Konira's* file naming conventions
 .. highlight:: ruby
 
 ::
+
     # coding: konira
 
     from foo import Foo
@@ -74,6 +75,7 @@ remaining tests:
 .. highlight:: ruby
 
 ::
+
     # coding: konira
 
     from foo import Foo
