@@ -42,10 +42,10 @@ In a different file, that should match *Konira's* file naming conventions
 
 That single test has a few things going on around it:
 
- # Sets the right encoding for the DSL (``# coding: konira``)
- # Imports the ``Foo`` class
- # Starts a test scenario where the string describes the test
- # Starts a unique test about a method in ``Foo``
+ #. Sets the right encoding for the DSL (``# coding: konira``)
+ #. Imports the ``Foo`` class
+ #. Starts a test scenario where the string describes the test
+ #. Starts a unique test about a method in ``Foo``
 
 
  If you save your file and run the ``konira`` command in the terminal
