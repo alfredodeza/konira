@@ -28,7 +28,11 @@ before all
 scenario.
 
 For example, in the below test case, ``before all`` would be called **once**
-before all the tests::
+before all the tests:
+
+.. highlight:: ruby
+
+::
 
     describe "a testing scenario":
 
@@ -59,7 +63,11 @@ some way by other tests.
 Setting a ``before each`` method, ensures that the values are always the same.
 
 If we had a scenario where the tests keep changing the value of anything in
-the setup stage, we would use ``before each`` in this way::
+the setup stage, we would use ``before each`` in this way:
+
+.. highlight:: ruby
+
+::
 
     describe "a testing scenario":
 
@@ -93,8 +101,11 @@ the tests in your test scenario are run.
 
 For example, if your tests have created a file and you need to make
 sure it gets removed from the system after all the tests in a scenario are run, then
-you would call ``after all``. The way it is used in a scenario is as follows::
+you would call ``after all``. The way it is used in a scenario is as follows:
 
+.. highlight:: ruby
+
+::
     
     describe "a testing scenario":
 
@@ -116,8 +127,11 @@ after each
 This helper is similar to ``after all`` but it differs in the sense that it is called
 every single time a test has completed (even if such test fails).
 
-The syntax is also similar, and would be (from the example above) like so::
+The syntax is also similar, and would be (from the example above) like so:
 
+.. highlight:: ruby
+
+::
 
     describe "a testing scenario":
 
@@ -152,8 +166,11 @@ a scenario to be skipped.
 
 
 A valid example that would make the whole set of tests in a scenario to be skipped
-would look like this::
+would look like this:
 
+.. highlight:: ruby
+
+::
     import sys
     
     describe "a testing scenario":

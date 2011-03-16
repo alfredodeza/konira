@@ -23,8 +23,11 @@ Simple enough, it has a couple of methods that return booleans. How do we test
 that?
 
 In a different file, that should match *Konira's* file naming conventions
-(files should start with ``case_``) a test scenario would be like this::
+(files should start with ``case_``) a test scenario would be like this:
 
+.. highlight:: ruby
+
+::
     # coding: konira
 
     from foo import Foo
@@ -45,8 +48,11 @@ That single test has a few things going on around it:
 
 
  If you save your file and run the ``konira`` command in the terminal
- you should see output similar to this::
+ you should see output similar to this:
 
+.. highlight:: text
+
+::
     
     $ konira
     
@@ -63,9 +69,11 @@ Adding more tests
 -----------------
 Since we have a few more methods in the ``Foo`` module, adding more test cases
 is trivial. The complete test file would look like this with all the 
-remaining tests::
+remaining tests:
 
+.. highlight:: ruby
 
+::
     # coding: konira
 
     from foo import Foo
@@ -83,8 +91,11 @@ remaining tests::
 
 
 If you run that file again, you should see a few more *green* passing tests
-in the terminal::
+in the terminal:
 
+.. highlight:: text
+
+::
 
     $ konira
     
@@ -105,15 +116,22 @@ By default *Konira* suppresses tracebacks and gives you a minimal error
 reporting in the terminal. With some command line options you can 
 control more output if desired.
 
-Let's see what happens when we add a failing test::
+Let's see what happens when we add a failing test:
 
+.. highlight:: ruby
+
+::
     describe "some test scenario":
 
         it "has a property that is true":
             assert 1 == 2
 
 If you run the above code at the command line you would get an output similar 
-to this::
+to this:
+
+.. highlight:: text
+
+::
 
     $ konira 
 
