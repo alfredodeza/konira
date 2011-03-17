@@ -12,14 +12,14 @@ This section will cover how these test controlling keywords make testing
 easier.
 
 
-Setting up a Test Scenario
-==========================
+Setting Up 
+==========
 The setup section has two helper keywords in *Konira*:
 
  * ``before all``
  * ``before each``
 
- Each one affects differently how your tests are set before test are run.
+Each one affects differently how your tests are set **before** a test run.
 
 
 before all
@@ -92,6 +92,18 @@ but this value was *reset* back before each one of them was run.
 ``before each`` can be really meaningful if you need to create files, or remove
 them. Or even if you need to make sure certain things are set before any (and
 all) tests are run.
+
+
+Cleaning Up
+===========
+In the cleanup phase, *Konira* has two helpers that allow you to fine tune
+actions after a test (or tests) have been completed. These are:
+
+ * ``after all``
+ * ``after each``
+
+These calls are always made **after** one or all the tests in a given scenario
+depending on the helper selected.
 
 
 after all

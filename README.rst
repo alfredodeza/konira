@@ -1,11 +1,5 @@
 .. rubric:: now with 0 calorie syntactic sugar!
 
-**this is a project NOT YET released**
-I am really close to get it out the door, but this is 
-not yet the case.
-
-
-
 Konira - A Python DSL Testing Framework
 =======================================
 Konira is a tool that allows you to write minimalistic
@@ -54,8 +48,8 @@ fast and readable action in the terminal
 Are you sold yet?
 ---------------------
 
-Fork the project and start contributing. This has not yet been released and 
-it is pretty much a work in progress. 
+Fork the project and start contributing. 
+Full documentation can be found at http://konira.rtfd.org
 If you have any ideas or suggestions ping me @alfredodeza
 
 The name
