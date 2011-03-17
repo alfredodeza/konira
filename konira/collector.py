@@ -42,9 +42,6 @@ def globals_from_execed_file(filename):
     try:
         execfile(filename, globals_)
         return globals_
-    except SyntaxError, e:
-        msg = "konira was unable to load %s." % filename
-        raise SyntaxError(msg)
     except Exception, e:
         raise
 
