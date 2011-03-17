@@ -80,6 +80,7 @@ Contents
    :maxdepth: 2
 
    basic_structure.rst
+   commandline.rst
    advanced_structure.rst
    getting_started.rst
    changelog.rst
