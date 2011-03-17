@@ -57,7 +57,7 @@ Most tests take a mere 0.0007s to run!
 Are you sold yet?
 ---------------------
 
-Head over to :ref:`getting-started` guide and see what other goodness this
+Head over to :ref:`basic-structure` or :ref:`commandline` guides and see what other goodness this
 testing tool packs.
 
 
@@ -82,6 +82,5 @@ Contents
    basic_structure.rst
    commandline.rst
    advanced_structure.rst
-   getting_started.rst
    changelog.rst
 
