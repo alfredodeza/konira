@@ -359,7 +359,6 @@ describe "Source less than assertions and values":
 
 
     it "catches less than operand":
-        assert False
         assert self.source.operand == '<'
 
 

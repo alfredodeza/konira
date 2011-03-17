@@ -11,7 +11,7 @@ examples on how each of them affects your tests.
 
 
 help
-----
+====
 The tool's help menu is often the fastest way to access some information
 about command-line options, it can be triggered with any of these command
 switches:
