@@ -1,7 +1,7 @@
 import sys
 import os
-from cStringIO        import StringIO
 from konira           import tokenizer
+from cStringIO        import StringIO
 from konira.collector import FileCollector
 from konira.runner    import Runner
 from konira.exc       import DontReadFromInput
@@ -101,7 +101,6 @@ Matching Options:
 
 
     def parseArgs(self, argv):
-        # No options for now
         options      = ['no-capture', '-s', 'fail', '-x', '-t', '-d',
                         'dots', 'traceback', 'tracebacks', 'describe', 'it']
         help_options = ['-h', '--h', '--help', 'help']
