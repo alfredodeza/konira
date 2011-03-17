@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name             = "konira",
-    version          = "0.0.1",
+    version          = "0.0.2",
     packages         = ['konira'],
     scripts          = ['bin/konira'],
     author           = "Alfredo Deza",
@@ -10,9 +10,18 @@ setup(
     description      = "A DSL Testing Framework for nicer, (beautiful!) readable BDD tests",
     license          = "MIT",
     keywords         = "test, readable, testrunner, bdd",
+    classifiers      =[
+                        'Development Status :: 4 - Beta',
+                        'Intended Audience :: Developers',
+                        'License :: OSI Approved :: MIT License',
+                        'Topic :: Software Development :: Build Tools',
+                        'Programming Language :: Python :: 2.5',
+                        'Programming Language :: Python :: 2.6',
+                        'Programming Language :: Python :: 2.7',
+                      ],
     long_description = """
 
-.. rubric:: now with 0 calorie syntactic sugar!
+**now with 0 calorie syntactic sugar!**
 
 
 Konira - A Python DSL Testing Framework
@@ -28,7 +37,6 @@ Development as well as traditional Unit Testing.
 What does a test case look like?
 ------------------------------------
 
-.. highlight:: ruby
 
 ::
 
@@ -47,7 +55,6 @@ at the top and they can be executed with the included command line tool.
 fast and readable action in the terminal
 --------------------------------------------
 
-.. highlight:: text
 
 ::
 
