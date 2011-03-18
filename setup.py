@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name             = "konira",
-    version          = "0.0.2",
+    version          = "0.0.3",
     packages         = ['konira'],
     scripts          = ['bin/konira'],
     author           = "Alfredo Deza",
@@ -15,7 +15,6 @@ setup(
                         'Intended Audience :: Developers',
                         'License :: OSI Approved :: MIT License',
                         'Topic :: Software Development :: Build Tools',
-                        'Programming Language :: Python :: 2.5',
                         'Programming Language :: Python :: 2.6',
                         'Programming Language :: Python :: 2.7',
                       ],

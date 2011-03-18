@@ -1,5 +1,12 @@
 .. _changelog:
 
+
+0.0.2
+-----
+ * When there is a syntax error in a Konira, it is no longer pruned but
+   re-raised.
+
+
 0.0.1
 -----
  * Initial release

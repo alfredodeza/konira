@@ -73,6 +73,16 @@ This is a DSL, it looks like Python - it mostly is, but it packs simplicity and 
 testing look good and easy.
 
 
+Editor Support
+--------------
+Are you using Vim? You may want to install the konira.vim plugin. It allows you
+to run tests form within Vim and get immediate feedback.
+
+It also adds syntax highlighting to your konira tests as soon as you open them!
+
+The plugin can be grabbed from https://github.com/alfredodeza/konira.vim
+
+
 Contents
 ========
 
@@ -82,5 +92,6 @@ Contents
    basic_structure.rst
    commandline.rst
    advanced_structure.rst
+   extras.rst
    changelog.rst
 
