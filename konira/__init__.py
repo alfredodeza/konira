@@ -171,6 +171,8 @@ Matching Options:
             self.end_capture()
 
             test_runner.report()
+            if test_runner.failures or test_runner.errors:
+                sys.exit(2)
         except KeyboardInterrupt:
             self.msg("Exiting from konira.\n")
 
