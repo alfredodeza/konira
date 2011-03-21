@@ -1,8 +1,9 @@
+import konira
 from distutils.core import setup
 
 setup(
     name             = "konira",
-    version          = "0.0.3",
+    version          = konira.__version__,
     packages         = ['konira'],
     scripts          = ['bin/konira'],
     author           = "Alfredo Deza",
