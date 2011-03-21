@@ -8,6 +8,7 @@ from konira.exc       import DontReadFromInput
 from konira.util      import runner_options
 import konira.tools
 
+__version__ = '0.0.3'
 
 class KoniraCommands(object):
 
@@ -15,11 +16,14 @@ class KoniraCommands(object):
 konira: A test runner and DSL testing framework for writing readable, 
 descriptive tests.
 
+Version: %s
+
 Run tests:
     konira [/path/to/cases] 
     konira ['/path/to/cases::case description::it description']
 
 Control Options:
+    --version, version  Shows the current installed version
     -s, no-capture      Avoids capturing stderr and stdout
     -x, fail            Stops at first fail
     -t, traceback       Shows tracebacks with errors/fails
@@ -30,7 +34,7 @@ Matching Options:
                         quoted).
     it                  Matches an 'it' spec (needs to be quoted).
 
-"""
+    """ % __version__
 
     def __init__(self, argv=None, parse=True, test=False):
         self.test             = test
@@ -103,11 +107,17 @@ Matching Options:
     def parseArgs(self, argv):
         options      = ['no-capture', '-s', 'fail', '-x', '-t', '-d',
                         'dots', 'traceback', 'tracebacks', 'describe', 'it']
+        version_opts = ['--version', 'version']
         help_options = ['-h', '--h', '--help', 'help']
 
         # Catch help before anything
         if [i for i in argv if i in help_options]:
             self.msg(self.konira_help)
+
+        # Current Version is next
+        if [opt for opt in argv if opt in version_opts]:
+            message = "konira version %s" % __version__
+            self.msg(message)
 
         # Get a valid path
         path_info   = self.path_from_argument(argv)
