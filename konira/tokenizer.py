@@ -1,4 +1,4 @@
-from tokenize           import NAME, OP, STRING, NEWLINE, generate_tokens
+from tokenize           import NAME, OP, STRING, generate_tokens
 from encodings          import utf_8
 import codecs
 import cStringIO
