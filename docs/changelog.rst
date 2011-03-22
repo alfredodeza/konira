@@ -5,6 +5,7 @@
  * The `raises` keyword needs to `import konira` explicitly.
  * Adds two flags for the CLI to show the current version
  * When there are errors or failures, it calls sys.exit(2) (Gustavo Picon)
+ * Fixes SyntaxError descriptions when an error is raised
  * Adds tox support (Gustavo Picon)
 
 
