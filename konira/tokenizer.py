@@ -1,4 +1,4 @@
-from tokenize           import NAME, OP, STRING, generate_tokens
+from tokenize           import NAME, OP, STRING, NEWLINE, generate_tokens
 from encodings          import utf_8
 import codecs
 import cStringIO
@@ -22,21 +22,12 @@ def valid_class_name(token):
     return "Case_%s" % quote_remover(transform)
     
 
-def initial_imports():
-    case_imports = []
-    import_raise = case_imports.extend(([NAME, 'import'],[NAME, 'konira']))
-    return case_imports
-
-
 def translate(readline):
     result     = []
     last_kw    = None
     last_token = None
     last_type  = None
     descr_obj  = False
-
-    # add imports
-    result.extend(initial_imports())
 
     for tokenum, value, _, _, _ in generate_tokens(readline):
 
