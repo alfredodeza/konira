@@ -5,6 +5,10 @@ Assert Exceptions
 *konira* provides a nice way of testing exceptions. The DSL introduces a new
 keyword for this purpose: ``raises``.
 
+.. note::
+    The addition of the new keyword depends on konira being actually imported.
+    If you do not `import konira` your file will raise a NameError.
+
 The ``raises`` keyword allows you to write explicit assertions for exceptions.
 
 The most basic example would be something like this test::

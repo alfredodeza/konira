@@ -1,5 +1,12 @@
 .. _changelog:
 
+0.0.3
+-----
+ * The `raises` keyword needs to `import konira` explicitly.
+ * Adds two flags for the CLI to show the current version
+ * When there are errors or failures, it calls sys.exit(2) (Gustavo Picon)
+ * Adds tox support (Gustavo Picon)
+
 
 0.0.2
 -----
