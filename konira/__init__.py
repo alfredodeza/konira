@@ -8,7 +8,7 @@ from konira.exc       import DontReadFromInput
 from konira.util      import runner_options
 import konira.tools
 
-__version__ = '0.0.3'
+__version__ = '0.0.4'
 
 class KoniraCommands(object):
 
@@ -94,12 +94,14 @@ Matching Options:
 
     def capture(self):
         if self.config['capturing'] is True:
+            sys.stderr = self._stderr_buffer
             sys.stdout = self._stdout_buffer
             sys.stdin  = DontReadFromInput()
 
 
     def end_capture(self):
         if self.config['capturing'] is True:
+            sys.stderr = self._original_stderr
             sys.stdout = self._original_stdout
             sys.stdin  = self._original_stdin
 
