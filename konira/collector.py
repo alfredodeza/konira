@@ -1,3 +1,4 @@
+import sys
 import os
 import re
 
@@ -39,10 +40,7 @@ class FileCollector(list):
 
 def globals_from_execed_file(filename):
     globals_ = {}
-    try:
-        execfile(filename, globals_)
-        return globals_
-    except Exception, e:
-        raise
+    execfile(filename, globals_)
+    return globals_
 
 
