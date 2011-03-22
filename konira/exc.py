@@ -107,7 +107,10 @@ class Source(object):
     def get_operand(self):
         operators = ['==', '!=', '>', '<', 
                      '>=', '<=', ' is ', ' not in ']
-        operator = [i for i in operators if i in self.line]
+        try:
+            operator = [i for i in operators if i in self.line]
+        except TypeError:
+            return False
         if len(operator) > 1: # probably <, >, mixed with <= >= operators 
             return operator[-1]
         if operator:
