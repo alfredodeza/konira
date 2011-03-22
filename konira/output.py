@@ -105,8 +105,12 @@ class ExcFormatter(object):
         exc = {}
         p_error = PrettyExc(error['failure'], error=True)
         exc['description'] = p_error.exception_description
-        exc['filename']    = p_error.exception_file
-        exc['lineno']      = p_error.exception_line
+        try: # See if we have info at the message level and use that
+            exc['filename'] = p_error.exc_value.filename
+            exc['lineno']   = p_error.exc_value.lineno
+        except:
+            exc['filename']    = p_error.exception_file
+            exc['lineno']      = p_error.exception_line
         exc['text']        = p_error.formatted_exception
         return exc
 
@@ -118,8 +122,9 @@ class ExcFormatter(object):
         pretty_exc = PrettyExc(exc)
 
         self.failure_header(pretty_exc.exception_description)
-        starts = pretty_exc.exception_file_start 
-        ends= pretty_exc.exception_file_end
+        starts = pretty_exc.exception_file_start
+        ends   = pretty_exc.exception_file_end
+
         if starts == ends:
             self.std.writeln("Starts and Ends: ", 'red')
             self.std.println(format_file_line(pretty_exc.exception_file_start, pretty_exc.exception_line_start))
@@ -168,8 +173,8 @@ class PrettyExc(object):
         self.exc_type, self.exc_value, self.exc_traceback = exc_info
         if self.error:
             self.exc_traceback =  self._last_traceback(self.exc_traceback)
-        self.exc_traceback = self._remove_konira_from_traceback(self.exc_traceback)
-        self.end_traceback = self._last_traceback(self.exc_traceback)
+        self.exc_traceback        = self._remove_konira_from_traceback(self.exc_traceback)
+        self.end_traceback        = self._last_traceback(self.exc_traceback)
         self.exception_file_start = self.exc_traceback.tb_frame.f_code.co_filename
         self.exception_line_start = self.exc_traceback.tb_lineno
         self.exception_file_end   = self.end_traceback.tb_frame.f_code.co_filename
