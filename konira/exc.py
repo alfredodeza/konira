@@ -92,7 +92,7 @@ class Source(object):
     @property
     def get_locals(self):
         frame = self.trace[0]
-        return inspect.getargvalues(frame).locals
+        return inspect.getargvalues(frame)[3]
 
 
     @property
