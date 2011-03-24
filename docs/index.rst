@@ -10,6 +10,9 @@ Development as well as traditional Unit Testing.
 
 It also adds a few neat things to make testing easier.
 
+See :ref:`why` would you ever want to use it if you have
+tried UnitTest before.
+
 
 
 How does a test case looks like?
@@ -92,6 +95,7 @@ DSL
    basic_structure.rst
    advanced_structure.rst
    extras.rst
+   why.rst
 
 
 Test Runner
@@ -104,7 +108,7 @@ Test Runner
 
 
 Changelog
----------
+=========
 
 .. toctree::
    :maxdepth: 2
