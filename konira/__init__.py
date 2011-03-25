@@ -8,7 +8,7 @@ from konira.exc       import DontReadFromInput
 from konira.util      import runner_options
 import konira.tools
 
-__version__ = '0.0.4'
+__version__ = '0.0.5'
 
 class KoniraCommands(object):
 
