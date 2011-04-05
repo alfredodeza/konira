@@ -89,7 +89,7 @@ Any scenarios that match that describe exactly will be executed.
 
 Specific Methods
 ----------------
-When you need specific methods (as with :ref:`classes`) you can solve this
+When you need specific methods (as with :ref:`specific-classes`) you can solve this
 approach in two different ways: with an absolute path or with the ``it``
 command line switch.
 

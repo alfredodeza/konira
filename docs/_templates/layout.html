@@ -41,29 +41,6 @@
   </div>
 {% endblock %}
 
-{% block sidebarrel %}
-  <h3>Browse</h3>
-  <ul>
-    {% if prev %}
-      <li>Prev: <a href="{{ prev.link }}">{{ prev.title }}</a></li>
-    {% endif %}
-    {% if next %}
-      <li>Next: <a href="{{ next.link }}">{{ next.title }}</a></li>
-    {% endif %}
-  </ul>
-  <h3>You are here:</h3>
-  <ul>
-      <li>
-        <a href="{{ pathto('index') }}">{{ docstitle }}</a>
-        {% for p in parents %}
-          <ul><li><a href="{{ p.link }}">{{ p.title }}</a>
-        {% endfor %}
-        <ul><li>{{ title }}</li></ul>
-        {% for p in parents %}</li></ul>{% endfor %}
-      </li>
-  </ul>
-{% endblock %}
-
 {# Empty some default blocks out #}
 {% block relbar1 %}{% endblock %}
 {% block relbar2 %}{% endblock %}

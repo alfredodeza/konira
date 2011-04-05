@@ -60,8 +60,9 @@ Most tests take a mere 0.0007s to run!
 Are you sold yet?
 ---------------------
 
-Head over to :ref:`basic-structure` or :ref:`commandline` guides and see what other goodness this
-testing tool packs.
+Head over to :ref:`basic-structure` to get you started right away. The :ref:`commandline` guides 
+you on terminal usage and :ref:`advanced-structure` will cover more complex
+usage.
 
 
 The name
@@ -83,6 +84,6 @@ to run tests form within Vim and get immediate feedback.
 
 It also adds syntax highlighting to your konira tests as soon as you open them!
 
-The plugin can be grabbed from https://github.com/alfredodeza/konira.vim
+The plugin can be grabbed from `GitHub <https://github.com/alfredodeza/konira.vim>`_
 
 
