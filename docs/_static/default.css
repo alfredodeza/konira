@@ -176,7 +176,7 @@ img {
 
 #index div.section dt { font-weight: normal; }
 
-#index #lettuce-nutshell, #index #lettuce-getting-involved {
+#index #konira-nutshell, #index #konira-getting-involved {
     background:none repeat scroll 0 0 #F0F7F0;
     margin: 2em 0 2em 2em;
 
@@ -195,21 +195,21 @@ img {
     padding:1em;
     width: 400px;
 }
-#index #lettuce-nutshell, #index #lettuce-getting-involved a {color: #386848}
-#index #lettuce-nutshell, #index #lettuce-getting-involved h1 {color: #333}
-#index #lettuce-nutshell, #index #lettuce-getting-involved h2 { margin: 0; }
-#index #lettuce-nutshell, #index #lettuce-getting-involved strong { font-size: 20px;}
+#index #konira-nutshell, #index #konira-getting-involved a {color: #386848}
+#index #konira-nutshell, #index #konira-getting-involved h1 {color: #333}
+#index #konira-nutshell, #index #konira-getting-involved h2 { margin: 0; }
+#index #konira-nutshell, #index #konira-getting-involved strong { font-size: 20px;}
 
-#index #lettuce-getting-involved {
+#index #konira-getting-involved {
     padding: 2em 0 2em 6em;
     background:#FFFFD0;
     width: 356px;
 }
-#index #lettuce-getting-involved h1 {
+#index #konira-getting-involved h1 {
     font-weight: bold;
     margin: 0;
 }
-#index #lettuce-getting-involved a {
+#index #konira-getting-involved a {
     font-weight: bold;
     font-size: 14px;
     color: #666630;
