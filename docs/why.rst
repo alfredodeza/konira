@@ -30,8 +30,11 @@ Unittest solves that problem like this::
             self.assertRaises(Exception, foo, bad_arg1, bad_arg2)
 
 
-And this is how it looks in konira::
+And this is how it looks in konira:
 
+.. highlight:: ruby
+
+::
 
     describe "my class":
 
