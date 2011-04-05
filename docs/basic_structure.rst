@@ -208,5 +208,5 @@ There are a few things you might want to look at next if you feel you need some
 more advanced examples and *Konira* control:
 
  * :ref:`advanced-structure`
- * :ref:`commandline-options`
+ * :ref:`commandline`
 

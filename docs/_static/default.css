@@ -33,8 +33,7 @@ pre {
     padding:1em;
 }
 
-
-/*** links ***/
+/*** links  ***/
 a {text-decoration: none}
 a img {border: none}
 a:link, a:visited { color:black}
@@ -46,14 +45,14 @@ a:hover { color:#000}
 h2 a, h3 a, h4 a { text-decoration:none !important}
 a.reference em { color: #595;font-style:normal;font-weight:bold;}
 
-/*** sidebar ***/
+/*** sidebar  ***/
 #sidebar div.sphinxsidebarwrapper { font-size:92%; margin-right: 14px}
 #sidebar h3, #sidebar h4 { color: #487858; font-size: 125%}
 #sidebar a { color: #487858}
 #sidebar ul ul { margin-top:0; margin-bottom:0}
 #sidebar li { margin-top: 0.2em; margin-bottom: 0.2em}
 
-/*** nav ***/
+/*** nav  ***/
 div.nav { margin: 0; font-size: 11px; text-align: right; color: #487858}
 #hd div.nav { margin-top: -27px}
 #ft div.nav { margin-bottom: -18px}
@@ -63,7 +62,7 @@ div.nav { margin: 0; font-size: 11px; text-align: right; color: #487858}
 #global-nav a.about {padding-left:0}
 #global-nav a { color:#fff}
 
-/*** content ***/
+/*** content  ***/
 #yui-main {
 -moz-border-radius:3px;
 -moz-box-shadow:0 0 9px rgba(0, 0, 0, 0.5);
@@ -76,7 +75,7 @@ background:none repeat scroll 0 0 #F0F7F0;
 #yui-main div.yui-b { position: relative}
 #yui-main div.yui-b { background: #FFF; color: #164B2B; padding: 0.3em 2em 1em 2em}
 
-/*** basic styles ***/
+/*** basic styles  ***/
 dd { margin-left:15px}
 h1,h2,h3,h4 { margin-top:1em;  font-weight:normal}
 h1 { font-size:218%; margin-top:0.6em; margin-bottom:.4em; line-height:1.1em}
@@ -94,34 +93,36 @@ strong { font-weight: bold}
 em { font-style: italic}
 ins { font-weight: bold; text-decoration: none}
 
-/*** lists ***/
-ol.arabic li { list-style-type: decimal}
-ul li { list-style-type:none; font-size: 14px}
+/*** lists  ***/
+ul li { list-style-type:disc}
+ol.arabic  { list-style-type:circle}
+ul  { list-style-type:none; font-size: 18px}
 ol li { margin-bottom: .4em}
 ul ul { padding-left:1.2em}
 ul ul ul { padding-left:1em}
 ul.linklist, ul.toc { padding-left:0}
 ul.toc ul { margin-left:.6em}
-ul.toc ul li { list-style-type:square}
-ul.toc ul ul li { list-style-type:disc}
-ul.linklist li, ul.toc li { list-style-type:none}
+ul.toc ul  { list-style-type:circle}
+ul.toc ul ul  { list-style-type:disc}
+ul.linklist ul.toc  { list-style-type:circle}
 dt { font-weight:bold; margin-top:.5em; font-size:1.1em}
 dd { margin-bottom:.8em}
 ol.toc { margin-bottom: 2em}
-ol.toc li { font-size:125%; padding: .5em; line-height:1.2em; clear: right}
+ol.toc  { font-size:125%; padding: .5em; line-height:1.2em; clear: right}
 ol.toc li.b { background-color: #E0FFB8}
 ol.toc li a:hover { background-color: transparent !important; text-decoration: underline !important}
 ol.toc span.release-date { color:#487858; float: right; font-size: 85%; padding-right: .5em}
 ol.toc span.comment-count { font-size: 75%; color: #999}
 
-/*** tables ***/
+
+/*** tables  ***/
 table { color:#000; margin-bottom: 1em; width: 100%}
 table.docutils td p { margin-top:0; margin-bottom:.5em}
 table.docutils td, table.docutils th { border-bottom:1px solid #dfdfdf; padding:4px 2px}
 table.docutils thead th { border-bottom:2px solid #dfdfdf; text-align:left; font-weight: bold; #487858-space: nowrap}
 table.docutils thead th p { margin: 0; padding: 0}
 table.docutils { border-collapse:collapse}
-
+***/
 /*** code blocks ***/
 .literal { #487858-space:nowrap}
 .literal { color:#234f32}
@@ -166,7 +167,7 @@ table.indextable tr.cap { margin-top: 10px; background-color: #f2f2f2}
 div#contents ul { margin-bottom: 0}
 div#contents ul li { margin-bottom: 0}
 div#contents ul ul li { margin-top: 0.3em}
-
+***/
 /*** IE hacks ***/
 * pre {
 }
@@ -183,45 +184,6 @@ img {
 }#index p.rubric { font-size:150%; font-weight:normal; margin-bottom:.2em; color:#252; }
 
 #index div.section dt { font-weight: normal; }
-
-#index #konira-nutshell, #index #konira-getting-involved {
-    background:none repeat scroll 0 0 #F0F7F0;
-    margin: 2em 0 2em 2em;
-
-    border-radius:6px 6px;
-    -webkit-border-radius:6px;
-    -moz-border-radius:6px 6px;
-
-    box-shadow:0 1px 2px rgba(0, 0, 0, 0.6);
-    -webkit-box-shadow:0 1px 2px rgba(0, 0, 0, 0.6);
-    -moz-box-shadow:0 1px 2px rgba(0, 0, 0, 0.6);
-
-    overflow:visible;
-    float:right;
-    clear:both;
-    margin:2em 0 2em 2em;
-    padding:1em;
-    width: 400px;
-}
-#index #konira-nutshell, #index #konira-getting-involved a {color: #386848}
-#index #konira-nutshell, #index #konira-getting-involved h1 {color: #333}
-#index #konira-nutshell, #index #konira-getting-involved h2 { margin: 0; }
-#index #konira-nutshell, #index #konira-getting-involved strong { font-size: 20px;}
-
-#index #konira-getting-involved {
-    padding: 2em 0 2em 6em;
-    background:#FFFFD0;
-    width: 356px;
-}
-#index #konira-getting-involved h1 {
-    font-weight: bold;
-    margin: 0;
-}
-#index #konira-getting-involved a {
-    font-weight: bold;
-    font-size: 14px;
-    color: #666630;
-}
 
 tt.py-exc.literal {
     color: red;
