@@ -1,7 +1,15 @@
 @import url(reset-fonts-grids.css);
 
 html, body {background: url(./background.jpg)}
-body {font:14px Helvetica, arial, sans-serif; color:black}
+body {
+    font-family: 'Georgia', serif;
+    font-size: 17px;
+    background-color: white;
+    color: #000;
+    margin: 0;
+    padding: 0;
+}
+
 #custom-doc { width:76.54em;*width:74.69em;min-width:995px; max-width:100em; margin:auto; text-align:left; padding-top:16px; margin-top:0}
 #hd { padding: 4px 0 12px 0}
 #bd { background:#C5D88A}
