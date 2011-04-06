@@ -5,32 +5,7 @@ Original code by Ross Lawley.
 Requires Ned Batchelder's excellent coverage:
 http://nedbatchelder.com/code/coverage/
 """
-
 import sys
-
-
-def pytest_addoption(parser):
-    group = parser.getgroup('Coverage options')
-    group.addoption('--cover', action='append', default=[],
-            dest='coverpackages',
-            help='(multi allowed) only include info from specified package.')
-    group.addoption('--cover-report', action='store', default=None,
-            dest='report_type', type="choice", 
-            choices=['report', 'annotate', 'html'],
-            help="""
-                html: Directory for html output.
-                report: Output a text report.
-                annotate: Annotate your source code for which lines were executed and which were not.
-            """.strip())
-    group.addoption('--cover-directory', action='store', default=None,
-            dest='directory', 
-            help='Directory for the reports (html / annotate results) defaults to ./coverage')
-    group.addoption('--cover-show-missing', action='store_true', default=False,
-            dest='show_missing',
-            help='Show missing files')
-    group.addoption('--cover-ignore-errors', action='store', default=None,
-            dest='ignore_errors', 
-            help='Ignore errors of finding source files for code.')
 
 
 def import_coverage():
