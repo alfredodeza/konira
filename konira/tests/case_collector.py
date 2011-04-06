@@ -1,5 +1,6 @@
 # coding: konira
 
+import os
 import konira
 from cStringIO                  import StringIO
 from konira.collector           import FileCollector, globals_from_execed_file
@@ -53,6 +54,13 @@ describe 'global values from file':
     before all:
         with open('/tmp/case_test.py', 'w') as self.case_test:
             self.case_test.write("import sys")
+
+
+    after all:
+        try:
+            os.remove('/tmp/case_test.py')
+        except:
+            pass # who cares if you can't
 
 
     it 'should see globals':
