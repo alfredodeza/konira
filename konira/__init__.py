@@ -6,6 +6,7 @@ from konira.collector import FileCollector
 from konira.runner    import Runner
 from konira.exc       import DontReadFromInput
 from konira.util      import runner_options
+from konira.ext       import cover
 import konira.tools
 
 __version__ = '0.0.5'
@@ -29,16 +30,22 @@ Control Options:
     -t, traceback       Shows tracebacks with errors/fails
     -d, dots            Displays '.' for passing and 'F' for failed tests.
 
+Coverage Options:
+    cover              Runs coverage and (optionally) includes information 
+                       for selected packages
+    --no-missing       Ommit missing lines in files
+
 Matching Options:
     describe            Matches a case description (needs to be 
-                        quoted).
-    it                  Matches an 'it' spec (needs to be quoted).
+                        quoted)
+    it                  Matches an 'it' spec (needs to be quoted)
 
     """ % __version__
 
     def __init__(self, argv=None, parse=True, test=False):
         self.test             = test
         self.config           = runner_options
+        self.running_coverage = False
         self._original_stdout = sys.stdout
         self._original_stderr = sys.stderr
         self._original_stdin  = sys.stdin
@@ -109,6 +116,9 @@ Matching Options:
     def parseArgs(self, argv):
         options      = ['no-capture', '-s', 'fail', '-x', '-t', '-d',
                         'dots', 'traceback', 'tracebacks', 'describe', 'it']
+        coverage_options = ['--no-missing', '--cover-dir', '--cover-report',
+                            'cover']
+        options.extend(coverage_options)
         version_opts = ['--version', 'version']
         help_options = ['-h', '--h', '--help', 'help']
 
@@ -171,18 +181,42 @@ Matching Options:
             if [opt for opt in ['-s', 'no-capture'] if opt in match]:
                 self.config['capturing'] = False
 
+            # Coverage options
+            if arg_count.get('cover'):
+                self.running_coverage = True
+                coverage_options = dict(
+                        show_missing  = True,
+                        report        = 'report',
+                        directory     = 'coverage',
+                        ignore_errors = True,
+                        coverpackages = False
+                        )
+
+                # Matches for Coverage
+                cover_packages = arg_count.get('cover')
+
+                value = count_arg.get(cover_packages+1)
+                if value:
+                    coverage_options['coverpackages'] = [value]
+                if arg_count.get('--no-missing'):
+                    coverage_options['show_missing'] = False
+
+                self.running_coverage = True
+                run_cover = cover.DoCoverage(coverage_options)
+
+
         test_files = FileCollector(search_path)
 
         if not test_files:
             self.msg("No cases found to test.")
-        
         try:
             self.capture()
             test_runner = Runner(test_files, self.config)
             test_runner.run()
             self.end_capture()
-
             test_runner.report()
+            if self.running_coverage:
+                run_cover.konira_terminal_summary()
             if test_runner.failures or test_runner.errors:
                 sys.exit(2)
         except KeyboardInterrupt:
