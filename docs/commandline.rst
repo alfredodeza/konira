@@ -212,3 +212,51 @@ ones.
 
 The command line switches for dotted support are ``-d`` or ``dots``.
 
+
+Coverage
+========
+As from version `0.0.5` konira includes support for Ned Batchelder's excellent 
+coverage plugin.
+
+.. note::
+    Before using coverage make sure you have installed and available in your
+    sys.path. Otherwise you will get an error message
+
+
+The coverage has a couple of flags to control how output is determined, and for
+now this is the flag that enables coverage output:
+
+::
+
+    konira cover
+
+
+With no other options passed in, `cover` will run a report on all the tests
+executed.
+
+You will notice that no missing lines will be printed. This is the default
+behavior. 
+
+To activate missing lines and display them, you need to enable the
+`--show-missing` flag:
+
+::
+
+    konira cover --show-missing
+
+
+If you need to specify a single package or module you can pass such an option
+to the `cover` flag. For example, if you were testing the module `foo` and
+wanted specific output for `foo.bar` it would look like this:
+
+::
+
+    konira cover foo.bar
+
+
+And you can also use the missing lines feature:
+
+
+::
+
+    konira cover foo.bar --show-missing
