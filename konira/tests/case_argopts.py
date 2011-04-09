@@ -69,3 +69,87 @@ describe "get values from arguments":
 
     it "returns None when an argument does not have a value":
         assert self.parser.get_value('--bar') == None
+
+
+
+describe "has or does not have options":
+
+
+    before each:
+        self.parser = argopts.ArgOpts(['--foo'])
+        self.parser.parse_args(['/bin/konira', '--foo', 'BAR', '--bar'])
+
+
+    it "accepts lists and returns if one matches":
+        opt = ['a', 'b', '--foo']
+        assert self.parser.has(opt) == True
+
+
+    it "returns none if cannot match from a list":
+        opt = ['a', 'b']
+        assert self.parser.has(opt) == False
+
+
+    it "deals with single items that match":
+        assert self.parser.has('--foo') == True
+
+
+    it "returns False when a single item does not match":
+        assert self.parser.has('--asdadfoo') == False
+
+
+
+describe "catches help":
+
+
+    before each:
+        self.parser = argopts.ArgOpts(['--foo'])
+
+
+    it "catches only help if it sees it as an argument":
+        self.parser.args = ['foo', 'bar']
+        assert self.parser.catches_help() == False
+
+
+    it "catches single dash h":
+        self.parser.args = ['-h']
+        assert self.parser.catches_help() == True
+
+
+    it "catches double dash h":
+        self.parser.args = ['--h']
+        assert self.parser.catches_help() == True
+
+
+    it "catches double dash help":
+        self.parser.args = ['--help']
+        assert self.parser.catches_help() == True
+
+
+    it "catches help if it sees it as an argument":
+        self.parser.args = ['-h']
+        assert self.parser.catches_help() == True
+
+
+
+describe "catches version":
+
+
+    before each:
+        self.parser = argopts.ArgOpts(['--foo'])
+
+
+    it "catches only version if it sees it as an argument":
+        self.parser.args = ['foo', 'bar']
+        assert self.parser.catches_version() == False
+
+
+    it "catches double dash version":
+        self.parser.args = ['foo', '--version']
+        assert self.parser.catches_version() == True
+
+
+    it "catches version if it sees it as an argument":
+        self.parser.args = ['foo', 'version']
+        assert self.parser.catches_version() == True
+
