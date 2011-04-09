@@ -49,7 +49,7 @@ Are you sold yet?
 ---------------------
 
 Fork the project and start contributing. 
-Full documentation can be found at http://konira.rtfd.org
+Full documentation can be found at http://konira.cafepais.com
 If you have any ideas or suggestions ping me @alfredodeza
 
 The name

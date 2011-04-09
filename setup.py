@@ -70,7 +70,7 @@ fast and readable action in the terminal
 Are you sold yet?
 ---------------------
 
-Full docs can be found at http://konira.rtfd.org
+Full docs can be found at http://konira.cafepais.com
 If you have any ideas or suggestions ping me @alfredodeza
 
 The name
