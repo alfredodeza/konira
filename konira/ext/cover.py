@@ -13,7 +13,8 @@ def import_coverage():
         from coverage import coverage
         return coverage()
     except ImportError:
-        msg = "coverage is not installed or not available in current sys.path"
+        msg = "coverage is not installed or not available in current sys.path\n"
+        msg +="make sure it is installed properly and try again."
         sys.stdout.write(msg)
         sys.exit(2)
 
@@ -21,25 +22,22 @@ def import_coverage():
 class DoCoverage(object):
 
 
-    def __init__(self, options=None):
-        if not options:
-            self.options = self._defaults
-        else:
-            self.options = options
-        self._coverage = import_coverage()
-        self._coverage.use_cache(False)
-        self._coverage.start()
-
-
-    @property
-    def _defaults(self):
-        return dict(
-                    show_missing  = True,
+    __defaults__ = dict(
+                    show_missing  = False,
                     report        = 'report',
                     directory     = 'coverage',
                     ignore_errors = True,
                     coverpackages = False
                     )
+
+
+    def __init__(self, options=None):
+        self.options = self.__defaults__
+        if options:
+            self.options.update(options)
+        self._coverage = import_coverage()
+        self._coverage.use_cache(False)
+        self._coverage.start()
 
 
     def konira_terminal_summary(self):
