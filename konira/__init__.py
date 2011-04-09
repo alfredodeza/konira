@@ -7,6 +7,7 @@ from konira.runner    import Runner
 from konira.exc       import DontReadFromInput
 from konira.util      import runner_options
 from konira.ext       import cover
+from konira.argopts   import ArgOpts
 import konira.tools
 
 __version__ = '0.0.5'
@@ -116,18 +117,17 @@ Matching Options:
     def parseArgs(self, argv):
         options      = ['no-capture', '-s', 'fail', '-x', '-t', '-d',
                         'dots', 'traceback', 'tracebacks', 'describe', 'it']
-        coverage_options = ['--no-missing', '--cover-dir', '--cover-report',
+        coverage_options = ['--show-missing', '--cover-dir', '--cover-report',
                             'cover']
         options.extend(coverage_options)
-        version_opts = ['--version', 'version']
-        help_options = ['-h', '--h', '--help', 'help']
 
-        # Catch help before anything
-        if [i for i in argv if i in help_options]:
+        args = ArgOpts(options)
+        args.parse_args(argv)
+        
+        if args.catches_help():
             self.msg(self.konira_help)
 
-        # Current Version is next
-        if [opt for opt in argv if opt in version_opts]:
+        if args.catches_version():
             message = "konira version %s" % __version__
             self.msg(message)
 
@@ -137,71 +137,51 @@ Matching Options:
         self.config['class_name']  = path_info.get('class_name')
         self.config['method_name'] = path_info.get('method_name')
 
-        match = [i for i in argv if i in options]
+        if args.match:
 
-        if match:
-            arg_count = {}
-            count_arg = {}
-            
-            for count, argument in enumerate(argv):
-                arg_count[argument] = count
-                count_arg[count]    = argument
-
-            # Matches for describe
-            if arg_count.get('describe'):
-                count = arg_count.get('describe')
-                value = count_arg.get(count+1)
+            # Matches for Describe
+            if args.has('describe'):
+                value = args.get_value('describe')
                 if value:
                     self.config['class_name'] = tokenizer.valid_class_name(value)
                 else:
                     self.msg("No valid 'describe' name")
-            
+
             # Matches for it
-            if arg_count.get('it'):
-                count = arg_count.get('it')
-                value = count_arg.get(count+1)
+            if args.has('it'):
+                value = args.get_value('it')
                 if value:
                     self.config['method_name'] = tokenizer.valid_method_name(value)
                 else:
                     self.msg("No valid 'it' name")
 
             # Dotted output
-            if [opt for opt in ['-d', 'dots'] if opt in match]:
+            if args.has(['-d','dots']):
                 self.config['dotted'] = True
 
             # Traceback options
-            if [opt for opt in ['-t', 'traceback'] if opt in match]:
+            if args.has(['-t', 'traceback']):
                 self.config['traceback'] = True
 
             # Fail options
-            if [opt for opt in ['-x', 'fail'] if opt in match]:
+            if args.has(['-x', 'fail']):
                 self.config['first_fail'] = True
 
             # Capturing options
-            if [opt for opt in ['-s', 'no-capture'] if opt in match]:
+            if args.has(['-s', 'no-capture']):
                 self.config['capturing'] = False
 
+
             # Coverage options
-            if arg_count.get('cover'):
+            if args.has('cover'):
                 self.running_coverage = True
-                coverage_options = dict(
-                        show_missing  = True,
-                        report        = 'report',
-                        directory     = 'coverage',
-                        ignore_errors = True,
-                        coverpackages = False
-                        )
-
-                # Matches for Coverage
-                cover_packages = arg_count.get('cover')
-
-                value = count_arg.get(cover_packages+1)
+                coverage_options = {}
+                value = args.get_value('cover')
                 if value:
                     coverage_options['coverpackages'] = [value]
-                if arg_count.get('--no-missing'):
-                    coverage_options['show_missing'] = False
+                if args.has('--show-missing'):
+                    coverage_options['show_missing'] = True
 
-                self.running_coverage = True
                 run_cover = cover.DoCoverage(coverage_options)
 
 
