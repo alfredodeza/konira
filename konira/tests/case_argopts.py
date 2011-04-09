@@ -51,3 +51,21 @@ describe "parsing arguments":
 
 
 
+describe "get values from arguments":
+
+
+    before each:
+        self.parser = argopts.ArgOpts(['--foo'])
+        self.parser.parse_args(['/bin/konira', '--foo', 'BAR', '--bar'])
+
+
+    it "returns a valid value from a matching argument":
+        assert self.parser.get_value('--foo') == 'BAR'
+
+
+    it "returns None when an argument does not exist":
+        assert self.parser.get_value('--meh') == None
+
+
+    it "returns None when an argument does not have a value":
+        assert self.parser.get_value('--bar') == None
