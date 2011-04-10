@@ -4,6 +4,8 @@ konira/__init__.py
 konira/argopts.py
 konira/collector.py
 konira/exc.py
+konira/ext/__init__.py
+konira/ext/cover.py
 konira/output.py
 konira/runner.py
 konira/tokenizer.py

@@ -1,2 +1,3 @@
 include setup.py
+recursive-include konira/ext *
 recursive-include konira/tests *
