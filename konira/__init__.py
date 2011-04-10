@@ -10,7 +10,7 @@ from konira.ext       import cover
 from konira.argopts   import ArgOpts
 import konira.tools
 
-__version__ = '0.0.5'
+__version__ = '0.0.6'
 
 class KoniraCommands(object):
 
