@@ -4,7 +4,7 @@ from distutils.core import setup
 setup(
     name             = "konira",
     version          = konira.__version__,
-    packages         = ['konira'],
+    packages         = ['konira', 'konira.ext'],
     scripts          = ['bin/konira'],
     author           = "Alfredo Deza",
     author_email     = "alfredodeza [at] gmail.com",
