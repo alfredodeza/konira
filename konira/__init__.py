@@ -176,6 +176,10 @@ Matching Options:
             if args.has(['-s', 'no-capture']):
                 self.config['capturing'] = False
 
+            # Profiling options
+            if args.har(['-s', 'profile']):
+                self.config['profiling'] = True
+                self.config['dotted']    = True
 
             # Coverage options
             if args.has('cover'):
