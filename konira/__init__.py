@@ -11,7 +11,7 @@ from konira.argopts   import ArgOpts
 from konira.output    import ReportResults
 import konira.tools
 
-__version__ = '0.0.6'
+__version__ = '0.0.7'
 
 class KoniraCommands(object):
 
@@ -118,11 +118,13 @@ Matching Options:
 
 
     def parseArgs(self, argv):
-        options      = ['no-capture', '-s', 'fail', '-x', '-t', '-d',
-                        'dots', 'traceback', 'tracebacks', 'describe', 'it']
-        coverage_options = ['--show-missing', '--cover-dir', '--cover-report',
+        options = ['no-capture', '-s', 'fail', '-x', '-t', '-d',
+                   'dots', 'traceback', 'tracebacks', 'describe', 'it']
+        coverage_options  = ['--show-missing', '--cover-dir', '--cover-report',
                             'cover']
+        profiling_options = ['-p', 'profile']
         options.extend(coverage_options)
+        options.extend(profiling_options)
 
         args = ArgOpts(options)
         args.parse_args(argv)
