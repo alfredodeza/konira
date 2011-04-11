@@ -177,7 +177,7 @@ Matching Options:
                 self.config['capturing'] = False
 
             # Profiling options
-            if args.har(['-s', 'profile']):
+            if args.has(['-p', 'profile']):
                 self.config['profiling'] = True
                 self.config['dotted']    = True
 
