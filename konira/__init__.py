@@ -8,6 +8,7 @@ from konira.exc       import DontReadFromInput
 from konira.util      import runner_options
 from konira.ext       import cover
 from konira.argopts   import ArgOpts
+from konira.output    import ReportResults
 import konira.tools
 
 __version__ = '0.0.6'
@@ -194,7 +195,8 @@ Matching Options:
             test_runner = Runner(test_files, self.config)
             test_runner.run()
             self.end_capture()
-            test_runner.report()
+            report = ReportResults(test_runner)
+            report.report()
             if self.running_coverage:
                 run_cover.konira_terminal_summary()
             if test_runner.failures or test_runner.errors:
