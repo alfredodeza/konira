@@ -31,6 +31,8 @@ Control Options:
     -x, fail            Stops at first fail
     -t, traceback       Shows tracebacks with errors/fails
     -d, dots            Displays '.' for passing and 'F' for failed tests.
+    -p, profile         Enables profiling displaying the 10 slowest tests
+                        forces dotted output.
 
 Coverage Options:
     cover              Runs coverage and (optionally) includes information 
