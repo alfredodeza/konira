@@ -1,5 +1,24 @@
 .. _changelog:
 
+0.0.7
+-----
+ * Profiling added
+ * Removes reporting capabilities from the Runner
+
+
+0.0.6
+-----
+ * Bug-fix release
+ * The `konira.ext` module was not included in the sdist (Mark McClain)
+
+
+0.0.5
+-----
+ * Adds coverage capabilities.
+ * Adds `--show-missing` to the coverage options
+ * Modifies heavily how options and arguments are parsed at the CLI
+
+
 0.0.4
 -----
  * Adds support for Python2.5 by fixing issues - mainly about the
