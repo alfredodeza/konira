@@ -230,6 +230,24 @@ now this is the flag that enables coverage output:
 
     konira cover
 
+The output when coverage is used should look similar to this::
+
+    ..........................................
+
+
+
+    All 42 specs passed in 0.561 secs.
+    Name                    Stmts   Miss  Cover
+    -------------------------------------------
+    foo/__init__                2      0   100%
+    foo/cache                  53      4    92%
+    foo/config                 23      0   100%
+    foo/exc                     3      0   100%
+    foo/log                    15      0   100%
+    foo/middleware             66      6    91%
+    -------------------------------------------
+    TOTAL                     162     10    94%
+
 
 With no other options passed in, `cover` will run a report on all the tests
 executed.
@@ -244,6 +262,25 @@ To activate missing lines and display them, you need to enable the
 
     konira cover --show-missing
 
+Output when `--show-missing` is enabled should be similar to this::
+
+
+    ..........................................
+
+
+
+    All 42 specs passed in 0.561 secs.
+    Name                    Stmts   Miss  Cover  Missing
+    ----------------------------------------------------
+    foo/__init__                2      0   100%
+    foo/cache                  53      4    92%  62, 66-68
+    foo/config                 23      0   100%
+    foo/exc                     3      0   100%
+    foo/log                    15      0   100%
+    foo/middleware             66      6    91%  30, 51-55
+    ----------------------------------------------------
+    TOTAL                     162     10    94%
+
 
 If you need to specify a single package or module you can pass such an option
 to the `cover` flag. For example, if you were testing the module `foo` and
@@ -254,9 +291,4 @@ wanted specific output for `foo.bar` it would look like this:
     konira cover foo.bar
 
 
-And you can also use the missing lines feature:
 
-
-::
-
-    konira cover foo.bar --show-missing
