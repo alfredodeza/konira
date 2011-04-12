@@ -291,4 +291,36 @@ wanted specific output for `foo.bar` it would look like this:
     konira cover foo.bar
 
 
+Profiling
+=========
+When the profiling command line flag is set, the normal red/green output is supressed 
+for dotted output.
 
+This is basically the best option to concentrate in the profiling data that gets rendered
+at the end of the test run.
+
+The `profile` option will show the 10 slowest tests in descending order and it should look
+very similar to this::
+
+
+    .....................................................
+
+    Profiling enabled
+    10 slowest tests shown:
+
+    0.00034499 - It returns a valid diff when comparing strings
+    0.00027298 - It returns valid dictionary comparisons
+    0.00018191 - It does not translate a regular class
+    0.00013995 - It raises a first fail exception
+    0.00013399 - It does not translate a regular method
+    0.00012707 - It translates a describe with inheritance
+    0.00012016 - It translates a describe with inheritance regardless of space
+    0.00011515 - It translates after each constructors
+    0.00011396 - It parses and evaluates left values and text values with a not equal operand
+    0.00011396 - It translates a describe with inheritance with a lot of whitespace
+
+
+    All 185 specs passed in 0.148 secs.
+
+The options to enable profiling are: `profile` or `-p`. Either one will trigger `konira` to
+enable profiling.
