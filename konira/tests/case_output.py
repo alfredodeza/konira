@@ -169,6 +169,7 @@ describe "terminal writer stdout ouput":
         assert self.stdout.getvalue() == '\n\nAn out case'
 
 
+
 describe "footer output":
 
 
