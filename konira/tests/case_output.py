@@ -232,3 +232,22 @@ describe "report results":
         assert result._sort_profiles()[2] == (12,12,12)
 
 
+    it "outputs normalized test case names in the profiler":
+        profiles = [(a, 'test_case', a) for a in range(0,15)]
+        self.results.profiles = profiles 
+        result = self.reporter(self.results, self.writer)
+        result.profiler()
+        assert "14 - Test case" in self.stdout.getvalue()
+
+
+    it "displays a header showgin profiling is enabled":
+        profiles = [(a, 'test_case', a) for a in range(0,15)]
+        self.results.profiles = profiles 
+        result = self.reporter(self.results, self.writer)
+        result.profiler()
+        expected = "Profiling enabled\n10 slowest tests shown:\n" 
+        assert expected in self.stdout.getvalue()
+
+
+
+
