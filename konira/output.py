@@ -5,6 +5,47 @@ from konira.util            import name_convertion
 from konira.exc             import konira_assert
 
 
+class ReportResults(object):
+
+
+    def __init__(self, results):
+        self.results = results
+        self.config  = self.results.config
+        self.write   = sys.__stdout__.write
+
+
+    def report(self):
+        self.write('\n')
+        if self.config.get('profiling'):
+            self.profiler()
+        if self.results.failures:
+            self.failures()
+        if self.results.errors:
+            self.errors()
+        self.footer()
+
+
+    def failures(self):
+        format_exc = ExcFormatter(self.results.failures, self.config)
+        format_exc.output_failures()
+
+
+    def errors(self):
+        format_exc = ExcFormatter(self.results.errors, self.config)
+        format_exc.output_errors()
+
+
+    def footer(self):
+        out_footer(self.results.total_cases, self.results.total_failures, self.results.elapsed)
+
+
+    def profiler(self):
+        self.write('Profiling is enabled!')
+        for p in self.results.profiles:
+            self.write("%s - %s" % (p[0], p[1]))
+
+
+
 class TerminalWriter(object):
 
 
