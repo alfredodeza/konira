@@ -11,11 +11,11 @@ class ReportResults(object):
     def __init__(self, results):
         self.results = results
         self.config  = self.results.config
-        self.write   = sys.__stdout__.write
+        self.writer  = Writer()
 
 
     def report(self):
-        self.write('\n')
+        self.writer.newline()
         if self.config.get('profiling'):
             self.profiler()
         if self.results.failures:
@@ -40,10 +40,26 @@ class ReportResults(object):
 
 
     def profiler(self):
-        self.write('Profiling is enabled!')
-        sorted_profiles = sorted(self.results.profiles, key=lambda p: p[0])
-        for p in sorted_profiles:
-            self.write("%s - %s\n" % (p[0], p[1]))
+        self.writer.newline()
+        prof_message = "Profiling enabled\n10 slowest tests shown:\n"
+        self.writer.write(prof_message, 'green')
+        for p in self._sort_profiles():
+            self._output_profiles(p)
+
+
+    def _sort_profiles(self):
+        _sorted =  sorted(self.results.profiles, 
+                          key=lambda p: p[0], 
+                          reverse=True)
+        return _sorted[:10]
+
+
+    def _output_profiles(self, data):
+        str_time = str(data[0])[:10]
+        elapsed  = self.writer.bold(str_time)
+        case     = self.writer.green(name_convertion(data[1]))
+        message  = "%s - %s" % (elapsed, case)
+        self.writer.writeln(message)
 
 
 
