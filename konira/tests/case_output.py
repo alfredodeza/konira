@@ -215,3 +215,20 @@ describe "report results":
         result.footer()
         assert self.stdout.getvalue() == "\n\n\n1 spec failed, 1 total in 0 secs.\n"
 
+
+    it "when sorting it returns only ten items":
+        profiles = [(a, a, a) for a in range(0,15)]
+        self.results.profiles = profiles 
+        result = self.reporter(self.results, self.writer)
+        assert len(result._sort_profiles()) == 10
+        
+
+    it "when sorting it does so in descending order":
+        profiles = [(a, a, a) for a in range(0,15)]
+        self.results.profiles = profiles 
+        result = self.reporter(self.results, self.writer)
+        assert result._sort_profiles()[0] == (14,14,14)
+        assert result._sort_profiles()[1] == (13,13,13)
+        assert result._sort_profiles()[2] == (12,12,12)
+
+
