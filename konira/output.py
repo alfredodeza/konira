@@ -41,8 +41,9 @@ class ReportResults(object):
 
     def profiler(self):
         self.write('Profiling is enabled!')
-        for p in self.results.profiles:
-            self.write("%s - %s" % (p[0], p[1]))
+        sorted_profiles = sorted(self.results.profiles, key=lambda p: p[0])
+        for p in sorted_profiles:
+            self.write("%s - %s\n" % (p[0], p[1]))
 
 
 
