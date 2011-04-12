@@ -1,9 +1,11 @@
+import time
 import inspect
 import sys
-from konira.exc             import KoniraFirstFail, KoniraNoSkip
-from konira.util            import StopWatch, get_class_name
-from konira.collector       import globals_from_execed_file
-from konira.output          import TerminalWriter, ExcFormatter, out_footer
+from decimal          import Decimal
+from konira.exc       import KoniraFirstFail, KoniraNoSkip
+from konira.util      import StopWatch, get_class_name
+from konira.collector import globals_from_execed_file
+from konira.output    import TerminalWriter
 
 
 class Runner(object):
@@ -13,6 +15,7 @@ class Runner(object):
         self.paths          = paths
         self.failures       = []
         self.errors         = []
+        self.profiles       = []
         self.total_cases    = 0
         self.total_failures = 0
         self.total_errors   = 0
@@ -57,7 +60,8 @@ class Runner(object):
         if not methods: return
 
         # Name the class
-        self.writer.out_case(suite.__class__.__name__)
+        class_name = suite.__class__.__name__
+        self.writer.out_case(class_name)
 
         # Are we skipping?
         if self.safe_skip_call(environ.set_skip_if):
@@ -68,6 +72,7 @@ class Runner(object):
         self.safe_environ_call(environ.set_before_all)
 
         for test in methods:
+            test_start_time = StopWatch(raw=True)
             self.total_cases += 1
 
             # Set before each if any
@@ -75,9 +80,11 @@ class Runner(object):
 
             try:
                 getattr(suite, test)()
+                test_elapsed_time = Decimal(str(test_start_time.elapsed()))
                 self.writer.green_spec(test)
                 
             except BaseException, e:
+                test_elapsed_time= str(time.time() - test_start_time)
                 trace = inspect.trace()[1]
                 self.total_failures += 1
                 self.writer.red_spec(test)
@@ -91,11 +98,17 @@ class Runner(object):
                 if self.config.get('first_fail'):
                     raise KoniraFirstFail
 
+            # Save profiling info
+            self.profiles.append((test_elapsed_time,
+                                  test,
+                                  class_name))
+
             # Set after each if any
             self.safe_environ_call(environ.set_after_each)
 
         # Set after all if any
         self.safe_environ_call(environ.set_after_all)
+
 
 
     def safe_environ_call(self, env_call):
@@ -118,18 +131,6 @@ class Runner(object):
             return False
         except Exception:
             return False
-
-
-    # XXX This is probably the wrong spot for this guy
-    def report(self):
-        self.write('\n')
-        if self.failures:
-            format_exc = ExcFormatter(self.failures, self.config)
-            format_exc.output_failures()
-        if self.errors:
-            format_exc = ExcFormatter(self.errors, self.config)
-            format_exc.output_errors()
-        out_footer(self.total_cases, self.total_failures, self.elapsed)
 
 
     def classes(self, filename):
