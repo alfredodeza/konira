@@ -8,10 +8,12 @@ from konira.exc             import konira_assert
 class ReportResults(object):
 
 
-    def __init__(self, results):
+    def __init__(self, results, writer=None):
         self.results = results
         self.config  = self.results.config
-        self.writer  = Writer()
+        self.writer  = writer
+        if not self.writer:
+            self.writer  = Writer()
 
 
     def report(self):
@@ -36,7 +38,10 @@ class ReportResults(object):
 
 
     def footer(self):
-        out_footer(self.results.total_cases, self.results.total_failures, self.results.elapsed)
+        out_footer(self.results.total_cases, 
+                self.results.total_failures, 
+                self.results.elapsed,
+                self.writer)
 
 
     def profiler(self):
