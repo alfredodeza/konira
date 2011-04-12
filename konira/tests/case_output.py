@@ -249,5 +249,17 @@ describe "report results":
         assert expected in self.stdout.getvalue()
 
 
+    it "orders single profile messages by time and case name":
+        result = self.reporter(self.results, self.writer)
+        result._output_profiles((0, 'test_case'))
+        assert self.stdout.getvalue() == '\n0 - Test case'
+
+
+    it "only gices the 10 first digits in elapsed time":
+        result = self.reporter(self.results, self.writer)
+        result._output_profiles(('0.00000099999', 'test_case'))
+        assert self.stdout.getvalue() == '\n0.00000099 - Test case'
+
+
 
 
