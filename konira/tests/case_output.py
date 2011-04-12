@@ -193,3 +193,25 @@ describe "footer output":
         self.footer(1, 1, 0, std=self.writer)
         assert self.stdout.getvalue() == "\n\n\n1 spec failed, 1 total in 0 secs.\n"
 
+
+
+describe "report results":
+
+
+    before each:
+        class FakeObject(object): pass
+        self.stdout         = StringIO()
+        self.writer         = output.Writer(stdout=self.stdout)
+        self.results        = FakeObject()
+        self.results.config = {}
+        self.reporter       = output.ReportResults
+
+
+    it "writes a nice footer":
+        self.results.total_cases    = 1
+        self.results.total_failures = 1
+        self.results.elapsed        = 0
+        result = self.reporter(self.results, self.writer)
+        result.footer()
+        assert self.stdout.getvalue() == "\n\n\n1 spec failed, 1 total in 0 secs.\n"
+
