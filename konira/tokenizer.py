@@ -1,5 +1,6 @@
 from tokenize           import NAME, OP, STRING, generate_tokens
 from encodings          import utf_8
+import re
 import codecs
 import cStringIO
 import encodings
@@ -20,6 +21,15 @@ def valid_method_name(token):
 def valid_class_name(token):
     transform = token.strip().replace(" ", "_").replace("\"","" )
     return "Case_%s" % quote_remover(transform)
+
+
+def valid_raises(value):
+    if not value: 
+        return True
+    whitespace = re.compile(r'^\s*$')
+    if whitespace.match(value):
+        return True
+    return False
     
 
 def translate(readline):
@@ -102,7 +112,7 @@ def translate(readline):
                            [OP, ')'],))
 
         # From raises to with konira.tools.raises
-        elif tokenum == NAME and value == 'raises':
+        elif tokenum == NAME and value == 'raises' and valid_raises(last_token):
             result.extend(([tokenum, 'with konira.tools.raises'],))
 
         elif tokenum == NAME and last_token == 'raises':
