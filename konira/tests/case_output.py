@@ -1,5 +1,7 @@
 # coding: konira
 
+import inspect
+import sys
 import konira
 from cStringIO import StringIO
 from konira    import output
@@ -198,6 +200,19 @@ describe "footer output":
 describe "report results":
 
 
+    before all:
+        try:
+            assert False
+        except Exception, e:
+            trace = inspect.trace()
+            self.false_failure = dict(
+                            failure  = sys.exc_info(),
+                            trace    = trace,
+                            exc_name = e.__class__.__name__
+                           ) 
+            #self.false_trace = inspect.trace()[0]
+
+
     before each:
         class FakeObject(object): pass
         self.stdout         = StringIO()
@@ -259,6 +274,24 @@ describe "report results":
         result = self.reporter(self.results, self.writer)
         result._output_profiles(('0.00000099999', 'test_case'))
         assert self.stdout.getvalue() == '\n0.00000099 - Test case'
+
+
+    it "can report profiling errors and failures all at once":
+        self.results.total_cases    = 1
+        self.results.total_failures = 1
+        self.results.elapsed        = 0
+        self.results.failures = [self.false_failure]
+        self.results.errors = [self.false_failure]
+        self.results.profiles = [('0', 'Test_case')]
+        result = self.reporter(self.results, self.writer)
+        result.report()
+        output = self.stdout.getvalue()
+        assert 'AssertionError'        in output
+        assert 'Failures'              in output
+        assert 'Starts and Ends'       in output
+        assert 'File:'                 in output
+        assert 'case_output.py'        in output
+        assert '1 spec failed, 1 total in 0 secs.' in output
 
 
 
