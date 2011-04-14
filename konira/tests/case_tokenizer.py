@@ -96,6 +96,38 @@ describe "valid class names":
 
 
 
+describe "valid raises detection":
+
+
+    before each:
+        self.valid = tokenizer.valid_raises
+
+
+    it "is True when the value is None":
+        assert self.valid(None) == True
+
+
+    it "is True when the value is an empty string":
+        assert self.valid(" ") == True
+
+
+    it "is false when the value has a character at the start":
+        assert self.valid("d ") == False
+
+
+    it "is false when the value has a character at the end":
+        assert self.valid("   d") == False
+
+
+    it "is true when there are non whitespace chars":
+        assert self.valid("\n ") == True
+
+
+    it "is true when an empty string is passed":
+        assert self.valid("") == True
+
+
+
 describe "translate dsl into valid Python":
     
 
