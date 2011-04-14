@@ -26,3 +26,9 @@ describe "assert raises":
         assert_raises = tools.AssertRaises(Exception, None)
         assert assert_raises.__exit__(Exception, None, None)
 
+
+    it "raises when the exception message does not match":
+        assert_raises = tools.AssertRaises(Exception, "foo")
+        raises KoniraReassertError: assert_raises.__exit__(Exception, None, None)
+
+
