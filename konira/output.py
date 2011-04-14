@@ -28,12 +28,12 @@ class ReportResults(object):
 
 
     def failures(self):
-        format_exc = ExcFormatter(self.results.failures, self.config)
+        format_exc = ExcFormatter(self.results.failures, self.config, self.writer)
         format_exc.output_failures()
 
 
     def errors(self):
-        format_exc = ExcFormatter(self.results.errors, self.config)
+        format_exc = ExcFormatter(self.results.errors, self.config, self.writer)
         format_exc.output_errors()
 
 
@@ -140,11 +140,13 @@ def format_file_line(filename, line):
 class ExcFormatter(object):
 
 
-    def __init__(self, failures, config):
+    def __init__(self, failures, config, std=None):
         self.config      = config
         self.failures    = failures
         self.failed_test = 1
-        self.std = Writer()
+        self.std = std
+        if not self.std:
+            self.std = Writer()
 
 
     def output_failures(self):
