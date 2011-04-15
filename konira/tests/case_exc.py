@@ -455,7 +455,7 @@ describe "konira assert helper function":
 
     it "returns tuple comparisons":
         reassert = exc.konira_assert(self.tpl_trace)
-        description = ["('a', 1) == ('b', 1)", "At index 0 diff: 'a' != 'b'"]
+        description = ["('a', 1) == ('b', 1)", "At index 0 diff: 'a' != 'b'", "- ('a', 1)", '?   ^', "+ ('b', 1)", '?   ^']
         assert reassert == description
 
 
