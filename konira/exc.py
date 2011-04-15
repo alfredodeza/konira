@@ -270,8 +270,7 @@ def _compare_eq_sequence(left, right):
     elif len(left) < len(right):
         explanation += ['Right contains more items, '
             'first extra item: %s' % (right[len(left)],)]
-    return explanation # + _diff_text(py.std.pprint.pformat(left),
-                       #             py.std.pprint.pformat(right))
+    return explanation  + _diff_text(str(left),str(right))
 
 
 def _compare_eq_set(left, right):
