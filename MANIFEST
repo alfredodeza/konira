@@ -4,13 +4,14 @@ konira/__init__.py
 konira/argopts.py
 konira/collector.py
 konira/exc.py
-konira/ext/__init__.py
-konira/ext/cover.py
 konira/output.py
 konira/runner.py
 konira/tokenizer.py
 konira/tools.py
 konira/util.py
+konira/ext/__init__.py
+konira/ext/cover.py
+konira/tests/.coverage
 konira/tests/__init__.py
 konira/tests/case_argopts.py
 konira/tests/case_cli.py
@@ -19,4 +20,5 @@ konira/tests/case_exc.py
 konira/tests/case_output.py
 konira/tests/case_runner.py
 konira/tests/case_tokenizer.py
+konira/tests/case_tools.py
 konira/tests/case_util.py
