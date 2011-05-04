@@ -28,7 +28,7 @@ describe "stdout messages for the command line":
     
     it "should go to stdout if a flag is passed in":
         self.commands.msg("A stdout message")
-        assert self.mystdout.getvalue() == "A stdout message"
+        assert self.mystdout.getvalue() == "A stdout message\n"
 
 
     it "does not output stderr messages when stdout flaf is set":
@@ -38,7 +38,7 @@ describe "stdout messages for the command line":
 
     it "outputs to stderr if a flag is passed in":
         self.commands.msg("A stderr message", stdout=False)
-        assert self.mystderr.getvalue() == "A stderr message"
+        assert self.mystderr.getvalue() == "A stderr message\n"
 
 
     it "does not output to stdout if the stderr flag is set":
