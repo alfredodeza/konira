@@ -64,9 +64,9 @@ Matching Options:
 
     def msg(self, msg, stdout=True):
         if stdout:
-            sys.stdout.write(msg)
+            sys.stdout.write(msg+'\n')
         else:
-            sys.stderr.write(msg)
+            sys.stderr.write(msg+'\n')
         if not self.test:
             sys.exit(1)
 
@@ -210,7 +210,7 @@ Matching Options:
             if test_runner.failures or test_runner.errors:
                 sys.exit(2)
         except KeyboardInterrupt:
-            self.msg("Exiting from konira.\n")
+            self.msg("Exiting from konira.")
 
 
 
