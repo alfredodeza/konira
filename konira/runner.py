@@ -3,7 +3,7 @@ import sys
 from decimal          import Decimal
 from konira.exc       import KoniraFirstFail, KoniraNoSkip
 from konira.util      import StopWatch, get_class_name
-from konira.collector import globals_from_execed_file
+from konira.collector import globals_from_file
 from konira.output    import TerminalWriter
 
 
@@ -153,7 +153,7 @@ class Runner(object):
 
 
     def _collect_classes(self, path):
-        global_modules = map(globals_from_execed_file, [path])
+        global_modules = map(globals_from_file, [path])
         return [i for i in global_modules[0].values() if callable(i) and i.__name__.startswith('Case_')]
 
 
