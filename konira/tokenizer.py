@@ -126,31 +126,3 @@ def translate(readline):
         last_type  = tokenum
     
     return result
-
-
-
-class StreamReader(utf_8.StreamReader):
-    def __init__(self, *args, **kwargs):
-        codecs.StreamReader.__init__(self, *args, **kwargs)
-        data = tokenize.untokenize(translate(self.stream.readline))
-        self.stream = cStringIO.StringIO(data)
-
-
-
-def search_function(s):
-    if s!='konira': return None
-    utf8=encodings.search_function('utf8')
-    return codecs.CodecInfo(
-        name='konira',
-        encode = utf8.encode,
-        decode = utf8.decode,
-        incrementalencoder=utf8.incrementalencoder,
-        incrementaldecoder=utf8.incrementaldecoder,
-        streamreader=StreamReader,
-        streamwriter=utf8.streamwriter)
-
-
-
-codecs.register(search_function)
-
-
