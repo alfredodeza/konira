@@ -1,5 +1,3 @@
-# coding: konira
-
 from konira import argopts
 
 
