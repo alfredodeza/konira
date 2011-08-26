@@ -1,4 +1,7 @@
 from __future__ import with_statement
+from konira.tokenizer import translate
+import tokenize
+import cStringIO
 import os
 import re
 
@@ -38,9 +41,13 @@ class FileCollector(list):
 
 
 
-def globals_from_execed_file(filename):
+def globals_from_file(filename):
+    _file = open(filename)
+    data = tokenize.untokenize(translate(_file.readline))
+    stream = cStringIO.StringIO(data)
     globals_ = {}
-    execfile(filename, globals_)
+    exec(stream.read(), globals_)
     return globals_
+
 
 
