@@ -1,5 +1,3 @@
-# coding: konira
-
 import konira
 from konira.exc import KoniraReassertError
 from konira     import tools

@@ -1,5 +1,3 @@
-# coding: konira
-
 import konira
 import inspect
 from konira.exc         import (KoniraIOError, KoniraExecutionError, KoniraNoSkip, 

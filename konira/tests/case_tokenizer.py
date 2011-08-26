@@ -1,5 +1,3 @@
-# coding: konira
-
 from cStringIO import StringIO
 from konira    import tokenizer
 

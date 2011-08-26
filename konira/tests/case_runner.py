@@ -1,5 +1,3 @@
-# coding: konira
-
 import os
 import inspect
 from konira        import Runner

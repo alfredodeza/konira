@@ -1,5 +1,3 @@
-# coding: konira
-
 import inspect
 import sys
 import konira

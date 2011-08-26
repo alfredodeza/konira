@@ -1,5 +1,3 @@
-# coding: konira
-
 import os
 import konira
 from cStringIO                  import StringIO
