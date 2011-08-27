@@ -139,6 +139,3 @@ describe "getting parsed paths from arguments":
         path_dict = self.commands.path_from_argument(args)
         assert len(path_dict)        == 1
         assert path_dict.get('path') == self.cwd
-
-
-
