@@ -246,7 +246,6 @@ class PrettyExc(object):
         self.exception_line_end   = self.end_traceback.tb_lineno
         self.exception_line       = self.exc_traceback.tb_lineno
         self.exception_file       = self.exc_traceback.tb_frame.f_code.co_filename
-        
         self.exc_info             = exc_info
 
 
@@ -270,14 +269,17 @@ class PrettyExc(object):
         konira_dir = dirname(abspath(__file__))
 
         while True:
-            frame    = traceback.tb_frame
-            code     = frame.f_code
-            filename = code.co_filename
-            code_dir = dirname(abspath(filename))
-            if code_dir != konira_dir:
-                break
-            else:
-                traceback = traceback.tb_next
+            try:
+                frame    = traceback.tb_frame
+                code     = frame.f_code
+                filename = code.co_filename
+                code_dir = dirname(abspath(filename))
+                if code_dir != konira_dir:
+                    break
+                else:
+                    traceback = traceback.tb_next
+            except AttributeError:
+                return traceback
 
         return traceback
 
@@ -293,6 +295,7 @@ class PrettyExc(object):
 
 
     def _last_traceback(self, tb):
+        if tb is None: return tb
         while tb.tb_next:
             tb = tb.tb_next
         return tb
