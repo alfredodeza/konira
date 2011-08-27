@@ -1,10 +1,5 @@
 from tokenize           import NAME, OP, STRING, generate_tokens
-from encodings          import utf_8
 import re
-import codecs
-import cStringIO
-import encodings
-import tokenize
 
 
 
