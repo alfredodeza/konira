@@ -43,10 +43,10 @@ class FileCollector(list):
 
 def globals_from_file(filename):
     _file = open(filename)
-    data = tokenize.untokenize(translate(_file.readline))
-    stream = cStringIO.StringIO(data)
+    data  = tokenize.untokenize(translate(_file.readline))
+    compiled = compile(data, filename, "exec")
     globals_ = {}
-    exec(stream.read(), globals_)
+    exec(compiled, globals_)
     return globals_
 
 
