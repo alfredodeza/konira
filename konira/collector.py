@@ -1,7 +1,6 @@
 from __future__ import with_statement
 from konira.tokenizer import translate
 import tokenize
-import cStringIO
 import os
 import re
 
