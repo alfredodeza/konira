@@ -1,7 +1,7 @@
 import os
 import konira
 from cStringIO                  import StringIO
-from konira.collector           import FileCollector, globals_from_execed_file
+from konira.collector           import FileCollector, globals_from_file
 
 
 describe "path collection":
@@ -62,16 +62,14 @@ describe 'global values from file':
 
 
     it 'should see globals':
-        globs = globals_from_execed_file('/tmp/case_test.py')
+        globs = globals_from_file('/tmp/case_test.py')
         assert globs
         assert len(globs) == 2
 
 
     it "raises IOError when it tries an invalid path":
-        raises IOError: globals_from_execed_file('/foo/bar/foo.py')
+        raises IOError: globals_from_file('/foo/bar/foo.py')
 
 
     it "raises TypeError when no filename is passed":
-        raises TypeError: globals_from_execed_file()
-
-
+        raises TypeError: globals_from_file()
