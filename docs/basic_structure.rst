@@ -29,8 +29,6 @@ In a different file, that should match *Konira's* file naming conventions
 
 ::
 
-    # coding: konira
-
     from foo import Foo
 
 
@@ -42,7 +40,6 @@ In a different file, that should match *Konira's* file naming conventions
 
 That single test has a few things going on around it:
 
- #. Sets the right encoding for the DSL (``# coding: konira``)
  #. Imports the ``Foo`` class
  #. Starts a test scenario where the string describes the test
  #. Starts a unique test about a method in ``Foo``
@@ -75,8 +72,6 @@ remaining tests:
 .. highlight:: ruby
 
 ::
-
-    # coding: konira
 
     from foo import Foo
 

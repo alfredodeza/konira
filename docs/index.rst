@@ -31,12 +31,13 @@ How does a test case looks like?
 But this is not valid Python!
 ---------------------------------
 
-I hear you. It is a DSL. All tests need to specify the ``konira`` encoding
-at the top and they can be executed with the included command line tool.
+I hear you. It is a DSL. All tests need to be prefaced by the ``case_`` word.
+As long as that convention is matched the autodiscovery engine will pick up
+your DSL test cases.
 
-::
+Since version ``0.1.0`` it is no longer needed to specify an encoding at the
+top. Konira tests are now translated on the fly!
 
-    # coding: konira
 
 
 
