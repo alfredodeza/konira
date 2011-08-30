@@ -1,3 +1,4 @@
+import re
 import inspect
 import sys
 from decimal          import Decimal
@@ -158,8 +159,8 @@ class Runner(object):
 
 
     def _collect_methods(self, module):
-        invalid = ['_before_each', '_before_all', '_after_each', '_after_all']
-        return [i for i in dir(module) if not i.startswith('_') and i not in invalid and i.startswith('it_')] 
+        valid_method_name = re.compile(r'it_[_a-z]\w*$', re.IGNORECASE)
+        return [i for i in dir(module) if valid_method_name.match(i)] 
 
 
 
