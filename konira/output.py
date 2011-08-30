@@ -1,8 +1,9 @@
+import re
 import sys
 import traceback
-from os.path                import dirname, abspath
-from konira.util            import name_convertion 
-from konira.exc             import konira_assert
+from os.path     import dirname, abspath
+from konira.util import name_convertion
+from konira.exc  import konira_assert
 
 
 class ReportResults(object):
@@ -184,7 +185,7 @@ class ExcFormatter(object):
         exc        = failure.get('failure')
         name       = failure.get('exc_name')
         trace      = failure.get('trace')
-        pretty_exc = PrettyExc(exc)
+        pretty_exc = PrettyExc(exc, debug=self.config.get('debug'))
 
         self.failure_header(pretty_exc.exception_description)
         starts = pretty_exc.exception_file_start
@@ -233,8 +234,9 @@ class ExcFormatter(object):
 class PrettyExc(object):
 
 
-    def __init__(self, exc_info, error=False):
+    def __init__(self, exc_info, error=False, debug=False):
         self.error = error
+        self.debug = debug
         self.exc_type, self.exc_value, self.exc_traceback = exc_info
         if self.error:
             self.exc_traceback =  self._last_traceback(self.exc_traceback)
@@ -254,7 +256,26 @@ class PrettyExc(object):
         traceback_lines = traceback.format_exception(self.exc_type,
                                                      self.exc_value,
                                                      self.exc_traceback)
-        return ''.join(traceback_lines)
+        rewritten = self.translate_exc_line(traceback_lines)
+        return ''.join(rewritten)
+
+
+    def translate_exc_line(self, lines):
+        if self.error or self.debug: return lines
+        valid_file_name   = re.compile(r'\s+File\s+(.*)case[_a-z]\w*\.py', re.IGNORECASE)
+        valid_method_name = re.compile(r'(.*)\s+in\s+it_[_a-z]\w*', re.IGNORECASE)
+        valid_it_case     = re.compile(r'it_[_a-z]\w*', re.IGNORECASE)
+        rewritten_lines   = []
+        for line in lines:
+            if valid_file_name.match(line) and valid_method_name.match(line):
+                it_method = valid_it_case.search(line)
+                if it_method:
+                    rewrite_it = name_convertion(it_method.group(), capitalize=False)
+                    line = re.sub(valid_it_case, rewrite_it, line)
+                rewritten_lines.append(line)
+            else:
+                rewritten_lines.append(line)
+        return rewritten_lines
 
 
     @property
@@ -265,7 +286,7 @@ class PrettyExc(object):
 
 
     def _remove_konira_from_traceback(self, traceback):
-        if self.error: return traceback
+        if self.error or self.debug: return traceback
         konira_dir = dirname(abspath(__file__))
 
         while True:
