@@ -9,7 +9,7 @@ from konira.util      import runner_options
 from konira.ext       import cover
 from konira.argopts   import ArgOpts
 from konira.output    import ReportResults
-import konira.tools
+#import konira.tools
 
 __version__ = '0.1.0'
 
@@ -33,6 +33,7 @@ Control Options:
     -d, dots            Displays '.' for passing and 'F' for failed tests.
     -p, profile         Enables profiling displaying the 10 slowest tests
                         forces dotted output.
+    --debug             Doesn't remove internal tracebacks
 
 Coverage Options:
     cover              Runs coverage and (optionally) includes information 
@@ -118,7 +119,7 @@ Matching Options:
 
 
     def parseArgs(self, argv):
-        options = ['no-capture', '-s', 'fail', '-x', '-t', '-d',
+        options = ['no-capture', '-s', 'fail', '-x', '-t', '-d', '--debug',
                    'dots', 'traceback', 'tracebacks', 'describe', 'it']
         coverage_options  = ['--show-missing', '--cover-dir', '--cover-report',
                             'cover']
@@ -180,6 +181,10 @@ Matching Options:
             if args.has(['-p', 'profile']):
                 self.config['profiling'] = True
                 self.config['dotted']    = True
+
+            # Debugging option
+            if args.has(['--debug']):
+                self.config['debug'] = True
 
             # Coverage options
             if args.has('cover'):
