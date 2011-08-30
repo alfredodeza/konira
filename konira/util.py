@@ -1,10 +1,11 @@
 import time
 
 
-def name_convertion(name):
+def name_convertion(name, capitalize=True):
     name = name.replace('_', ' ').replace('Case', '')
-    name = name.capitalize().strip() 
-    return name
+    if capitalize:
+        name = name.capitalize()
+    return name.strip()
 
 
 
