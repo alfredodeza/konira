@@ -9,7 +9,7 @@ from konira.util      import runner_options
 from konira.ext       import cover
 from konira.argopts   import ArgOpts
 from konira.output    import ReportResults
-#import konira.tools
+import konira.tools
 
 __version__ = '0.1.0'
 
