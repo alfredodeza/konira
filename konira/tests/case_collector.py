@@ -49,12 +49,12 @@ describe "path collection":
 describe 'global values from file':
 
 
-    before all:
+    before each:
         with open('/tmp/case_test.py', 'w') as self.case_test:
             self.case_test.write("import sys")
 
 
-    after all:
+    after each:
         try:
             os.remove('/tmp/case_test.py')
         except:
