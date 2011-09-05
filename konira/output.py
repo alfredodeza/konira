@@ -337,7 +337,7 @@ class Writer(object):
 
 
     def color(self, form):
-        if not self.isatty: return ''
+        if not self.isatty or self.is_windows: return ''
         if form == None: return ''
         available = dict(
                 blue   = '\033[94m',
@@ -351,6 +351,13 @@ class Writer(object):
             return available[form]
         except:
             raise KeyError('%s is not a valid format/color' % form) 
+
+
+    @property
+    def is_windows(self):
+        if sys.platform == 'win32':
+            return True
+        return False
 
 
     def println(self, string):
