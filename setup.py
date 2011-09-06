@@ -1,17 +1,23 @@
 import konira
+import sys
 from distutils.core import setup
+
+scripts = ['bin/konira']
+
+if sys.platform == 'win32':
+    scripts.append('bin/konira.bat') 
 
 setup(
     name             = "konira",
     version          = konira.__version__,
     packages         = ['konira', 'konira.ext'],
-    scripts          = ['bin/konira'],
+    scripts          = scripts,
     author           = "Alfredo Deza",
     author_email     = "alfredodeza [at] gmail.com",
     description      = "A DSL Testing Framework for nicer, (beautiful!) readable BDD tests",
     license          = "MIT",
     keywords         = "test, readable, testrunner, bdd",
-    classifiers      =[
+    classifiers      = [
                         'Development Status :: 4 - Beta',
                         'Intended Audience :: Developers',
                         'License :: OSI Approved :: MIT License',
