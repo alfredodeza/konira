@@ -11,7 +11,7 @@ from konira.argopts   import ArgOpts
 from konira.output    import ReportResults
 import konira.tools
 
-__version__ = '0.1.1'
+__version__ = '0.1.2'
 
 class KoniraCommands(object):
 
