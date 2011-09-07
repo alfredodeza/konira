@@ -1,5 +1,6 @@
 setup.py
 bin/konira
+bin/konira.bat
 konira/__init__.py
 konira/argopts.py
 konira/collector.py
