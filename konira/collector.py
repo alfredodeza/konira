@@ -8,10 +8,25 @@ import re
 class FileCollector(list):
 
 
-    def __init__(self, path):
-        self.path              = path
-        self.valid_module_name = re.compile(r'case[_a-z]\w*\.py$', re.IGNORECASE)
+    def __init__(self, path, config={}):
+        self.user_match       = config.get('collect-match')
+        self.case_insensitive = config.get('collect-ci')
+        self.path             = path
         self._collect()
+
+
+    @property
+    def valid_module_name(self):
+        fallback = re.compile(r'case[_a-z]\w*\.py$', re.IGNORECASE)
+        if not self.user_match:
+            return fallback
+        else:
+            try:
+                if self.case_insensitive:
+                    return re.compile(self.user_match, re.IGNORECASE)
+                return re.compile(self.user_match)
+            except Exception, msg:
+                raise SystemExit('Could not compile regex, error was: %s' % msg) 
 
 
     def _collect(self):
