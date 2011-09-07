@@ -145,6 +145,17 @@ To avoid such an issue, if you need to use ``pdb`` you need to use either
 ``-s`` or ``no-capture``.
 
 
+Debugging Konira
+----------------
+Konira makes an effort to remove unnecessary traceback information when
+a failure or an error occurs. But sometimes (hopefully not often!) there might
+be information that you need as part of the context of the exception. 
+
+If you need to, there is a flag that will force the engine not to
+overwrite/cleanup tracebacks and present them as they were raised::
+
+    konira --debug
+
 Stop at first fail
 ------------------
 Probably one of the most common options amongst test runners: the stop at the
@@ -337,3 +348,22 @@ very similar to this::
 
 The options to enable profiling are: `profile` or `-p`. Either one will trigger `konira` to
 enable profiling.
+
+``py.test`` integration
+=======================
+``py.test`` is a powerful test runner and testing tool that has a lot of
+powerful features. If you have ever tried it, you might miss using it to run
+tests. 
+
+If you are combining test cases from Konira with other *regular* unit tests,
+you might want to have an aggregated metric (like coverage) when all tests run.
+For this reason, there is a ``pytest-konira`` plugin, that allows collection of
+Konira tests cases with ``py.test``.
+
+This is a separate package from Konira, so you need to install it with pip::
+
+    pip install pytest-konira
+
+And then you can run tests with::
+
+    py.test --konira
