@@ -35,10 +35,16 @@ Control Options:
                         forces dotted output.
     --debug             Doesn't remove internal tracebacks
 
+Collection options:
+    --collect-match     Provide a regex to match files for collection and avoiding
+                        the default ("case_*.py")
+    --collect-ci        Case insensitive for collection matching (only useful if
+                        '--collect-match' is used.
+
 Coverage Options:
-    cover              Runs coverage and (optionally) includes information 
-                       for selected packages
-    --no-missing       Ommit missing lines in files
+    cover               Runs coverage and (optionally) includes information 
+                        for selected packages
+    --no-missing        Ommit missing lines in files
 
 Matching Options:
     describe            Matches a case description (needs to be 
@@ -120,7 +126,8 @@ Matching Options:
 
     def parseArgs(self, argv):
         options = ['no-capture', '-s', 'fail', '-x', '-t', '-d', '--debug',
-                   'dots', 'traceback', 'tracebacks', 'describe', 'it']
+                   'dots', 'traceback', 'tracebacks', 'describe', 'it',
+                   '--collect-match', '--collect-ci']
         coverage_options  = ['--show-missing', '--cover-dir', '--cover-report',
                             'cover']
         profiling_options = ['-p', 'profile']
@@ -161,6 +168,17 @@ Matching Options:
                 else:
                     self.msg("No valid 'it' name")
 
+            # Collection regex
+            if args.has('--collect-match'):
+                value = args.get_value('--collect-match')
+                if value:
+                    self.config['collect-match'] = value
+                else:
+                    self.msg("'--collect-match' needs a value")
+
+            if args.has('--collect-ci'):
+                self.config['collect-ci'] = True
+
             # Dotted output
             if args.has(['-d','dots']):
                 self.config['dotted'] = True
@@ -199,7 +217,7 @@ Matching Options:
                 run_cover = cover.DoCoverage(coverage_options)
 
 
-        test_files = FileCollector(search_path)
+        test_files = FileCollector(search_path, self.config)
 
         if not test_files:
             self.msg("No cases found to test.")
