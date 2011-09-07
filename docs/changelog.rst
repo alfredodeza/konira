@@ -1,5 +1,18 @@
 .. _changelog:
 
+0.2.0
+-----
+ * Adds a ``--debug`` file that avoids traceback cleanup.
+ * Adds 2 collecting regexes options for collecting files other than
+   `case_*.py``
+ * Better MS Windows support with removal of colored output and addition of
+   bat script at installation time.
+
+0.1.1
+-----
+ * Removes encoding (yay!)
+ * adds some utilities that help other test runner plugins
+
 0.0.7
 -----
  * Profiling added
