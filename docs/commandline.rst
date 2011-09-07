@@ -44,6 +44,19 @@ The following filenames would match correctly for autodiscovery:
  * ``Case_foo.py``
  * ``CASE_foo.py``
 
+**But there is an exception!**
+
+If somehow the default auto-discovery behavior does not suite your needs, there
+is a flag that allows you to tweak the collection of cases ::
+
+    konira --collect-match "matching-regex-here"
+
+That can also be used with the case insensitive flag::
+
+    konira --collect-match "matching-regex-here" --collect-ci
+
+If you pass in a matching regular expression, it will directly affect the
+collection of test cases.
 
 Specific Paths
 --------------
