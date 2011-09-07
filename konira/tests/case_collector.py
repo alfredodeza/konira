@@ -45,6 +45,24 @@ describe "path collection":
         assert self.f.valid_module_name.match(py_file)
 
 
+    it "raises SystemExit if it user match is borked":
+        raises SystemExit: FileCollector(path='/tmp', config={'collect-match':'*.py'})
+
+
+    it "if user_match and case_insensitive IGNORECASE is used":
+        config = {'collect-match': 'bar', 'collect-ci': True}
+        collector = FileCollector(path='/asdf', config=config)
+
+        assert collector.valid_module_name.match('BaR')
+
+
+    it "if user_match and not case_insensitive no IGNORECASE is used":
+        config = {'collect-match': 'bar'}
+        collector = FileCollector(path='/asdf', config=config)
+
+        assert collector.valid_module_name.match('BaR') == None
+
+
 
 describe 'global values from file':
 
