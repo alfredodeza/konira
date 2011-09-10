@@ -17,7 +17,7 @@ if sys.platform == 'win32':
 
 setup(
     name             = "konira",
-    version          = "0.2.0",
+    version          = "0.2.1",
     packages         = ['konira', 'konira.ext'],
     scripts          = scripts,
     author           = "Alfredo Deza",
