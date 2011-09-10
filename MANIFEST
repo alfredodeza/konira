@@ -1,3 +1,4 @@
+distribute_setup.py
 setup.py
 bin/konira
 bin/konira.bat
@@ -12,8 +13,8 @@ konira/tools.py
 konira/util.py
 konira/ext/__init__.py
 konira/ext/cover.py
-konira/tests/.coverage
 konira/tests/__init__.py
+konira/tests/__init__.pyc
 konira/tests/case_argopts.py
 konira/tests/case_cli.py
 konira/tests/case_collector.py
@@ -23,3 +24,6 @@ konira/tests/case_runner.py
 konira/tests/case_tokenizer.py
 konira/tests/case_tools.py
 konira/tests/case_util.py
+konira/tests/helpers.py
+konira/tests/helpers.pyc
+konira/tests/test_foo.pyc
