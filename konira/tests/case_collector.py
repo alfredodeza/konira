@@ -1,6 +1,6 @@
 import os
 import konira
-from cStringIO                  import StringIO
+from konira.util import StringIO
 from konira.collector           import FileCollector, globals_from_file
 
 

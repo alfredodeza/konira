@@ -44,10 +44,10 @@ describe "get class name":
 
 
 
-describe "stop watch":
-
-
-    it "returns no more than 5 chars":
-        swatch = util.StopWatch()
-        assert len(swatch.elapsed()) == 5
-
+#describe "stop watch":
+#
+#
+#    it "returns no more than 5 chars":
+#        swatch = util.StopWatch()
+#        assert len(swatch.elapsed()) == 5
+#

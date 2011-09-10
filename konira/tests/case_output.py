@@ -1,7 +1,9 @@
 import inspect
 import sys
 import konira
-from cStringIO import StringIO
+
+from konira.util import StringIO
+from konira.util import return_exception_trace
 from konira    import output
 
 
@@ -199,16 +201,17 @@ describe "report results":
 
 
     before all:
-        try:
-            assert False
-        except Exception, e:
-            trace = inspect.trace()
-            self.false_failure = dict(
-                            failure  = sys.exc_info(),
-                            trace    = trace,
-                            exc_name = e.__class__.__name__
-                           ) 
-            #self.false_trace = inspect.trace()[0]
+        self.false_failure = return_exception_trace()
+        #try:
+        #    assert False
+        #except Exception as e:
+        #    trace = inspect.trace()
+        #    self.false_failure = dict(
+        #                    failure  = sys.exc_info(),
+        #                    trace    = trace,
+        #                    exc_name = e.__class__.__name__
+        #                   ) 
+        #    #self.false_trace = inspect.trace()[0]
 
 
     before each:
@@ -284,11 +287,11 @@ describe "report results":
         result = self.reporter(self.results, self.writer)
         result.report()
         output = self.stdout.getvalue()
-        assert 'AssertionError'        in output
-        assert 'Failures'              in output
-        assert 'Starts and Ends'       in output
-        assert 'File:'                 in output
-        assert 'case_output.py'        in output
+        assert 'AssertionError'  in output
+        assert 'Failures'        in output
+        assert 'Starts and Ends' in output
+        assert 'File:'           in output
+        assert 'util.py'         in output
         assert '1 spec failed, 1 total in 0 secs.' in output
 
 

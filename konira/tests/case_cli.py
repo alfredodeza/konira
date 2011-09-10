@@ -1,6 +1,6 @@
 import os
 import sys
-from cStringIO import StringIO
+from konira.util import StringIO
 from konira    import KoniraCommands
 
 
