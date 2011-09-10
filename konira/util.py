@@ -1,4 +1,25 @@
 import time
+import sys
+import inspect
+if sys.version < '3':
+    from cStringIO import StringIO
+else:
+    from io import StringIO
+
+def return_exception_trace():
+    """
+    For testing purposes we need some valid
+    tracebacks created for assertions.
+    """
+    try:
+        assert False
+    except Exception, e:
+        trace = inspect.trace()
+        return dict(
+                        failure  = sys.exc_info(),
+                        trace    = trace,
+                        exc_name = e.__class__.__name__
+                       ) 
 
 
 def name_convertion(name, capitalize=True):
