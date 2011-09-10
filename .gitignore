@@ -1,2 +1,8 @@
 *.pyc
 .coverage
+.tox
+build
+dist
+*.egg
+*.tar.gz
+*.egg-info
