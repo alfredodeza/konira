@@ -298,6 +298,8 @@ class PrettyExc(object):
                 if code_dir != konira_dir:
                     break
                 else:
+                    if traceback.tb_next is None:
+                        return traceback
                     traceback = traceback.tb_next
             except AttributeError:
                 return traceback
