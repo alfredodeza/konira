@@ -68,6 +68,8 @@ class Runner(object):
             self.writer.skipping()
             return
 
+        let_methods = self._collect_lets(suite)
+
         # Set before all if any
         self.safe_environ_call(environ.set_before_all)
 
@@ -161,6 +163,11 @@ class Runner(object):
     def _collect_methods(self, module):
         valid_method_name = re.compile(r'it_[_a-z]\w*$', re.IGNORECASE)
         return [i for i in dir(module) if valid_method_name.match(i)] 
+
+    
+    def _collect_lets(self, module):
+        valid_let_method = re.compile(r'_let_[_a-z]\w*$', re.IGNORECASE)
+        return [i for i in dir(module) if valid_let_method.match(i)]
 
 
 
