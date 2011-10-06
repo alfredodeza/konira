@@ -126,7 +126,7 @@ def translate(readline):
                            [OP, ')'],))
             last_kw = 'let'
 
-        elif tokenum == OP and last_kw == 'let':
+        elif tokenum == OP and value == '=' and last_kw == 'let':
             result.extend(([OP, ':'],))
 
         else:
