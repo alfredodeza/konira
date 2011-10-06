@@ -49,6 +49,30 @@ class Runner(object):
         self.elapsed = self.timer.elapsed()
 
 
+    def split_lets(self, method_name):
+        return method_name.split('_let_')[-1]
+
+
+    def set_let_attrs(self, suite, let_map):
+        if not let_map:
+            return
+        for k, v in let_map.items():
+            setattr(suite, k, v)
+
+
+    def get_let_attrs(self, suite):
+        let_methods = self._collect_lets(suite)
+        if not let_methods:
+            return {}
+        value = getattr(suite, let_methods[-1])
+        let_map = {}
+        for method in let_methods:
+            value = getattr(suite, method)
+            valid_method = self.split_lets(method)
+            let_map[valid_method] = value
+        return let_map
+
+
     def run_suite(self, case):
         # Initialize the test class
         suite = case()
@@ -68,13 +92,14 @@ class Runner(object):
             self.writer.skipping()
             return
 
-        let_methods = self._collect_lets(suite)
+        let_map = self.get_let_attrs(suite)
 
         # Set before all if any
         self.safe_environ_call(environ.set_before_all)
 
         for test in methods:
             test_start_time = StopWatch(raw=True)
+            self.set_let_attrs(suite, let_map)
             self.total_cases += 1
 
             # Set before each if any
