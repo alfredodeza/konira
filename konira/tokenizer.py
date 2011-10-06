@@ -115,6 +115,20 @@ def translate(readline):
                            [NAME, value],
                            [OP, ')'],))
 
+        # From let to def
+        elif tokenum == NAME and value == 'let':
+            result.extend(([tokenum, 'def'],))
+
+        elif tokenum == NAME and last_token == 'let':
+            result.extend(([tokenum, '_let_%s' % value],
+                           [OP, '('],
+                           [NAME, 'self'],
+                           [OP, ')'],))
+            last_kw = 'let'
+
+        elif tokenum == OP and last_kw == 'let':
+            result.extend(([OP, ':'],))
+
         else:
             result.append([tokenum, value])
         last_token = value
