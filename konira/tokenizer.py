@@ -1,4 +1,4 @@
-from tokenize           import NAME, OP, STRING, generate_tokens
+from tokenize           import NAME, OP, STRING, generate_tokens, DEDENT
 import re
 
 
@@ -115,23 +115,17 @@ def translate(readline):
                            [NAME, value],
                            [OP, ')'],))
 
-        # From let to def
+        # From let to attribute
         elif tokenum == NAME and value == 'let':
-            result.extend(([tokenum, 'def'],))
+            result.extend(([tokenum, ''],))
 
         elif tokenum == NAME and last_token == 'let':
-            result.extend(([tokenum, '_let_%s' % value],
-                           [OP, '('],
-                           [NAME, 'self'],
-                           [OP, ')'],))
-            last_kw = 'let'
-
-        elif tokenum == OP and value == '=' and last_kw == 'let':
-            result.extend(([OP, ':'],))
+            result.pop()
+            result.extend(([tokenum, '_let_%s' % value],))
 
         else:
             result.append([tokenum, value])
         last_token = value
         last_type  = tokenum
-    
+
     return result
