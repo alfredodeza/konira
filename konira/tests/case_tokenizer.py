@@ -361,12 +361,8 @@ describe "translate dsl into valid Python":
     it "translates let into a valid method":
         line = self.line('let foo = True')
         result = self.translate(line.readline)
-        assert len(result) == 8
-        assert result[0][1]   == 'def'
-        assert result[1][1]   == '_let_foo'
-        assert result[2][1]   == '('
-        assert result[3][1]   == 'self'
-        assert result[4][1]   == ')'
-        assert result[5][1]   == ':'
-        assert result[6][1]   == 'True'
-        assert result[7][1]   == ''
+        assert len(result)  == 4
+        assert result[0][1] == '_let_foo'
+        assert result[1][1] == '='
+        assert result[2][1] == 'True'
+        assert result[3][1] == ''
