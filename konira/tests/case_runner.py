@@ -177,3 +177,26 @@ describe "get test environ setup values":
         assert environ.has_after_each  == True
 
 
+
+describe "cached let attributes":
+
+    let is_cached   = True
+    let cached_dict = {'value' : False}
+
+    it "correctly sees a cached attribute":
+        assert self.is_cached == True
+
+
+    it "mangles attributes that get reset":
+        self.is_cached = False
+        assert self.is_cached == False
+
+
+    it "adds values to a cached dict attr":
+        assert self.cached_dict.get('value') == False
+        self.cached_dict = {'value': True}
+        assert self.cached_dict.get('value') == True
+
+
+    it "will get reset back to the original dict":
+        assert self.cached_dict.get('value') == False
