@@ -1,4 +1,4 @@
-from tokenize           import NAME, OP, STRING, generate_tokens, DEDENT
+from tokenize           import NAME, OP, STRING, generate_tokens
 import re
 
 
