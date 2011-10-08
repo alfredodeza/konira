@@ -26,7 +26,7 @@ class FileCollector(list):
                     return re.compile(self.user_match, re.IGNORECASE)
                 return re.compile(self.user_match)
             except Exception, msg:
-                raise SystemExit('Could not compile regex, error was: %s' % msg) 
+                raise SystemExit('Could not compile regex, error was: %s' % msg)
 
 
     def _collect(self):
