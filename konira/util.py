@@ -1,3 +1,4 @@
+import re
 import time
 import sys
 import inspect
@@ -19,7 +20,7 @@ def return_exception_trace():
                         failure  = sys.exc_info(),
                         trace    = trace,
                         exc_name = e.__class__.__name__
-                       ) 
+                       )
 
 
 def name_convertion(name, capitalize=True):
@@ -39,9 +40,46 @@ def get_class_name(class_name):
         return name
 
 
+#
+# Let helpers
+#
+
+def get_let_name(method_name):
+    return method_name.split('_let_')[-1]
+
+
+
+def set_let_attrs(suite, let_map):
+    if not let_map:
+        return suite
+    for k, v in let_map.items():
+        setattr(suite, k, v)
+    return let_map
+
+
+
+def get_let_attrs(suite):
+    let_methods = collect_let_attrs(suite)
+    if not let_methods:
+        return {}
+    value = getattr(suite, let_methods[-1])
+    let_map = {}
+    for method in let_methods:
+        value = getattr(suite, method)
+        valid_method = get_let_name(method)
+        let_map[valid_method] = value
+    return let_map
+
+
+
+def collect_let_attrs(module):
+    valid_let_method = re.compile(r'_let_[_a-z]\w*$', re.IGNORECASE)
+    return [i for i in dir(module) if valid_let_method.match(i)]
+
+
 
 class StopWatch(object):
- 
+
 
     def __init__(self, raw=False):
         self.raw = raw
@@ -62,5 +100,3 @@ runner_options = dict(
         dotted     = False,
         profiling  = False
         )
-
-     
