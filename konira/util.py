@@ -54,7 +54,7 @@ def set_let_attrs(suite, let_map):
         return suite
     for k, v in let_map.items():
         setattr(suite, k, v)
-    return let_map
+    return suite
 
 
 
