@@ -46,7 +46,7 @@ class FileCollector(list):
             # Start checking for Python packages after 3 levels
             if levels_deep > 2:
                 if not '__init__.py' in files:
-                    continue 
+                    continue
             for item in files:
                 absolute_path = join(root, item)
                 if not self.valid_module_name.match(item):
