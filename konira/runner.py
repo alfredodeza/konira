@@ -3,7 +3,7 @@ import inspect
 import sys
 from decimal          import Decimal
 from konira.exc       import KoniraFirstFail, KoniraNoSkip
-from konira.util      import StopWatch, get_class_name
+from konira.util      import StopWatch, get_class_name, get_let_attrs, set_let_attrs
 from konira.collector import globals_from_file
 from konira.output    import TerminalWriter
 
@@ -37,7 +37,7 @@ class Runner(object):
                     dict(
                         failure   = sys.exc_info(),
                         exc_name  = e.__class__.__name__
-                       ) 
+                       )
                     )
                 continue
             try:
@@ -47,30 +47,6 @@ class Runner(object):
                 break
 
         self.elapsed = self.timer.elapsed()
-
-
-    def split_lets(self, method_name):
-        return method_name.split('_let_')[-1]
-
-
-    def set_let_attrs(self, suite, let_map):
-        if not let_map:
-            return
-        for k, v in let_map.items():
-            setattr(suite, k, v)
-
-
-    def get_let_attrs(self, suite):
-        let_methods = self._collect_lets(suite)
-        if not let_methods:
-            return {}
-        value = getattr(suite, let_methods[-1])
-        let_map = {}
-        for method in let_methods:
-            value = getattr(suite, method)
-            valid_method = self.split_lets(method)
-            let_map[valid_method] = value
-        return let_map
 
 
     def run_suite(self, case):
@@ -92,14 +68,14 @@ class Runner(object):
             self.writer.skipping()
             return
 
-        let_map = self.get_let_attrs(suite)
+        let_map = get_let_attrs(suite)
 
         # Set before all if any
         self.safe_environ_call(environ.set_before_all)
 
         for test in methods:
             test_start_time = StopWatch(raw=True)
-            self.set_let_attrs(suite, let_map)
+            suite = set_let_attrs(suite, let_map)
             self.total_cases += 1
 
             # Set before each if any
@@ -109,7 +85,7 @@ class Runner(object):
                 getattr(suite, test)()
                 test_elapsed_time = Decimal(str(test_start_time.elapsed()))
                 self.writer.green_spec(test)
-                
+
             except BaseException, e:
                 test_elapsed_time = Decimal(str(test_start_time.elapsed()))
                 trace = inspect.trace()[1]
@@ -120,7 +96,7 @@ class Runner(object):
                         failure  = sys.exc_info(),
                         trace    = trace,
                         exc_name = e.__class__.__name__
-                       ) 
+                       )
                     )
                 if self.config.get('first_fail'):
                     raise KoniraFirstFail
@@ -146,7 +122,7 @@ class Runner(object):
                 dict(
                     failure   = sys.exc_info(),
                     exc_name  = e.__class__.__name__
-                   ) 
+                   )
                 )
 
 
@@ -162,7 +138,7 @@ class Runner(object):
 
     def classes(self, filename):
         if self.class_name:
-            classes = [i for i in self._collect_classes(filename) 
+            classes = [i for i in self._collect_classes(filename)
                         if self.class_name == get_class_name(i)]
         else:
             classes = [i for i in self._collect_classes(filename)]
@@ -172,7 +148,7 @@ class Runner(object):
 
     def methods(self, suite):
         if self.method_name:
-            methods = [i for i in self._collect_methods(suite) 
+            methods = [i for i in self._collect_methods(suite)
                         if i == self.method_name]
         else:
             methods = self._collect_methods(suite)
@@ -187,12 +163,7 @@ class Runner(object):
 
     def _collect_methods(self, module):
         valid_method_name = re.compile(r'it_[_a-z]\w*$', re.IGNORECASE)
-        return [i for i in dir(module) if valid_method_name.match(i)] 
-
-    
-    def _collect_lets(self, module):
-        valid_let_method = re.compile(r'_let_[_a-z]\w*$', re.IGNORECASE)
-        return [i for i in dir(module) if valid_let_method.match(i)]
+        return [i for i in dir(module) if valid_method_name.match(i)]
 
 
 
@@ -247,7 +218,7 @@ class TestEnviron(object):
         if hasattr(self.suite, '_after_each'):
             return True
         return False
-    
+
 
     def set_skip_if(self):
         if self.has_skip_if:
@@ -274,5 +245,3 @@ class TestEnviron(object):
     def set_after_each(self):
         if self.has_after_each:
             return getattr(self.suite, '_after_each')()
-                
-
