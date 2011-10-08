@@ -88,7 +88,7 @@ class Runner(object):
 
             except BaseException, e:
                 test_elapsed_time = Decimal(str(test_start_time.elapsed()))
-                trace = inspect.trace()[1]
+                trace = inspect.trace()[-1]
                 self.total_failures += 1
                 self.writer.red_spec(test)
                 self.failures.append(
