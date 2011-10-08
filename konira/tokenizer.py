@@ -19,13 +19,13 @@ def valid_class_name(token):
 
 
 def valid_raises(value):
-    if not value: 
+    if not value:
         return True
     whitespace = re.compile(r'^\s*$')
     if whitespace.match(value):
         return True
     return False
-    
+
 
 def process_name(result, value, last_token, tokenum, last_type, descr_obj, last_kw):
     # From Describe to class - includes inheritance
@@ -99,7 +99,9 @@ def process_name(result, value, last_token, tokenum, last_type, descr_obj, last_
     else:
         result.append([tokenum, value])
 
-    return result, value, last_token, tokenum, last_type, descr_obj, last_kw 
+    return result, descr_obj, last_kw
+
+
 
 def process_string(result, value, last_token, tokenum, last_type, descr_obj, last_kw):
     if last_token == 'describe':
@@ -125,10 +127,43 @@ def process_string(result, value, last_token, tokenum, last_type, descr_obj, las
     else:
         result.append([tokenum, value])
 
-    return result, value, last_token, tokenum, last_type, descr_obj, last_kw 
+    return result, descr_obj, last_kw
 
-# dispatcher
-dispatcher={NAME: process_name, STRING: process_string}
+
+
+def process_operator(result, value, last_token, tokenum, last_type, descr_obj, last_kw):
+    if value == ',' and last_type == STRING and last_kw == 'describe':
+        if descr_obj:
+            result.extend(([OP, '('],))
+            last_kw   = 'describe'
+            descr_obj = True
+
+    elif last_type == STRING and last_kw == 'describe':
+        if descr_obj:
+            result.extend(([OP, '('],
+                           [NAME, 'object'],
+                           [OP, ')'],
+                           [OP, ':'],))
+            last_kw   = None
+            descr_obj = False
+
+    else:
+        result.append([tokenum, value])
+
+    return result, descr_obj, last_kw
+
+
+
+def process_default(result, value, last_token, tokenum, last_type, descr_obj, last_kw):
+    result.append([tokenum, value])
+    return result, descr_obj, last_kw
+
+
+# The dispatchers holds the tokenizer mappings, allowing
+# to cut a huge if/elseif chaing that slows us down.
+dispatcher={NAME: process_name, STRING: process_string, OP: process_operator}
+
+
 
 def translate(readline):
     result     = []
@@ -137,29 +172,10 @@ def translate(readline):
     last_type  = None
     descr_obj  = False
 
-    for tokenum, value, _, _, _c in generate_tokens(readline):
-        names = dispatcher.get(tokenum)
+    for tokenum, value, _, _, _ in generate_tokens(readline):
+        process = dispatcher.get(tokenum, process_default)
 
-        if names:
-            result, fvalue, last_token, ftokenum, last_type, descr_obj, last_kw = names(result, value, last_token, tokenum, last_type, descr_obj, last_kw)
-
-        elif tokenum == OP and value == ',' and last_type == STRING and last_kw == 'describe':
-            if descr_obj:
-                result.extend(([OP, '('],))
-                last_kw   = 'describe'
-                descr_obj = True
-
-        elif last_type == STRING and last_kw == 'describe':
-            if descr_obj:
-                result.extend(([OP, '('],
-                               [NAME, 'object'],
-                               [OP, ')'],
-                               [OP, ':'],))
-                last_kw   = None
-                descr_obj = False
-
-        else:
-            result.append([tokenum, value])
+        result, descr_obj, last_kw = process(result, value, last_token, tokenum, last_type, descr_obj, last_kw)
 
         last_token = value
         last_type  = tokenum
