@@ -1,7 +1,7 @@
 import os
 import inspect
 from konira        import Runner
-from konira.runner import TestEnviron
+from konira.runner import TestEnviron, safe_skip_call, safe_environ_call
 
 
 describe "safe test environment calls":
@@ -19,16 +19,16 @@ describe "safe test environment calls":
         self.runner = Runner(None, {})
 
 
-    it "appends an error when an exception happens":
-        self.runner.safe_environ_call(self._raise)
-        assert len(self.runner.errors)               == 1
-        assert self.runner.errors[0].get('exc_name') == 'AssertionError'
+    it "returns a dictionary with exception information":
+        result = safe_environ_call(self._raise)
+        assert len(result)  == 2
+        assert type(result) == dict
+        assert result.get('exc_name') == 'AssertionError'
 
 
-    it "does not append errors if the call does not raise":
-        self.runner.safe_environ_call(self._not_raise)
-        assert len(self.runner.errors) == 0
-        assert self.runner.errors      == []
+    it "does not return anything if there is no exception raised":
+        result = safe_environ_call(self._not_raise)
+        assert result is None
 
 
 describe "save skip calls":
@@ -54,17 +54,17 @@ describe "save skip calls":
 
 
     it "returns true when it does not raise":
-        result = self.runner.safe_skip_call(self._not_raise)
+        result = safe_skip_call(self._not_raise)
         assert result
 
 
     it "returns false when it raises anything but a NoSkip exception":
-        result = self.runner.safe_skip_call(self._raise)
+        result = safe_skip_call(self._raise)
         assert result == False
 
 
     it "returns false when it raises a KoniraNoSkip exception":
-        result = self.runner.safe_skip_call(self._skip_raise)
+        result = safe_skip_call(self._skip_raise)
         assert result == False
 
 
