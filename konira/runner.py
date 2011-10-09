@@ -30,7 +30,7 @@ class Runner(object):
         self.timer = StopWatch()
         for f in self.paths:
             try:
-                classes = self.classes(f)
+                classes = get_classes(f, self.class_name)
             except Exception, e:
                 self.total_errors += 1
                 self.errors.append(
@@ -56,7 +56,7 @@ class Runner(object):
         # check test environment setup
         environ = TestEnviron(suite)
 
-        methods = self.methods(suite)
+        methods = get_methods(suite, self.method_name)
         if not methods: return
 
         # Name the class
@@ -64,14 +64,14 @@ class Runner(object):
         self.writer.out_case(class_name)
 
         # Are we skipping?
-        if self.safe_skip_call(environ.set_skip_if):
+        if safe_skip_call(environ.set_skip_if):
             self.writer.skipping()
             return
 
         let_map = get_let_attrs(suite)
 
         # Set before all if any
-        self.safe_environ_call(environ.set_before_all)
+        safe_environ_call(environ.set_before_all)
 
         for test in methods:
             test_start_time = StopWatch(raw=True)
@@ -79,7 +79,7 @@ class Runner(object):
             self.total_cases += 1
 
             # Set before each if any
-            self.safe_environ_call(environ.set_before_each)
+            safe_environ_call(environ.set_before_each)
 
             try:
                 getattr(suite, test)()
@@ -107,63 +107,10 @@ class Runner(object):
                                   class_name))
 
             # Set after each if any
-            self.safe_environ_call(environ.set_after_each)
+            safe_environ_call(environ.set_after_each)
 
         # Set after all if any
-        self.safe_environ_call(environ.set_after_all)
-
-
-
-    def safe_environ_call(self, env_call):
-        try:
-            env_call()
-        except Exception, e:
-            self.errors.append(
-                dict(
-                    failure   = sys.exc_info(),
-                    exc_name  = e.__class__.__name__
-                   )
-                )
-
-
-    def safe_skip_call(self, env_call):
-        try:
-            env_call()
-            return True
-        except KoniraNoSkip:
-            return False
-        except Exception:
-            return False
-
-
-    def classes(self, filename):
-        if self.class_name:
-            classes = [i for i in self._collect_classes(filename)
-                        if self.class_name == get_class_name(i)]
-        else:
-            classes = [i for i in self._collect_classes(filename)]
-
-        return classes
-
-
-    def methods(self, suite):
-        if self.method_name:
-            methods = [i for i in self._collect_methods(suite)
-                        if i == self.method_name]
-        else:
-            methods = self._collect_methods(suite)
-
-        return methods
-
-
-    def _collect_classes(self, path):
-        global_modules = map(globals_from_file, [path])
-        return [i for i in global_modules[0].values() if callable(i) and i.__name__.startswith('Case_')]
-
-
-    def _collect_methods(self, module):
-        valid_method_name = re.compile(r'it_[_a-z]\w*$', re.IGNORECASE)
-        return [i for i in dir(module) if valid_method_name.match(i)]
+        safe_environ_call(environ.set_after_all)
 
 
 
@@ -245,3 +192,62 @@ class TestEnviron(object):
     def set_after_each(self):
         if self.has_after_each:
             return getattr(self.suite, '_after_each')()
+
+#
+# Runner helpers
+#
+
+def get_classes(filename, class_name):
+    if class_name:
+        classes = [i for i in _collect_classes(filename)
+                    if class_name == get_class_name(i)]
+    else:
+        classes = [i for i in _collect_classes(filename)]
+
+    return classes
+
+
+
+def get_methods(suite, method_name):
+    if method_name:
+        methods = [i for i in _collect_methods(suite)
+                    if i == method_name]
+    else:
+        methods = _collect_methods(suite)
+
+    return methods
+
+
+
+def _collect_classes(path):
+    global_modules = map(globals_from_file, [path])
+    return [i for i in global_modules[0].values() if callable(i) and i.__name__.startswith('Case_')]
+
+
+
+def _collect_methods(module):
+    valid_method_name = re.compile(r'it_[_a-z]\w*$', re.IGNORECASE)
+    return [i for i in dir(module) if valid_method_name.match(i)]
+
+
+
+def safe_environ_call(env_call):
+    try:
+        env_call()
+    except Exception, e:
+        return dict(
+                failure   = sys.exc_info(),
+                exc_name  = e.__class__.__name__
+               )
+
+
+
+def safe_skip_call(env_call):
+    try:
+        env_call()
+        return True
+    except KoniraNoSkip:
+        return False
+    except Exception:
+        return False
+
