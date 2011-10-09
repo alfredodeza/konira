@@ -94,6 +94,48 @@ them. Or even if you need to make sure certain things are set before any (and
 all) tests are run.
 
 
+Alternative Setups
+==================
+The DSL allows you to have an alternative setup with ``let`` keywords that set
+attributes on your test case that get evaluated at setup time but are memoized
+so that it is not expensive to reuse them everytime.
+
+Unlike a traditional setup, this evaluation of the attributes will happen only
+once and will get reset before every test runs.
+
+If you have an expensive setup, take advantage of using a ``let`` to save and 
+reuse. This is an example of how you would use this new feature ::
+
+    # a function that will take a second to return a value
+    def slow_function():
+        import time
+        time.sleep(1)
+        return True
+
+    describe "get fast tests from slow function":
+
+        let value = slow_function()
+
+        it "takes a second on the first test":
+            assert self.value == True
+
+        it "takes no extra time on the second test":
+            assert self.value == True
+
+        it "gets reset every time":
+            self.value == False
+            assert self.value == False
+
+        it "will return to True regardless of previous test":
+            assert self.value == True
+
+As you can see, an expensive test will not affect the overall run time and it
+will even get reset regardless of alteration of the value. The only different
+thing here is the ``let`` keyword. 
+
+Everything else should be treated as a normal Python attribute.
+
+
 Cleaning Up
 ===========
 In the cleanup phase, *Konira* has two helpers that allow you to fine tune
