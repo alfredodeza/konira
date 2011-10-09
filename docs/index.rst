@@ -13,6 +13,22 @@ It also adds a few neat things to make testing easier.
 See :ref:`why` would you ever want to use it if you have
 tried UnitTest before.
 
+As a testing tool, it takes testing itself **seriously** and is tested
+and verified to work on 
+
+* Python 2.5, 2.6, 2.7, 3.0, 3.1 and 3.2
+* PyPy 1.5 and 1.6
+
+Konira's own test suite consists of about 200 tests that run in
+about ``0.120s``
+
+It provides a test runner, a dsl and you can optionally use ``py.test``
+to run these tests (using the ``pytest-konira`` plugin installed separately).
+
+If you develop with Vim editor, there is also a plugin that will enable
+syntax highlighting and running tests from within Vim (see:
+https://github.com/alfredodeza/konira.vim)
+
 
 
 How does a test case looks like?
