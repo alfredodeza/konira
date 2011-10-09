@@ -30,6 +30,18 @@ describe "safe test environment calls":
         result = safe_environ_call(self._not_raise)
         assert result is None
 
+    it "appends an error when an exception happens":
+        self.runner.safe_environ_call(self._raise)
+        assert len(self.runner.errors)               == 1
+        assert self.runner.errors[0].get('exc_name') == 'AssertionError'
+
+
+    it "does not append errors if the call does not raise":
+        self.runner.safe_environ_call(self._not_raise)
+        assert len(self.runner.errors) == 0
+        assert self.runner.errors      == []
+
+
 
 describe "save skip calls":
 
