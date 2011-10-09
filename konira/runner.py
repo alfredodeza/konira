@@ -71,7 +71,7 @@ class Runner(object):
         let_map = get_let_attrs(suite)
 
         # Set before all if any
-        safe_environ_call(environ.set_before_all)
+        self.safe_environ_call(environ.set_before_all)
 
         for test in methods:
             test_start_time = StopWatch(raw=True)
@@ -79,7 +79,7 @@ class Runner(object):
             self.total_cases += 1
 
             # Set before each if any
-            safe_environ_call(environ.set_before_each)
+            self.safe_environ_call(environ.set_before_each)
 
             try:
                 getattr(suite, test)()
@@ -107,10 +107,22 @@ class Runner(object):
                                   class_name))
 
             # Set after each if any
-            safe_environ_call(environ.set_after_each)
+            self.safe_environ_call(environ.set_after_each)
 
         # Set after all if any
-        safe_environ_call(environ.set_after_all)
+        self.safe_environ_call(environ.set_after_all)
+
+
+    def safe_environ_call(self, env_call):
+        try:
+            env_call()
+        except Exception, e:
+            self.errors.append(
+                dict(
+                    failure   = sys.exc_info(),
+                    exc_name  = e.__class__.__name__
+                   )
+                )
 
 
 
@@ -228,17 +240,6 @@ def _collect_classes(path):
 def _collect_methods(module):
     valid_method_name = re.compile(r'it_[_a-z]\w*$', re.IGNORECASE)
     return [i for i in dir(module) if valid_method_name.match(i)]
-
-
-
-def safe_environ_call(env_call):
-    try:
-        env_call()
-    except Exception, e:
-        return dict(
-                failure   = sys.exc_info(),
-                exc_name  = e.__class__.__name__
-               )
 
 
 
