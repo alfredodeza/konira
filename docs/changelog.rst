@@ -1,5 +1,23 @@
 .. _changelog:
 
+0.3.0
+-----
+ * Even more speed improvements refactoring the tokenizer module by creating
+   a dispatcher.
+ * Better support for the pytest-konira plugin.
+ * Introduces the ``let`` syntax for better (inexpensive) attributes at setup
+   time.
+
+0.2.1
+-----
+ * Create Windows support by including a bat file and removing coloring output
+   in the terminal.
+ * Increase the speed a bit with some refactoring.
+ * Add a few command line switches to get finer granular collection of test
+   cases.
+ * Adds support for py.test so that the pytest-konira plugin can hook into
+   konira and execute tests.
+
 0.2.0
 -----
  * Adds a ``--debug`` file that avoids traceback cleanup.
