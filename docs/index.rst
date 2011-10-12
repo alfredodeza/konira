@@ -10,31 +10,15 @@ Development as well as traditional Unit Testing.
 
 It also adds a few neat things to make testing easier.
 
-See :ref:`why` would you ever want to use it if you have
-tried UnitTest before.
-
-As a testing tool, it takes testing itself **seriously** and is tested
-and verified to work on 
-
-* Python 2.5, 2.6, 2.7, 3.0, 3.1 and 3.2
-* PyPy 1.5 and 1.6
-
-Konira's own test suite consists of about 200 tests that run in
-about ``0.120s``
-
-It provides a test runner, a dsl and you can optionally use ``py.test``
-to run these tests (using the ``pytest-konira`` plugin installed separately).
-
-If you develop with Vim editor, there is also a plugin that will enable
-syntax highlighting and running tests from within Vim (see:
-https://github.com/alfredodeza/konira.vim)
-
+Head over to :ref:`basic-structure` to get you started right away. The
+:ref:`commandline` guides you on terminal usage and :ref:`advanced-structure`
+will cover more complex usage.
 
 
 How does a test case looks like?
 ------------------------------------
 
-.. highlight:: ruby
+.. highlight:: konira
 
 ::
 
@@ -44,24 +28,12 @@ How does a test case looks like?
             assert my_module.foo == False
 
 
-But this is not valid Python!
----------------------------------
-
-I hear you. It is a DSL. All tests need to be prefaced by the ``case_`` word.
-As long as that convention is matched the autodiscovery engine will pick up
-your DSL test cases.
-
-Since version ``0.1.0`` it is no longer needed to specify an encoding at the
-top. Konira tests are now translated on the fly!
-
-
-
 
 fast and readable action in the terminal
 --------------------------------------------
-Most tests take a mere 0.0007s to run!
+Most tests take a mere 0.0005s to run!
 
-.. highlight:: text
+.. highlight:: koniraterm
 
 ::
 
@@ -74,12 +46,41 @@ Most tests take a mere 0.0007s to run!
     All specs passed in 0.000 secs.
 
 
-Are you sold yet?
----------------------
 
-Head over to :ref:`basic-structure` to get you started right away. The :ref:`commandline` guides 
-you on terminal usage and :ref:`advanced-structure` will cover more complex
-usage.
+Widely supported
+----------------
+As a testing tool, it takes testing itself **seriously** and is tested
+and verified to work on 
+
+* Python 2.5, 2.6, 2.7, 3.0, 3.1 and 3.2
+* PyPy 1.5 and 1.6
+
+Konira's own test suite consists of about 200 tests that run in
+about ``0.120s``
+
+It provides a test runner, a dsl and you can optionally use `py.test
+<http://pytest.org>`_
+to run these tests (using the `pytest-konira
+<https://github.com/alfredodeza/pytest-konira>`_ plugin installed separately).
+
+If you develop with Vim editor, there is also a `plugin
+<https://github.com/alfredodeza/konira.vim>`_  that will enable
+syntax highlighting and running tests from within Vim.
+
+
+
+But this is not valid Python!
+---------------------------------
+
+I hear you. It is a DSL. All tests need to be prefaced by the ``case_`` word.
+As long as that convention is matched the autodiscovery engine will pick up
+your DSL test cases.
+
+Since version ``0.1.0`` it is no longer needed to specify an encoding at the
+top. Konira tests are now translated on the fly!
+
+See :ref:`why` if you have tried UnitTest before.
+
 
 
 The name

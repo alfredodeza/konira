@@ -25,7 +25,7 @@ that?
 In a different file, that should match *Konira's* file naming conventions
 (files should start with ``case_``) a test scenario would be like this:
 
-.. highlight:: ruby
+.. highlight:: konira
 
 ::
 
@@ -48,7 +48,7 @@ That single test has a few things going on around it:
  If you save your file and run the ``konira`` command in the terminal
  you should see output similar to this:
 
-.. highlight:: text
+.. highlight:: koniraterm
 
 ::
     
@@ -69,7 +69,7 @@ Since we have a few more methods in the ``Foo`` module, adding more test cases
 is trivial. The complete test file would look like this with all the 
 remaining tests:
 
-.. highlight:: ruby
+.. highlight:: konira
 
 ::
 
@@ -90,7 +90,7 @@ remaining tests:
 If you run that file again, you should see a few more *green* passing tests
 in the terminal:
 
-.. highlight:: text
+.. highlight:: koniraterm
 
 ::
 
@@ -115,7 +115,7 @@ control more output if desired.
 
 Let's see what happens when we add a failing test:
 
-.. highlight:: ruby
+.. highlight:: konira
 
 ::
 
@@ -127,7 +127,7 @@ Let's see what happens when we add a failing test:
 If you run the above code at the command line you would get an output similar 
 to this:
 
-.. highlight:: text
+.. highlight:: koniraterm
 
 ::
 

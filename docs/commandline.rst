@@ -170,7 +170,11 @@ Output
 The test runner is *very* minimalistic about output. You will not get full
 tracebacks. 
 
-Below you can see how a common ``AssertionError`` would be displayed::
+Below you can see how a common ``AssertionError`` would be displayed
+
+.. highlight:: koniraterm
+
+::
 
     Failures:
     ---------
