@@ -14,12 +14,16 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #sys.path.insert(0, os.path.abspath('.'))
-
+import sys, os
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 import konira
-
+from konira_syntax import KoniraLexer, KoniraTermLexer
 
 # -- General configuration -----------------------------------------------------
-
+# Setup function.
+def setup(app):
+    app.add_lexer('konira', KoniraLexer())
+    app.add_lexer('koniraterm', KoniraTermLexer())
 # If your documentation needs a minimal Sphinx version, state it here.
 #needs_sphinx = '1.0'
 
