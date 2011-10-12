@@ -94,8 +94,8 @@ them. Or even if you need to make sure certain things are set before any (and
 all) tests are run.
 
 
-Alternative Setups
-==================
+Alternative Setups with ``let``
+===============================
 The DSL allows you to have an alternative setup with ``let`` keywords that set
 attributes on your test case that get evaluated at setup time but are memoized
 so that it is not expensive to reuse them everytime.
