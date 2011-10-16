@@ -1,7 +1,7 @@
 import os
 import inspect
 from konira        import Runner
-from konira.runner import TestEnviron, safe_skip_call, safe_environ_call
+from konira.runner import TestEnviron, safe_skip_call
 
 
 describe "safe test environment calls":
@@ -9,7 +9,7 @@ describe "safe test environment calls":
     before all:
         def _raise():
             assert False
-        
+
         def _not_raise():
             assert True
         self._raise     = _raise
@@ -18,17 +18,6 @@ describe "safe test environment calls":
     before each:
         self.runner = Runner(None, {})
 
-
-    it "returns a dictionary with exception information":
-        result = safe_environ_call(self._raise)
-        assert len(result)  == 2
-        assert type(result) == dict
-        assert result.get('exc_name') == 'AssertionError'
-
-
-    it "does not return anything if there is no exception raised":
-        result = safe_environ_call(self._not_raise)
-        assert result is None
 
     it "appends an error when an exception happens":
         self.runner.safe_environ_call(self._raise)
@@ -49,7 +38,7 @@ describe "save skip calls":
     before all:
         def _raise():
             assert False
-        
+
         def _not_raise():
             assert True
 
