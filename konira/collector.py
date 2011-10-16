@@ -62,6 +62,3 @@ def globals_from_file(filename):
     globals_ = {}
     exec(compiled, globals_)
     return globals_
-
-
-
