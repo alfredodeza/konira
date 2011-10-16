@@ -105,13 +105,13 @@ class Source(object):
 
     @property
     def get_operand(self):
-        operators = ['==', '!=', '>', '<', 
+        operators = ['==', '!=', '>', '<',
                      '>=', '<=', ' is ', ' not in ']
         try:
             operator = [i for i in operators if i in self.line]
         except TypeError:
             return False
-        if len(operator) > 1: # probably <, >, mixed with <= >= operators 
+        if len(operator) > 1: # probably <, >, mixed with <= >= operators
             return operator[-1]
         if operator:
             return operator[0]
@@ -183,7 +183,7 @@ def assert_description(op, left, right, line):
     explanation.append('%s %s %s' % (left, op, right))
     return explanation
 
-    
+
 
 def assertrepr_compare(op, left, right):
     """return specialised explanations for some operators/operands"""
