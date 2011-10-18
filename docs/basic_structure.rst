@@ -36,7 +36,7 @@ In a different file, that should match *Konira's* file naming conventions
 
         it "has a bar method that always returns True":
             my_module = Foo()
-            assert my_module.bar
+            assert my_module.bar()
 
 That single test has a few things going on around it:
 
@@ -80,11 +80,11 @@ remaining tests:
 
         it "has a bar method that always returns True":
             my_module = Foo()
-            assert my_module.bar
+            assert my_module.bar()
 
         it "has a foo method that always returns False":
             my_module = Foo()
-            assert my_module.foo == False
+            assert my_module.foo() == False
 
 
 If you run that file again, you should see a few more *green* passing tests
