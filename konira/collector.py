@@ -67,7 +67,7 @@ def globals_from_file(filename):
     globals_ = {}
     exec(compiled, globals_)
 
-    # restore the shiznits
+    # restore the original sys.path
     sys.path[0] = old_path0
     return globals_
 
