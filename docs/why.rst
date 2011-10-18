@@ -32,7 +32,7 @@ Unittest solves that problem like this::
 
 And this is how it looks in konira:
 
-.. highlight:: ruby
+.. highlight:: konira
 
 ::
 
