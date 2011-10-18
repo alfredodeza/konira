@@ -1,8 +1,9 @@
 from __future__ import with_statement
-from konira.tokenizer import translate
+import sys
 import tokenize
 import os
 import re
+from konira.tokenizer import translate
 
 
 class FileCollector(list):
@@ -56,11 +57,18 @@ class FileCollector(list):
 
 
 def globals_from_file(filename):
+    # be aware of same file path for relative imports
+    old_path0   = sys.path[0]
+    sys.path[0] = os.path.dirname(filename)
+
     _file = open(filename)
     data  = tokenize.untokenize(translate(_file.readline))
     compiled = compile(data, filename, "exec")
     globals_ = {}
     exec(compiled, globals_)
+
+    # restore the shiznits
+    sys.path[0] = old_path0
     return globals_
 
 

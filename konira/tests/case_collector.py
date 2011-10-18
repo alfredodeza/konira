@@ -1,7 +1,8 @@
 import os
 import konira
-from konira.util import StringIO
-from konira.collector           import FileCollector, globals_from_file
+from konira.util      import StringIO
+from konira.collector import FileCollector, globals_from_file
+from util             import Foo
 
 
 describe "path collection":
@@ -9,7 +10,7 @@ describe "path collection":
 
     before each:
         self.f = FileCollector(path='/asdf')
-    
+
 
     it "should be a list":
         assert isinstance(self.f, list)
@@ -22,13 +23,13 @@ describe "path collection":
 
     it "matches upper case python cases":
         py_file = "CASE_foo.py"
-        assert self.f.valid_module_name.match(py_file) 
+        assert self.f.valid_module_name.match(py_file)
 
 
     it "does not match case without underscores":
         py_file = "casfoo.py"
         assert self.f.valid_module_name.match(py_file) == None
-        
+
 
     it "does not match if it doesn't start with case_":
         py_file = "foo_case.py"
@@ -91,3 +92,7 @@ describe 'global values from file':
 
     it "raises TypeError when no filename is passed":
         raises TypeError: globals_from_file()
+
+    it "is able to import from relative or same level modules":
+        subject = Foo()
+        assert subject.bar() is True
