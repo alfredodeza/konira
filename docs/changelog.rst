@@ -1,5 +1,10 @@
 .. _changelog:
 
+0.3.1
+-----
+ * Fixes an issue were relative or same-level imports would not work.
+ * Updates the documentation from a fork. Weeeeee
+
 0.3.0
 -----
  * Even more speed improvements refactoring the tokenizer module by creating
