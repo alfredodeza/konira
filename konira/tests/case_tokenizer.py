@@ -366,3 +366,71 @@ describe "translate dsl into valid Python":
         assert result[1][1] == '='
         assert result[2][1] == 'True'
         assert result[3][1] == ''
+
+
+#
+# Inheritance helpers
+#
+class Foo(object):
+
+    def bar(self):
+        return True
+
+class Helpers(object):
+    """ This class shows how Konira contructor helpers work
+    so that they are individually tested afterwards
+    """
+    has_before_all  = False
+    has_before_each = False
+    has_after_each  = False
+    has_after_all   = False
+
+    def _before_all(self):
+        self.has_before_all = True
+
+
+    def _before_each(self):
+        self.has_before_each = True
+
+
+    def _after_each(self):
+        self.has_after_each = True
+
+
+    def _after_all(self):
+        self.has_after_all = True
+
+
+
+describe "class inheritance", Foo:
+
+
+    it "is able to reach up to parent methods":
+        assert self.bar() is True
+
+
+describe "inheritance with constructor helpers", Helpers:
+    # NOTE: These tests should not be run individually as they depend on each
+    # other. I know - bad practice, but it is really the only way to test how
+    # the constructors work (setting up before and after)
+
+
+    it "before all works":
+        # note that this test will run first
+        assert self.has_before_all is True
+
+    it "before each works":
+        # note that this test will run second
+        assert self.has_before_each is True
+
+    it "works with after each":
+        # this will run last
+        assert self.has_after_each is True
+
+    it "works with after all":
+        # this is really a fake because we can't really test
+        # the teardown after all tests since this is a test.
+        # This functionality is properly "unit tested" elsewhere.
+        assert self.has_after_all is False
+        self._after_all()
+        assert self.has_after_all is True

@@ -24,5 +24,5 @@ konira/tests/case_runner.py
 konira/tests/case_tokenizer.py
 konira/tests/case_tools.py
 konira/tests/case_util.py
-konira/tests/helpers.pyc
-konira/tests/test_foo.pyc
+konira/tests/util.py
+konira/tests/util.pyc
