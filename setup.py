@@ -100,7 +100,7 @@ testing look good and easy.
 
 setup(
     name             = "konira",
-    version          = "0.3.1",
+    version          = "0.3.2",
     packages         = ['konira', 'konira.ext'],
     scripts          = scripts,
     author           = "Alfredo Deza",

@@ -1,5 +1,10 @@
 .. _changelog:
 
+0.3.2
+-----
+ * Making Konira a zip archive as it breaks on other Python versions
+   if we continue down the road of tar.gz
+
 0.3.1
 -----
  * Fixes an issue were relative or same-level imports would not work.
