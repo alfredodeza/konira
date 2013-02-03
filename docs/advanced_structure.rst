@@ -161,14 +161,17 @@ you would call ``after all``. The way it is used in a scenario is as follows:
 
 ::
     
+    import os
     describe "a testing scenario":
+    # this assumes /tmp/foo.txt exists
 
         after all:
             os.remove('/tmp/foo.txt')
 
         it "does some filesystem stuff":
-            f = open('/tmp/foo.txt')
-            f.write('foo!').close()
+            f = open('/tmp/foo.txt', 'r+w')
+            f.write('foo!')
+            f.close()
             assert os.path.isfile('/tmp/foo.txt')
 
 
